@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<part id="index"><?dbhtml dir="dell" ?>
+	<title>Dell</title>
+	&chapter.dell.switch.xml;
+	&chapter.dell.om.xml;
+	&chapter.dell.raid.xml;
+</part>

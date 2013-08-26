@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="f5.traffic">
+	<title>Local Traffic</title>
+	<section>
+		<title>Profiles</title>
+		<section>
+			<title>profile http</title>
+			<screen>
+b profile http my_http_profile {
+   defaults from http-lan-optimized-caching
+   compress content type include {
+      "text/"
+      "application/(xml|x-javascript)"
+      "application/pdf"
+   }
+}
+			</screen>
+			<example>
+				<title>Profile HTTP Example</title>
+				<screen>
+[root@F5:Active] ~ # b profile http my_http_profile { \
+>    defaults from http-lan-optimized-caching \
+>    compress content type include { \
+>       "text/" \
+>       "application/(xml|x-javascript)" \
+>       "application/pdf" \
+>    } \
+> }
+
+[root@F5:Active] ~ # b profile http my_http_profile list
+profile http my_http_profile {
+   defaults from http-lan-optimized-caching
+   compress content type include {
+      "text/"
+      "application/(xml|x-javascript)"
+      "application/pdf"
+   }
+}
+
+				</screen>
+			</example>
+		</section>
+		<section>
+			<title>profile persist</title>
+			<screen>
+profile persist my_persist_profile {
+   defaults from cookie
+   mode cookie
+}
+			</screen>
+		</section>
+		<section>
+			<title>profile tcp</title>
+			<screen>
+profile tcp my_lan-optimized_tcp_profile {
+   defaults from tcp-lan-optimized
+}
+			</screen>
+		</section>
+	</section>
+	<section>
+		<title>Pool</title>
+		<section>
+			<title>b pool show</title>
+			<screen>
+[root@F5:Active] config # b pool show
+POOL Pool-Http  LB METHOD round robin   MIN/CUR ACTIVE MEMBERS 0/2
+|     (cur, max, limit, tot) = (0, 8, 0, 25)
+|     (pkts,bits) in = (393, 459640), out = (584, 5.486M)
++-> POOL MEMBER Pool-Http/10.0.0.41:http   active,up
+|   |     session enabled    priority 0    ratio 1
+|   |     (cur, max, limit, tot) = (0, 4, 0, 7)
+|   |     (pkts,bits) in = (41, 55672), out = (35, 42656)
+|   |     requests (total) = 7
++-> POOL MEMBER Pool-Http/10.0.0.51:http   active,up
+    |     session enabled    priority 0    ratio 1
+    |     (cur, max, limit, tot) = (0, 4, 0, 18)
+    |     (pkts,bits) in = (352, 403968), out = (549, 5.444M)
+    |     requests (total) = 29
+
+[root@F5:Active] config # b pool show all
+POOL Pool-Http  LB METHOD round robin   MIN/CUR ACTIVE MEMBERS 0/2
+|     (cur, max, limit, tot) = (0, 8, 0, 27)
+|     (pkts,bits) in = (407, 496952), out = (595, 5.507M)
+|     PVA (cur, max, limit, tot) = (0, 0, 0, 0)
+|     PVA (pkts,bits) in = (0, 0), out = (0, 0)
+|     PVA assist conns (tot, curr) = (0, 0)
++-> POOL MEMBER Pool-Http/10.0.0.41:http   active,up
+|   |     session enabled    priority 0    ratio 1
+|   |     (cur, max, limit, tot) = (0, 4, 0, 7)
+|   |     (pkts,bits) in = (41, 55672), out = (35, 42656)
+|   |     requests (total) = 7
+|   |     PVA (cur, max, limit, tot) = (0, 0, 0, 0)
+|   |     PVA (pkts,bits) in = (0, 0), out = (0, 0)
+|   |     PVA assist conns (tot, curr) = (0, 0)
++-> POOL MEMBER Pool-Http/10.0.0.51:http   active,up
+    |     session enabled    priority 0    ratio 1
+    |     (cur, max, limit, tot) = (0, 4, 0, 20)
+    |     (pkts,bits) in = (366, 441280), out = (560, 5.464M)
+    |     requests (total) = 32
+    |     PVA (cur, max, limit, tot) = (0, 0, 0, 0)
+    |     PVA (pkts,bits) in = (0, 0), out = (0, 0)
+    |     PVA assist conns (tot, curr) = (0, 0)
+[root@F5:Active] config #
+			</screen>
+		</section>
+		<section>
+			<title>Up / Down</title>
+			<screen>
+			<![CDATA[
+b pool <pool_name> member all up
+b pool <pool_name> member all down
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>create pool</title>
+			<screen>
+[root@F5:Active] config # b pool test member 172.16.0.10:80 add
+[root@F5:Active] config # b pool test member 172.16.0.11:80 add
+[root@F5:Active] config # b pool test member 172.16.0.12:80 add
+
+[root@F5:Active] config # b pool test show
+POOL test  LB METHOD round robin   MIN/CUR ACTIVE MEMBERS 0/0
+|     (cur, max, limit, tot) = (0, 0, 0, 0)
+|     (pkts,bits) in = (0, 0), out = (0, 0)
++-> POOL MEMBER test/172.16.0.10:http   active,unchecked
+|   |     session enabled    priority 0    ratio 1
+|   |     (cur, max, limit, tot) = (0, 0, 0, 0)
+|   |     (pkts,bits) in = (0, 0), out = (0, 0)
+|   |     requests (total) = 0
++-> POOL MEMBER test/172.16.0.11:http   active,unchecked
+|   |     session enabled    priority 0    ratio 1
+|   |     (cur, max, limit, tot) = (0, 0, 0, 0)
+|   |     (pkts,bits) in = (0, 0), out = (0, 0)
+|   |     requests (total) = 0
++-> POOL MEMBER test/172.16.0.12:http   active,unchecked
+    |     session enabled    priority 0    ratio 1
+    |     (cur, max, limit, tot) = (0, 0, 0, 0)
+    |     (pkts,bits) in = (0, 0), out = (0, 0)
+    |     requests (total) = 0
+			</screen>
+			<screen>
+b pool mypool { monitor all http member 10.2.3.11:http member 10.2.3.12:http }
+			</screen>
+		</section>
+		<section>
+			<title>delete pool</title>
+			<screen>
+b pool test delete
+			</screen>
+		</section>
+		<section>
+			<title>session enable / disable</title>
+			<screen>
+[root@F5:Active] config # b pool test member 172.16.0.11:80 session enable
+[root@F5:Active] config # b pool test member 172.16.0.12:80 session disable
+			</screen>
+		</section>
+	</section>
+	<section>
+		<title>Virtual</title>
+		<section>
+			<title>b virtual show</title>
+			<screen>
+[root@F5:Active] config # b virtual show
+VIRTUAL ADDRESS 192.168.3.19   UNIT 1
+|     ARP enable
+|     (cur, max, limit, tot) = (0, 7, 0, 34)
+|     (pkts,bits) in = (857, 711392), out = (1485, 16.17M)
++-> VIRTUAL VS-HTTP   SERVICE http
+    |     PVA acceleration none
+    |     (cur, max, limit, tot) = (0, 7, 0, 34)
+    |     (pkts,bits) in = (857, 711392), out = (1485, 16.17M)
+    |     requests (total) = 39
+    +-> POOL Pool-Http  LB METHOD round robin   MIN/CUR ACTIVE MEMBERS 0/2
+        |     (cur, max, limit, tot) = (0, 8, 0, 27)
+        |     (pkts,bits) in = (407, 496952), out = (595, 5.507M)
+        +-> POOL MEMBER Pool-Http/10.0.0.41:http   active,up
+        |   |     session enabled    priority 0    ratio 1
+        |   |     (cur, max, limit, tot) = (0, 4, 0, 7)
+        |   |     (pkts,bits) in = (41, 55672), out = (35, 42656)
+        |   |     requests (total) = 7
+        +-> POOL MEMBER Pool-Http/10.0.0.51:http   active,up
+            |     session enabled    priority 0    ratio 1
+            |     (cur, max, limit, tot) = (0, 4, 0, 20)
+            |     (pkts,bits) in = (366, 441280), out = (560, 5.464M)
+            |     requests (total) = 32
+
+[root@F5:Active] config # b virtual show all
+VIRTUAL ADDRESS 192.168.3.19   UNIT 1
+|     ARP enable
+|     (cur, max, limit, tot) = (0, 7, 0, 34)
+|     (pkts,bits) in = (857, 711392), out = (1485, 16.17M)
+|     PVA (cur, max, limit, tot) = (0, 0, 0, 0)
+|     PVA (pkts,bits) in = (0, 0), out = (0, 0)
+|     PVA assist conns (tot, curr) = (0, 0)
++-> VIRTUAL VS-HTTP   SERVICE http
+    |     PVA acceleration none
+    |     CMP enable on none   mode: all
+    |     (cur, max, limit, tot) = (0, 7, 0, 34)
+    |     (pkts,bits) in = (857, 711392), out = (1485, 16.17M)
+    |     requests (total) = 39
+    |     PVA (cur, max, limit, tot) = (0, 0, 0, 0)
+    |     PVA (pkts,bits) in = (0, 0), out = (0, 0)
+    |     PVA assist conns (tot, curr) = (0, 0)
+    |     ephem (cur, max, limit, tot) = (0, 0, 0, 0)
+    |     ephem (pkts,bits) in = (0, 0), out = (0, 0)
+    |     no nodes errors = 0
+    +-> POOL Pool-Http  LB METHOD round robin   MIN/CUR ACTIVE MEMBERS 0/2
+        |     (cur, max, limit, tot) = (0, 8, 0, 27)
+        |     (pkts,bits) in = (407, 496952), out = (595, 5.507M)
+        |     PVA (cur, max, limit, tot) = (0, 0, 0, 0)
+        |     PVA (pkts,bits) in = (0, 0), out = (0, 0)
+        |     PVA assist conns (tot, curr) = (0, 0)
+        +-> POOL MEMBER Pool-Http/10.0.0.41:http   active,up
+        |   |     session enabled    priority 0    ratio 1
+        |   |     (cur, max, limit, tot) = (0, 4, 0, 7)
+        |   |     (pkts,bits) in = (41, 55672), out = (35, 42656)
+        |   |     requests (total) = 7
+        |   |     PVA (cur, max, limit, tot) = (0, 0, 0, 0)
+        |   |     PVA (pkts,bits) in = (0, 0), out = (0, 0)
+        |   |     PVA assist conns (tot, curr) = (0, 0)
+        +-> POOL MEMBER Pool-Http/10.0.0.51:http   active,up
+            |     session enabled    priority 0    ratio 1
+            |     (cur, max, limit, tot) = (0, 4, 0, 20)
+            |     (pkts,bits) in = (366, 441280), out = (560, 5.464M)
+            |     requests (total) = 32
+            |     PVA (cur, max, limit, tot) = (0, 0, 0, 0)
+            |     PVA (pkts,bits) in = (0, 0), out = (0, 0)
+            |     PVA assist conns (tot, curr) = (0, 0)
+[root@F5:Active] config #
+			</screen>
+			<screen>
+[root@F5:Active] config # b virtual all destination show
+VIRTUAL TEST_HTTP - Destination: 172.16.0.25:http
+VIRTUAL VS-HTTP - Destination: 192.168.3.19:http
+			</screen>
+		</section>
+		<section>
+			<title>create virtual</title>
+			<screen>
+[root@F5:Active] config # b virtual vs_apache { destination 11.11.11.12:80 persist source_addr pool test }
+			</screen>
+			<screen>
+[root@F5:Active] config # b virtual vs_apache show
+VIRTUAL ADDRESS 11.11.11.12   UNIT 1
+|     ARP enable
+|     (cur, max, limit, tot) = (0, 0, 0, 0)
+|     (pkts,bits) in = (0, 0), out = (0, 0)
++-> VIRTUAL vs_apache   SERVICE http
+    |     PVA acceleration none
+    |     (cur, max, limit, tot) = (0, 0, 0, 0)
+    |     (pkts,bits) in = (0, 0), out = (0, 0)
+    |     requests (total) = 0
+    +-> POOL test  LB METHOD round robin   MIN/CUR ACTIVE MEMBERS 0/0
+        |     (cur, max, limit, tot) = (0, 0, 0, 0)
+        |     (pkts,bits) in = (0, 0), out = (0, 0)
+        +-> POOL MEMBER test/172.16.0.10:http   active,unchecked
+        |   |     session enabled    priority 0    ratio 1
+        |   |     (cur, max, limit, tot) = (0, 0, 0, 0)
+        |   |     (pkts,bits) in = (0, 0), out = (0, 0)
+        |   |     requests (total) = 0
+        +-> POOL MEMBER test/172.16.0.11:http   active,unchecked
+        |   |     session enabled    priority 0    ratio 1
+        |   |     (cur, max, limit, tot) = (0, 0, 0, 0)
+        |   |     (pkts,bits) in = (0, 0), out = (0, 0)
+        |   |     requests (total) = 0
+        +-> POOL MEMBER test/172.16.0.12:http   active,unchecked
+            |     session enabled    priority 0    ratio 1
+            |     (cur, max, limit, tot) = (0, 0, 0, 0)
+            |     (pkts,bits) in = (0, 0), out = (0, 0)
+            |     requests (total) = 0
+			</screen>
+		</section>
+		<section>
+			<title>persist</title>
+			<screen>
+b profile persist (Virtual Server) delete
+b profile persist (Virtual Server) {mode cookie cookie mode hash cookie name (cookie) cookie hash offset 0 cookie hash length 4}
+			</screen>
+		</section>
+		<section>
+			<title>delete</title>
+			<screen>
+			<![CDATA[
+b virtual (<virtual key list> | all) delete
+b virtual address (<virtual address key list> | all) delete
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>enable / disable</title>
+			<screen>
+b virtual address 10.10.10.20 disable
+			</screen>
+		</section>
+	</section>
+	<section>
+		<title>Node</title>
+		<screen>
+[root@F5:Active] config # b node list
+node 10.0.0.41 {}
+node 10.0.0.51 {}
+node 172.16.0.5 {}
+node 172.16.0.9 {}
+node 192.168.3.9 {}
+node 192.168.3.10 {}
+
+[root@F5:Active] config # b node show
+NODE 10.0.0.41   unchecked   session user enabled
+|     (cur, max, limit, tot) = (0, 4, 0, 9)
+|     (pkts,bits) in = (75, 115216), out = (85, 498040)
+|     requests (total) = 10
+NODE 10.0.0.51   unchecked   session user enabled
+|     (cur, max, limit, tot) = (0, 4, 0, 20)
+|     (pkts,bits) in = (366, 441280), out = (560, 5.464M)
+|     requests (total) = 32
+NODE 172.16.0.5   unchecked   session user enabled
+|     (cur, max, limit, tot) = (0, 0, 0, 0)
+|     (pkts,bits) in = (0, 0), out = (0, 0)
+|     requests (total) = 0
+NODE 172.16.0.9   unchecked   session user enabled
+|     (cur, max, limit, tot) = (0, 0, 0, 0)
+|     (pkts,bits) in = (0, 0), out = (0, 0)
+|     requests (total) = 0
+NODE 192.168.3.9   unchecked   session user enabled
+|     (cur, max, limit, tot) = (0, 0, 0, 0)
+|     (pkts,bits) in = (0, 0), out = (0, 0)
+|     requests (total) = 0
+NODE 192.168.3.10   unchecked   session user enabled
+|     (cur, max, limit, tot) = (0, 0, 0, 0)
+|     (pkts,bits) in = (0, 0), out = (0, 0)
+|     requests (total) = 0
+
+		</screen>
+	</section>
+	<section>
+		<title>Example</title>
+		<example>
+			<title>SLB HTTP Example</title>
+			<para>创建Pool</para>
+			<screen>
+[root@F5:Active] ~ # b pool mypool { monitor all http member 172.16.0.5:http{priority 1} member 172.16.0.9:http{priority 1} }
+[root@F5:Active] ~ # b pool mypool list
+pool mypool {
+   monitor all http
+   members {
+      172.16.0.5:http {
+         priority 1
+      }
+      172.16.0.9:http {
+         priority 1
+      }
+   }
+}
+			</screen>
+			<para>创建Virtual Server</para>
+			<screen>
+
+
+[root@F5:Active] ~ # b virtual myvs { snat automap pool mypool destination 192.168.3.22:80 persist source_addr profiles {  http-wan-optimized-compression-caching {} tcp {} } }
+
+[root@F5:Active] ~ # b virtual myvs list
+virtual myvs {
+   snat automap
+   pool mypool
+   destination 192.168.3.22:http
+   ip protocol tcp
+   persist source_addr
+   profiles {
+      http-wan-optimized-compression-caching {}
+      tcp {}
+   }
+}
+
+
+[root@F5:Active] ~ # b virtual myvs show
+VIRTUAL ADDRESS 192.168.3.22   UNIT 1
+|     ARP enable
+|     (cur, max, limit, tot) = (1, 4, 0, 22)
+|     (pkts,bits) in = (111, 102056), out = (110, 110272)
++-> VIRTUAL myvs   SERVICE http
+    |     PVA acceleration none
+    |     (cur, max, limit, tot) = (1, 4, 0, 22)
+    |     (pkts,bits) in = (111, 102056), out = (110, 110272)
+    |     requests (total) = 0
+    +-> POOL mypool  LB METHOD round robin   MIN/CUR ACTIVE MEMBERS 0/1
+        |     (cur, max, limit, tot) = (1, 4, 0, 22)
+        |     (pkts,bits) in = (111, 102056), out = (110, 110272)
+        +-> POOL MEMBER mypool/172.16.0.5:http   active,up
+        |   |     session enabled    priority 1    ratio 1
+        |   |     (cur, max, limit, tot) = (1, 4, 0, 22)
+        |   |     (pkts,bits) in = (111, 102056), out = (110, 110272)
+        |   |     requests (total) = 0
+        +-> POOL MEMBER mypool/172.16.0.9:http   inactive,down
+            |     session enabled    priority 0    ratio 1
+            |     (cur, max, limit, tot) = (0, 0, 0, 0)
+            |     (pkts,bits) in = (0, 0), out = (0, 0)
+            |     requests (total) = 0
+
+			</screen>
+			<para>删除上面配置</para>
+			<screen>
+[root@F5:Active] ~ # b virtual myvs delete
+[root@F5:Active] ~ # b pool mypool delete
+			</screen>
+		</example>
+	</section>
+</section>

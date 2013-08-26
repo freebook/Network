@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="hp">
+	<title>HP</title>
+	<para></para>
+	<section id="hp.ilo">
+		<title>iLO</title>
+		<para>hp的ilo卡可以通过hp官方提供的工具hponcfg (HP Lights-Out Online Configuration utility)来修改密码，hponcfg 包括：hp-ilo, hp-health, hponcfg 3个包。</para>
+		<para>修改密码，需要先编辑一个xml文件：</para>
+		<screen>
+		<![CDATA[
+cat ilo.xml
+<ribcl version="2.0">
+	<login user_login="Administrator" password="mypassword">
+		<user_info mode="write">
+			<mod_user user_login="Administrator">
+				<password value="chen"></password>
+			</mod_user>
+		</user_info>
+	</login>
+</ribcl>
+		]]>
+		</screen>
+		<para>然后执行命令：</para>
+		<screen>
+hponcfg -f ilo.xml
+		</screen>
+	</section>
+</chapter>

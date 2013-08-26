@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ENTITY chapter.dell.xml				SYSTEM "chapter.dell.xml">
+<!ENTITY chapter.dell.switch.xml		SYSTEM "chapter.dell.switch.xml">
+<!ENTITY chapter.dell.om.xml			SYSTEM "chapter.dell.om.xml">
+<!ENTITY chapter.dell.raid.xml			SYSTEM "chapter.dell.raid.xml">

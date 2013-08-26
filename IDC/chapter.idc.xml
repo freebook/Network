@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: chapter.idc.xml 643 2013-07-19 07:13:13Z netkiller $ -->
+<chapter id="idc">
+	<title>IDC</title>
+	<section>
+		<title>接入线路</title>
+		<section>
+			<title>带宽计算</title>
+			<para></para>
+		</section>
+		<section>
+			<title>双线/多线</title>
+			<para></para>
+			<section>
+				<title>智能DNS (Smart DNS)</title>
+				<para></para>
+			</section>
+		</section>
+		<section>
+			<title>BGP</title>
+			<para></para>
+		</section>
+
+		<section>
+			<title>接入线路测试</title>
+			<para>用于评估机房线路.</para>
+			<para>ping.lst</para>
+			<screen>
+202.96.134.133
+202.96.128.68
+...
+...
+			</screen>
+			<para>测试脚本</para>
+			<screen>
+			<![CDATA[
+#!/bin/bash
+for addr in `cat ping.lst`
+do
+        ping -c 5 -s 128 -W 5 $addr
+        echo
+        echo
+done > ping_report.txt &
+			]]>
+			</screen>
+			<para>将不同机房的出ping_report.txt文件汇总，然后用是diff对比。例如 vimdiff report1.txt report2.txt.</para>
+			<screen>
+			<![CDATA[
+#!/bin/bash
+for addr in `cat ping.lst`
+do
+        traceroute $addr
+        echo
+        echo
+done > traceroute_report.txt &
+			]]>
+			</screen>
+		</section>
+	</section>
+	<section id="cabinets">
+		<title>机柜(Cabinets)</title>
+		<para>目前比较新的五星级机房，前门都是全铁门，后门是网面双开门，老IDC很多是玻璃门。空调系统是机柜摆放背对背，然后从前门地下向上送风，后门过道抽走热风。</para>
+		<para>机柜前面放入服务器，每个服务器一个隔板，服务器之间要有1U的空间，便于空气流通。</para>
+		<para>打开机柜后门，左侧是网线槽，右侧是强电槽</para>
+		<para><graphic  format="png" fileref="../images/topology/cabinets.png" srccredit="neo" width="1000"/></para>
+		<section id="power">
+			<title>强电相关</title>
+			<para>一般情况是每个机柜分配15A（安培）的电力供应，也有一些IDC是规定13A。据说花钱可以增加。</para>
+			<para>右侧壁上会提供10组20个电源插座; 每个插孔均配有空气开关，这样可以防止单个服务器短路，导致整个机柜掉电。</para>
+			<para>一般42U的机柜最多能够放置15台1U服务器加一个交换机。有些企业被忽悠买了刀片服务器，发现一个机柜只能放置一个刀笼（因为电力不够，只能提供15安培）。</para>
+		</section>
+		<section>
+			<title>IP 分配</title>
+			<para>每个机柜一般只能放15台服务器，可以给每个机柜分配20 或 40 个IP地址 </para>
+		</section>
+		<section>
+			<title>服务器与设备命令</title>
+			<para>下面是我常用的命令规则</para>
+			<screen>
+			<![CDATA[
+坐标命令法：
+<X>-<Y>-<Z>
+<水平>-<垂直>-<巷位>
+例如: 5-4-1
+
+<机柜>-<IP>-<功能>
+			]]>
+			</screen>
+		</section>
+	</section>
+
+	<section id="topology">
+		<title>服务器部署与网络拓扑</title>
+		<para>所谓大型网站主要的特点是访问量大，既海量访问，对带宽要求大，而在中国的网络环境比较复杂，单单靠一家也难保访问的快速、稳定，我们可能选择多家网络运营商，才能得到保障。</para>
+		<para>我们不得不把服务器分散部署到各地</para>
+		<section>
+			<title>小型网站</title>
+			<para>一个IP，多台服务器流水线方式解决方案。</para>
+			<screenshot>
+				<screeninfo>line</screeninfo>
+				<graphic  format="png" fileref="../images/topology/line.png" srccredit="neo" />
+			</screenshot>
+
+			<para>这种方案必须使用带有双网卡的服务器，建议选择千兆网卡，web服务器与database连接建议采用交叉线互联，不要通过Hub,Switch连接。</para>
+			<para>当web和database在同一台服务器是建议采用 UNIX SOCK 来链接数据库，以代替TCP/IP Socket。</para>
+			<para>以上图中的第三套方案为例，当用户访问网站时，通过电信交换机连接到cache服务器，有两种情况。第一种是静态html文件或图片，将判断是否被缓存，如果缓存直接反馈给用户否则链接web服务器。第二种动态脚本，将处理立即送给web服务器。如果动态脚本有请求数据库操作，将连接database服务器。</para>
+			<para>这种方式适合中小型企业，非互联网运营商，仅仅是用一个IP实现。</para>
+			<para> </para>
+			<para>两个IP，多台服务器解决方案。</para>
+			<screenshot>
+				<screeninfo>two ip</screeninfo>
+				<graphic  format="png" fileref="../images/topology/twoip.png" srccredit="neo" />
+			</screenshot>
+			<para>建议你吧图片，缩图单独使用一台服务器实现。</para>
+			<para> </para>
+			<para>多个IP，多台服务器解决方案。</para>
+			<screenshot>
+				<screeninfo>three ip</screeninfo>
+				<graphic  format="png" fileref="../images/topology/threeip.png" srccredit="neo" />
+			</screenshot>
+			<para>这种方案要注意服务器全部暴露在WAN上，一定要谨慎设置iptables规则。</para>
+		</section>
+		<section>
+			<title>集群网站</title>
+			<screenshot>
+				<screeninfo>cluster</screeninfo>
+				<graphic  format="png" fileref="../images/topology/cluster.png" srccredit="neo" />
+			</screenshot>
+
+			<para>下面是负载均衡的例子</para>
+			<procedure><title>过程访问演示</title>
+				<step><para>访问用户 www.example.com 网站</para>
+					<para>用户输入网址: www.example.com回车</para>
+				</step>
+				<step><para>dns</para>
+					<para>域名服务器将www.example.com解析到load balancing负载请均衡调度服务器。</para>
+				</step>
+				<step><para>load balancing</para>
+					<para>负载均衡器根据调度算法分配到某个squid节点上</para>
+				</step>
+				<step><para>squid</para>
+					<para>静态规则：判段是否是缓存，如果已经缓存从cache中直接取出内容，否则请求web服务器</para>
+					<para>动态规则：直接请求web服务器</para>
+					<para>请求web服务器是将再次由load balancing分配web节点</para>
+				</step>
+				<step><para>web</para>
+					<para>web server 处理动态脚本，连接数据库查询。连接数据库是仍然需要由load balancing分配database节点</para>
+				</step>
+				<step><para>database</para>
+					<para>database cluster</para>
+				</step>
+			</procedure>
+		</section>
+
+		<section id="server.vpn">
+			<title>关于服务器远程管理</title>
+			<para>将每一台服务器暴露在广域网上不是一个好主意，我的经验是，目前服务器基本都是双网卡。</para>
+			<para>eth0: 用于对外访问，如web服务器仅仅开放80端口，其他端口不允许在广域网上直接访问。</para>
+			<para>eth1: 对内有一个私有局域网，开放SSH的22端口。22端口仅仅能通过私有局域网访问，不能通过广域网访问。</para>
+			<para>在机房放置一台专门的管理服务器并安装有VPN服务，当远程管理服务器是通过VPN连接到这台服务器，登录到这台服务器上，然后在通过SSH登录到私有LAN上的其他服务器进行远程管理。</para>
+			<para>下面是VPN解决方案图</para>
+			<screenshot>
+				<screeninfo>VPN</screeninfo>
+				<graphic  format="png" fileref="../images/topology/vpn.png" srccredit="neo" />
+			</screenshot>
+		</section>
+	</section>
+	<section id="ddos">
+		<title>DDOS 攻击与流量清洗</title>
+		<para></para>
+	</section>
+	<section id="raldrs">
+		<title>RALDRS</title>
+		<para>remote application layer disaster recovery system(RALDRS)</para>
+	</section>
+</chapter>

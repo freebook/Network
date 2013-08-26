@@ -1,0 +1,420 @@
+
+<!-- 
+
+juniper交换机命令整理
+作者: 佚名, 　出处:IT专家网,　责任编辑: 白志飞,　2009-06-18 11:10
+　　一下是详细的配置命令，环环相扣
+
+　　1.连接VCP
+
+　　Configure SWA-0 with the virtual management Ethernet (VME) interface for
+
+　　out-of-band management of the Virtual Chassis configuration, if desired.
+
+　　[edit]
+
+　　user@SWA-0# set interfaces vme unit 0 family inet /ip-address/mask/
+
+　　show">user@SWA-0>show virtual-chassis status
+
+　　Virtual Chassis ID: 0019.e250.47a0
+
+　　Mastership Neighbor List
+
+　　Member ID Status Serial No Model priority Role ID Interface
+
+　　0 (FPC 0) Prsnt AK0207360276 ex4200-48p 128 Master* 1 vcp-0
+
+　　1 vcp-1
+
+　　1 (FPC 1) Prsnt AK0207360281 ex4200-24t 128 Backup 0 vcp-0
+
+　　0 vcp-1
+
+　　Member ID for next new member: 2 (FPC 2)
+
+　　user@SWA-0> show virtual-chassis vc-port all-members
+
+　　fpc0:
+
+　　--------------------------------------------------------------------------
+
+　　Interface Type Status
+
+　　or
+
+　　PIC / Port
+
+　　vcp-0 Dedicated Up
+
+　　vcp-1 Dedicated Up
+
+　　fpc1:
+
+　　--------------------------------------------------------------------------
+
+　　Interface Type Status
+
+　　or
+
+　　PIC / Port
+
+　　vcp-0 Dedicated Up
+
+　　vcp-1 Dedicated Up
+
+　　Modify the mastership priority values(修改VC组成员优先级缺省是128)
+
+　　[edit virtual-chassis]
+
+　　user@SWA-1# set member 1 mastership-priority 255
+
+　　缺省情况下EX交换机的端口都配置为L2的方式，如果需要更改为L3接口，需要删除原接口2层封装
+
+　　del interfaces ge-0/0/0 unit 0 family ethernet-switching
+
+　　set interfaces ge-0/0/0 unit 0 family inet address 192.168.100.2/24
+
+　　创建VLAN
+
+　　set vlans name vlan-id xx
+
+　　配置VLAN的L3接口地址
+
+　　set vlans name l3-interface vlan.xx
+
+　　set interface vlan xx unit xx family inet address x.x.x.x/24
+
+　　将某个交换端口添加到创建好的VLAN中
+
+　　set interface ge-0/0/x unit 0 family ethernet-switching port-mode access vlan members name
+
+　　配置TRUNK端口
+
+　　set interface ge-0/0/23 unit 0 family ethernet-switching port-mode trunk native-vlan-id 1 vlan member xx
+
+　　配置冗余RE组
+
+　　set groups re0 system host-name GZ_LAB_M10i_1_RE0
+
+　　set groups re0 interfaces fxp0 unit 0 family inet address 172.27.69.34/24
+
+　　set groups re0 routing-options static route 0.0.0.0/0 next-hop 172.27.69.1
+
+　　set groups re1 system host-name GZ_LAB_M10i_1_RE1
+
+　　set groups re1 interfaces fxp0 unit 0 family inet address 172.27.69.35/24
+
+　　set groups re1 routing-options static route 0.0.0.0/0 next-hop 172.27.69.1
+
+　　配置VRF并绑定3层VLAN 接口
+
+　　set routing-instances vrf-1 instance-type vrf
+
+　　set routing-instances vrf-1 interface vlan.10
+
+　　set routing-instances vrf-1 route-distinguisher 65000:100
+
+　　set routing-instances vrf-1 vrf-target target:65000:100
+
+　　set routing-instances vrf-2 instance-type vrf
+
+　　set routing-instances vrf-2 interface vlan.20
+
+　　set routing-instances vrf-2 route-distinguisher 65000:200
+
+　　set routing-instances vrf-2 vrf-target target:65000:200
+
+　　show route ter 可以看到路由分类
+
+　　配置各VRF到PE的路由分别以OSPF和静态举例：=================================================
+
+　　set routing-instances vrf-1 instance-type vrf
+
+　　set routing-instances vrf-1 interface vlan.10
+
+　　set routing-instances vrf-1 route-distinguisher 65000:100
+
+　　set routing-instances vrf-1 vrf-target target:65000:100
+
+　　set routing-instances vrf-1 protocols ospf area 0.0.0.0 interface vlan.10
+
+　　show ospf neighbor instance vrf-1
+
+　　set routing-instances vrf-2 instance-type vrf
+
+　　set routing-instances vrf-2 interface vlan.20
+
+　　set routing-instances vrf-2 route-distinguisher 65000:200
+
+　　set routing-instances vrf-2 vrf-target target:65000:200
+
+　　set routing-instances vrf-2 routing-options static route 0.0.0.0/0 next-hop 192.168.20.2
+
+　　配置EX交换机上行TRUNK端口的冗余，假设该EX有两个GE上行到两台汇聚层或核心层交换机，===========================
+
+　　这两个端口都配置为TRUNK 并作为redundant trunk group 时将不再考虑STP的问题
+
+　　[edit]
+
+　　set ethernet-switching-options redundant-trunk-group group-name group1
+
+　　set ethernet-switching-options redundant-trunk-group group-name group1 interface ge-0/0/9.0 primary
+
+　　set ethernet-switching-options redundant-trunk-group group-name group1 interface ge-0/0/10.0
+
+　　配置完成后检查：
+
+　　user@switch> show redundant-trunk-group group1
+
+　　EX 3200 系列交换机还提供完整的端口安全特性，包括DHCP
+
+　　Snooping(动态主机配置协议侦听)、DAI(动态ARP检测)和MAC
+
+　　限制来抵御内外部侦听、中间人攻击和拒绝服务(DoS)攻击。
+
+　　安全性
+
+　　● MAC 地址限制
+
+　　● 允许的MAC 地址数——可逐端口配置
+
+　　● 动态 ARP 检测(DAI)
+
+　　● 本地代理ARP
+
+　　● 静态ARP 支持
+
+　　● DHCP 侦听
+
+　　访问控制表(ACL)(JUNOSTM 防火墙过滤器)
+
+　　● 基于端口的ACL(PACL)——入口
+
+　　● 基于VLAN 的ACL(VACL)——入口和出口
+
+　　● 基于路由器的 ACL(RACL)——入口和出口
+
+　　● 每个系统在硬件中支持的ACL 条目(ACE)：7,000
+
+　　● 用于计算被拒绝的数据包的ACL 计算器
+
+　　● 用于计算获准数据包的ACL 计算器
+
+　　● 能够在列表中间添加/ 删除/ 更改ACL 条目(ACL 编辑)
+
+　　● L2-L4 ACL
+
+　　● 基于802.1X 端口
+
+　　● 802.1X 多个请求方
+
+　　● 采用VLAN 分配机制的802.1X
+
+　　● 采用验证旁路接入机制的802.1X(基于主机MAC 地址)
+
+　　● 支持VoIP VLAN 的802.1X
+
+　　● 基于RADIUS 属性的802.1X 动态ACL
+
+　　● 802.1X 支持的EAP 类型：MD5，TLS，TTLS，PEAP
+
+　　● MAC 验证(本地)
+
+　　● 控制平面DoS 防御
+
+　　配置EX交换机的port-securit 及DHCP Snooping 端口的MAC限制绑定MAC地址：==================================
+
+　　DAI保护EX系列交换机不被 ARP欺骗，同时保护在局域网中DHCP侦听数据库的 ARP缓存不 被攻击。
+
+　　[edit ethernet-switching-options secure-access-port]
+
+　　端口的MAC地址数限制
+
+　　set interface ge-0/0/1 mac-limit 4 action drop
+
+　　端口的MAC地址绑定
+
+　　set interface ge-0/0/2 allowed-mac 00:05:85:3A:82:80
+
+　　set interface ge-0/0/2 allowed-mac 00:05:85:3A:82:81
+
+　　set interface ge-0/0/2 allowed-mac 00:05:85:3A:82:83
+
+　　set interface ge-0/0/2 allowed-mac 00:05:85:3A:82:85
+
+　　set interface ge-0/0/2 allowed-mac 00:05:85:3A:82:88
+
+　　set interface ge-0/0/2 mac-limit 4 action drop
+
+　　配置到DHCP服务器连接端口的信任
+
+　　set interface ge-0/0/8 dhcp-trusted
+
+　　配置在需要做端口安全的VLAN加入防止DHCP欺骗参数及在该VLAN中MAC移动的限制：
+
+　　set vlan employee–vlan arp-inspection DAI的配置
+
+　　set vlan employee-vlan examine-dhcp
+
+　　set vlan employee-vlan mac-move-limit 5 action drop
+
+　　配置完成检查：
+
+　　user@switch> show dhcp snooping binding
+
+　　user@switch> show arp inspection statistics 检查交换机上DAI 的工作情况
+
+　　user@switch> show ethernet-switching table
+
+　　配置EX交换机的RSTP功能 ：===========================================
+
+　　Step-by-Step Procedure
+
+　　To configure interfaces and RSTP on Switch 1:
+
+　　Configure the VLANs voice-vlan, employee-vlan, guest-vlan, and camera-vlan:
+
+　　[edit vlans]
+
+　　user@switch1# set voice-vlan description “Voice VLAN”
+
+　　user@switch1# set voice-vlan vlan-id 10
+
+　　user@switch1# set employee-vlan description “Employee VLAN”
+
+　　user@switch1# set employee-vlan vlan-id 20
+
+　　user@switch1# set guest-vlan description “Guest VLAN”
+
+　　user@switch1# set guest-vlan vlan-id 30
+
+　　user@switch1# set camera-vlan description “Camera VLAN”
+
+　　user@switch1# set guest-vlan vlan-id 40
+
+　　Configure the VLANs on the interfaces, including support for the Ethernet Switching protocol:
+
+　　[edit interfaces]
+
+　　user@switch1# set ge-0/0/13 unit 0 family ethernet-switching vlan members [10 20 30 40]
+
+　　user@switch1# set ge-0/0/9 unit 0 family ethernet-switching vlan members [10 20 30 40]
+
+　　user@switch1# set ge-0/0/11 unit 0 family ethernet-switching vlan members [10 20 30 40]
+
+　　Configure the port mode for the interfaces:
+
+　　[edit interfaces]
+
+　　user@switch1# set ge-0/0/13 unit 0 family ethernet-switching port-mode trunk
+
+　　user@switch1# set ge-0/0/9 unit 0 family ethernet-switching port-mode trunk
+
+　　user@switch1# set ge-0/0/11 unit 0 family ethernet-switching port-mode trunk
+
+　　Configure RSTP on the switch:
+
+　　[edit protocols]
+
+　　user@switch1# rstp bridge-priority 16k
+
+　　user@switch1# rstp interface ge-0/0/13.0 cost 1000 (配置相同的接口COST和RSTP模式，只参考优先级)
+
+　　user@switch1# rstp interface ge-0/0/13.0 mode point-to-point
+
+　　user@switch1# rstp interface ge-0/0/9.0 cost 1000
+
+　　user@switch1# rstp interface ge-0/0/9.0 mode point-to-point
+
+　　user@switch1# rstp interface ge-0/0/11.0 cost 1000
+
+　　user@switch1# rstp interface ge-0/0/11.0 mode point-to-point
+
+　　配置完成后检查 ：
+
+　　user@switch1> show spanning-tree interface
+
+　　配置EX交换机的MSTP功能：==============================================
+
+　　Step-by-Step Procedure
+
+　　To configure interfaces and MSTP on Switch 1:
+
+　　Configure the VLANs voice-vlan, employee-vlan, guest-vlan, and camera-vlan:
+
+　　[edit vlans]
+
+　　user@switch1# set voice-vlan description “Voice VLAN”
+
+　　user@switch1# set voice-vlan vlan-id 10
+
+　　user@switch1# set employee-vlan description “Employee VLAN”
+
+　　user@switch1# set employee-vlan vlan-id 20
+
+　　user@switch1# set guest-vlan description “Guest VLAN”
+
+　　user@switch1# set guest-vlan vlan-id 30
+
+　　user@switch1# set camera-vlan description “Camera VLAN”
+
+　　user@switch1# set guest-vlan vlan-id 40
+
+　　Configure the VLANs on the interfaces, including support for the Ethernet Switching protocol:
+
+　　[edit interfaces]
+
+　　user@switch1# set ge–0/0/13 unit 0 family ethernet-switching vlan members [10 20 30 40]
+
+　　user@switch1# set ge-0/0/9 unit 0 family ethernet-switching vlan members [10 20 30 40]
+
+　　user@switch1# set ge-0/0/11 unit 0 family ethernet-switching vlan members [10 20 30 40]
+
+　　Configure the port mode for the interfaces:
+
+　　[edit interfaces]
+
+　　user@switch1# set ge–0/0/13 unit 0 family ethernet-switching port-mode trunk
+
+　　user@switch1# set ge-0/0/9 unit 0 family ethernet-switching port-mode trunk
+
+　　user@switch1# set ge-0/0/11 unit 0 family ethernet-switching port-mode trunk
+
+　　Configure MSTP on the switch, including the two MSTIs:
+
+　　[edit protocols]
+
+　　user@switch1# mstp configuration-name region1
+
+　　user@switch1# mstp bridge-priority 16k
+
+　　user@switch1# mstp interface ge-0/0/13.0 cost 1000
+
+　　user@switch1# mstp interface ge-0/0/13.0 mode point-to-point
+
+　　user@switch1# mstp interface ge-0/0/9.0 cost 1000
+
+　　user@switch1# mstp interface ge-0/0/9.0 mode point-to-point
+
+　　user@switch1# mstp interface ge-0/0/11.0 cost 4000
+
+　　user@switch1# mstp interface ge-0/0/11.0 mode point-to-point
+
+　　user@switch1# mstp msti 1 bridge-priority 16k
+
+　　user@switch1# mstp msti 1 vlan [10 20]
+
+　　user@switch1# mstp msti 1 interface ge-0/0/11.0 cost 4000
+
+　　user@switch1# mstp msti 2 bridge-priority 8k
+
+　　user@switch1# mstp msti 2 vlan [30 40]
+
+　　配置完成后检查：
+
+　　user@switch1> show spanning-tree interface
+
+　　user@switch1> show spanning-tree bridge
+
+ -->

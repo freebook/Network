@@ -1,0 +1,108 @@
+<chapter id="workstation">
+	<title>Workstation</title>
+	<para></para>
+	<section>
+		<title>Computer</title>
+		<para></para>
+		<screen>
+		<![CDATA[
+
+
+		]]>
+		</screen>
+
+		<screen>
+		<![CDATA[
+
+		]]>
+		</screen>
+		<example>
+			<title></title>
+			<para></para>
+			<screen>
+			<![CDATA[
+
+			]]>			
+			</screen>
+			<para></para>
+			<screen>
+			<![CDATA[
+
+			]]>	
+			</screen>			
+		</example>		
+		<example>
+			<title></title>
+			<para></para>
+			<screen>
+			<![CDATA[
+
+			]]>
+			</screen>
+			<para></para>
+			<screen>
+			<![CDATA[
+
+			]]>		
+			</screen>
+		</example>
+	</section>
+	
+	<section>
+		<title>Desktop Application</title>
+
+	</section>
+
+
+	<section>
+		<title>Office Software</title>
+		<example>
+			<title></title>
+			<screen>
+			<![CDATA[
+
+			]]>
+			</screen>
+			<para>Router</para>
+			<screen>
+			<![CDATA[
+
+			]]>
+			</screen>
+		</example>
+		<example>
+			<title></title>
+			<para></para>
+			<screen>
+			<![CDATA[
+
+			]]>			
+			</screen>
+			<para></para>
+			<screen>
+			<![CDATA[
+
+			]]>			
+			</screen>			
+		</example>
+
+		
+		<example>
+			<title></title>
+			<screen>
+			<![CDATA[
+
+			]]>
+			</screen>
+		</example>
+		<example>
+			<title></title>
+			<screen>
+			<![CDATA[
+
+			]]>
+			</screen>
+		</example>
+
+	</section>
+</chapter>

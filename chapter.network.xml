@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="hardware.network">
+	<title>Network</title>
+	<section>
+		<title>Firewall</title>
+		<screen>
+		</screen>
+		<section>
+			<title>Cisco ASA</title>
+			<para>ASA 5550 会话数 65000</para>
+			<para>购买是需要注明BUN-K9版本的IOS</para>
+		</section>
+		<section>
+			<title>Juniper</title>
+		</section>
+	</section>
+	<section>
+		<title>Switch</title>
+		<note>
+			<title>注意事项</title>
+			<para>Cisco 与 H3C 的交换机软件都有简版与企业版之分，购买一定要注意，尤其是买三层交换机时。Juniper我的交换机我没有用过。</para>
+			<para>例如我曾经购买H3C的三层交换机SI版，竟然没有DHCP功能，后来找厂家升级到EI版</para>
+			<para>例如 3750 简版OSPF。如果你想使用OSPF需要企业版</para>
+			<para>例如 4507 简版没有策略路由功能，需要企业版才支持。</para>
+		</note>
+		<screen>
+		</screen>
+		<section>
+			<title>2960G / 2960S</title>
+
+		</section>
+		<section>
+			<title>3560 / 3750</title>
+		</section>
+		<section>
+			<title>4948</title>
+		</section>
+		<section>
+			<title>4506 / 4507</title>
+			<para>购买4507 时要注意引擎版本</para>
+		</section>
+	</section>
+	<section>
+		<title>SLB</title>
+		<screen>
+
+		</screen>
+	</section>
+</section>

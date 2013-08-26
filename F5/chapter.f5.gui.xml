@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="f5.gui">
+	<title>F5 配置</title>
+	<section id="f5.gui.network">
+		<title>Network</title>
+		<section>
+			<title>url</title>
+			<para><ulink url="https://your_address/xui/">https://your_address/xui/</ulink></para>
+		</section>
+		<section>
+			<title>VLAN</title>
+			<para>Network  ››  VLANs : VLAN List</para>
+			<para>inside / outside</para>
+			<para>internal / external</para>
+		</section>
+		<section>
+			<title>Self IPs</title>
+			<para>Network  ››  Self IPs</para>
+		</section>
+		<section>
+			<title>Routes</title>
+			<para>Network  ››  Routes</para>
+		</section>
+	</section>
+	<section id="f5.gui.templates">
+		<title>Templates and Wizard</title>
+		<section>
+			<title>Templates</title>
+			<para>Templates and Wizards  ››  Templates</para>
+		</section>
+	</section>
+	<section id="f5.gui.traffic">
+		<title>Local Traffic</title>
+		<section>
+			<title>Pool</title>
+			<para>Local Traffic  ››  Pools : Pool List</para>
+		</section>
+		<section>
+			<title>Virtual Servers</title>
+			<para>Local Traffic  ››  Virtual Servers : Virtual Server List</para>
+		</section>
+	</section>
+</chapter>

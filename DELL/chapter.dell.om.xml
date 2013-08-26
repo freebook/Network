@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dell.openmanage">
+	<title>OpenManage</title>
+	<para>http://linux.dell.com/</para>
+	<section id="openmanage.install">
+		<title>安装 OpenManage</title>
+		<para>http://www.dell.com.cn/</para>
+		<screen>
+tar zxvf OM_6.1.0_ManNode_A00.tar.gz
+		</screen>
+		<screen>
+vi /etc/RedHat-release
+
+CentOS release 5.5 (Final)  Tikanga
+
+或者
+
+vim linux/supportscripts/srvadmin-install.sh
+GetOSType()
+{
+    # Set default values for return variables.
+    GBL_OS_TYPE=${GBL_OS_TYPE_UKNOWN}
+    GBL_OS_TYPE_STRING="UKNOWN"
+
+改为
+
+GetOSType()
+{
+    # Set default values for return variables.
+#    GBL_OS_TYPE=${GBL_OS_TYPE_UKNOWN}
+#    GBL_OS_TYPE_STRING="UKNOWN"
+    GBL_OS_TYPE=${GBL_OS_TYPE_RHEL5}
+    GBL_OS_TYPE_STRING="RHEL5"
+
+
+		</screen>
+		<screen>
+# yum install libstdc++-devel libidn-devel curl-devel
+		</screen>
+		<screen>
+# ./setup.sh
+Do you agree to the above license terms? ('y' for yes | 'Enter' to exit): y
+
+##############################################
+
+  Server Administrator Custom Install Utility
+
+##############################################
+
+  Components for Server Administrator Managed Node Software:
+
+    [ ] 1. Server Administrator Web Server
+    [ ] 2. Server Instrumentation
+    [ ] 3. Storage Management
+    [ ] 4. Remote Access Core Component
+    [ ] 5. Remote Access SA Plugin Component
+    [ ] 6. All
+
+  Enter the number to select a component from the above list.
+  Enter q to quit.
+
+  Enter : 6
+
+##############################################
+
+  Server Administrator Custom Install Utility
+
+##############################################
+
+  Selected Options
+   - All
+
+  Dependencies
+   - Server Administrator Web Server
+   - Server Instrumentation
+   - Storage Management
+   - Remote Access Core Component
+   - Remote Access SA Plugin Component
+
+  Components for Server Administrator Managed Node Software:
+
+    [x] 1. Server Administrator Web Server
+    [x] 2. Server Instrumentation
+    [x] 3. Storage Management
+    [x] 4. Remote Access Core Component
+    [x] 5. Remote Access SA Plugin Component
+    [x] 6. All
+
+  Enter the number to select a component from the above list.
+  Enter c to copy selected components to destination folder.
+  Enter i to install the selected components.
+  Enter r to reset selection and start over.
+  Enter q to quit.
+
+  Enter : i
+
+  Default install location is: /opt/dell/srvadmin
+  Do you want to change it?
+  Press ('y' for yes | 'Enter' for default): y
+  Enter relocation path or press 'Enter' for default here:
+		</screen>
+		<screen>
+Installing the selected packages.
+
+warning: srvadmin-cm-6.1.0-648.i386.rpm: Header V3 DSA signature: NOKEY, key ID 23b66a9d
+Preparing...                ########################################### [100%]
+   1:srvadmin-omilcore      ########################################### [  6%]
+     To start all installed services without a reboot,
+     enter the following command:  srvadmin-services.sh  start
+   2:srvadmin-omcommon      ########################################### [ 12%]
+   3:srvadmin-hapi          ########################################### [ 18%]
+   4:srvadmin-syscheck      ########################################### [ 24%]
+   5:srvadmin-deng          ########################################### [ 29%]
+   6:srvadmin-omacore       ########################################### [ 35%]
+   7:srvadmin-isvc          ########################################### [ 41%]
+   8:srvadmin-omauth        ########################################### [ 47%]
+   9:srvadmin-wsmanclient   ########################################### [ 53%]
+  10:srvadmin-idrac-componen########################################### [ 59%]
+  11:srvadmin-jre           ########################################### [ 65%]
+  12:srvadmin-cm            ########################################### [ 71%]
+  13:srvadmin-idracadm      ########################################### [ 76%]
+  14:srvadmin-idracdrsc     ########################################### [ 82%]
+  15:srvadmin-iws           ########################################### [ 88%]
+  16:srvadmin-omhip         ########################################### [ 94%]
+  17:srvadmin-storage       ########################################### [100%]
+
+   Do you want the Server Administrator services started?
+   Press ('y' for yes | 'Enter' to exit): y
+Starting Systems Management Device Drivers:
+Starting dell_rbu:                                         [  OK  ]
+Starting ipmi driver:                                      [  OK  ]
+Starting Systems Management Data Engine:
+Starting dsm_sa_datamgr32d:                                [  OK  ]
+Starting dsm_sa_eventmgr32d:                               [  OK  ]
+Starting DSM SA Shared Services:                           [  OK  ]
+
+Starting DSM SA Connection Service:                        [  OK  ]
+		</screen>
+		<screen>
+# srvadmin-services.sh
+Usage: srvadmin-services.sh {start|stop|status|restart|enable|disable|help}
+  start  : starts Server Administrator services
+  stop   : stops Server Administrator services
+  status : display status of Server Administrator services
+  restart: restart Server Administrator services
+  enable : Enable Server Administrator services in runlevels 2, 3, 4, and 5
+  disable: Disable Server Administrator services in runlevels 2, 3, 4, and 5
+  help   : Displays this help text
+		</screen>
+	</section>
+	<section id="openmanage.yum">
+		<title>Yum</title>
+		<para><ulink url="http://linux.dell.com/repo/hardware/">http://linux.dell.com/repo/hardware/</ulink></para>
+		<screen>
+wget -q -O - http://linux.dell.com/repo/hardware/OMSA_6.3/bootstrap.cgi | bash
+		</screen>
+		<screen>
+[root@Search-Web ~]# yum search srvadmin
+Loaded plugins: dellsysid, fastestmirror
+Determining fastest mirrors
+ * addons: mirrors.163.com
+ * base: mirrors.163.com
+ * epel: mirrors.sohu.com
+ * extras: mirrors.163.com
+ * updates: mirrors.163.com
+addons                                                                                                                                                    |  951 B     00:00
+addons/primary                                                                                                                                            |  204 B     00:00
+base                                                                                                                                                      | 2.1 kB     00:00
+base/primary_db                                                                                                                                           | 2.1 MB     00:00
+dell-omsa-indep                                                                                                                                           | 1.9 kB     00:00
+dell-omsa-indep/primary                                                                                                                                   |  82 kB     00:01
+dell-omsa-indep                                                                                                                                                          596/596
+dell-omsa-specific                                                                                                                                        | 1.9 kB     00:00
+dell-omsa-specific/primary                                                                                                                                | 1.1 kB     00:00
+dell-omsa-specific                                                                                                                                                           2/2
+epel                                                                                                                                                      | 3.7 kB     00:00
+epel/primary_db                                                                                                                                           | 3.4 MB     00:01
+extras                                                                                                                                                    | 2.1 kB     00:00
+extras/primary_db                                                                                                                                         | 246 kB     00:00
+updates                                                                                                                                                   | 1.9 kB     00:00
+updates/primary_db                                                                                                                                        | 1.0 MB     00:00
+=============================================================================== Matched: srvadmin ===============================================================================
+srvadmin-all.x86_64 : Meta package for installing all Server Administrator features, 6.3.0
+srvadmin-argtable2.x86_64 : A library for parsing GNU style command line arguments, 6.3.0
+srvadmin-base.x86_64 : Meta package for installing the Server Agent, 6.3.0
+srvadmin-cm.i386 : OpenManage Inventory Collector, 6.3.0
+srvadmin-deng.x86_64 : Data Engine, 5.9.3
+srvadmin-hapi.i386 : Hardware Abstraction Programming Interface, 5.9.3
+srvadmin-hapi.x86_64 : Hardware Abstraction Programming Interface, 5.9.3
+srvadmin-idrac.x86_64 : Meta rpm for iDRAC components, 6.3.0
+srvadmin-idrac-ivmcli.x86_64 : Modular Server Virtual Media CLI Utils, 1.0.0
+srvadmin-idrac-vmcli.x86_64 : Monolithic Server Virtual Media CLI Utils, 1.0.0
+srvadmin-idracadm.x86_64 : iDRAC Command Interface, 6.3.0
+srvadmin-isvc.x86_64 : Instrumentation Services, 5.9.3
+srvadmin-itunnelprovider.x86_64 : Integrated Tunnel Provider, 1.3.0
+srvadmin-iws.x86_64 : Secure Port Server and Server Administrator GUI, 6.3.0
+srvadmin-jre.x86_64 : SUN Java Runtime Environment, 1.6.17
+srvadmin-omacore.x86_64 : Server Administrator Core and CLI, 6.3.0
+srvadmin-omcommon.x86_64 : Server Administrator Common Framework, 6.3.0
+srvadmin-omilcore.noarch : Server Administrator Install Core, 6.3.0
+srvadmin-rac-components.x86_64 : Remote Access Card Data Populator, 6.3.0
+srvadmin-rac4.x86_64 : Meta rpm for RAC4 components, 4.6.5
+srvadmin-rac4-populator.x86_64 : Remote Access Card Data Populator, 4.6.5
+srvadmin-rac5.x86_64 : Meta rpm for RAC5 components, 6.3.0
+srvadmin-racadm4.x86_64 : RAC Command Interface, 4.6.5
+srvadmin-racadm5.x86_64 : RAC5 Command Interface, 6.3.0
+srvadmin-racdrsc.x86_64 : RAC Integration Layer, 6.3.0
+srvadmin-racsvc.x86_64 : Remote Access Card Managed Node, 4.6.5
+srvadmin-smcommon.x86_64 : Storage Management common files for GUI and CLI, 3.3.0
+srvadmin-smweb.x86_64 : Storage Management package for GUI component, 3.3.0
+srvadmin-standardAgent.x86_64 : Meta package for installing the Standard Server Agent, 6.3.0
+srvadmin-storage.x86_64 : Storage Management accessors package, 3.3.0
+srvadmin-storage-populator.x86_64 : Storage Management populator package, 3.3.0
+srvadmin-storage-populator-swraid.x86_64 : Storage Management populator files for DotHill software RAID library, 3.3.0
+srvadmin-storageservices.x86_64 : Meta package for installing the Server Administrator Storage Services feature, 6.3.0
+srvadmin-storelib.x86_64 : StoreLib package for storage management, 6.3.0
+srvadmin-storelib-sysfs.x86_64 : System Utilities Package/Libsysfs for LSI storage libraries, 2.1.0
+srvadmin-sysfsutils.x86_64 : Storage Management System Utilities Package / Libsysfs, 1.3.0
+srvadmin-webserver.x86_64 : Meta package for installing the Server Administrator Web Server feature, 6.3.0
+srvadmin-xmlsup.x86_64 : Server Administrator XML Support SDK, 6.3.0
+		</screen>
+		<screen>
+yum install srvadmin-all
+		</screen>
+	</section>
+	<section id="dell.ita">
+		<title>Dell IT Assistant</title>
+
+		<screen>
+		</screen>
+	</section>
+	<section id="dell.dmc">
+		<title>DMC</title>
+	</section>
+</chapter>

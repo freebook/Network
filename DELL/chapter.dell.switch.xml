@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dell.switch">
+	<title>Dell Switch</title>
+	<para>最垃圾的交换机，DELL 客服不提供技术支持，网上配置资料非常少。你会看到网上很多人提问，但很少人回复问题，因为没有人知道怎么解决。</para>
+	<para>Dell 全系交换机产品均没有DHCP Server功能，买的时候一定要注意，退货流程及其复杂。</para>
+	<screen>
+	<![CDATA[
+BOOT Software Version 2.0.0.00 Built  03-Sep-2008  17:31:01
+
+                          ##
+ ###########            #####        ######        ######
+ ##############       #########      ######        ######
+ ###############     #########       ######        ######
+ ################  ########## ####   ######        ######
+ ################ #########  ######  ######        ######
+ ########################  ######### ######        ######
+ ######   ##############  ########  #######        ######
+ ######    ###################### #########        ######
+ ######    ####################  ##########        ######
+ ######    ###################  ###########        ######
+ ######    ################## #############        ######
+ ######   #################################        ######
+ ################################################# ############
+ ################  ################  ############# ############
+ ################   ##############   ############# ############
+ ###############      ##########     ############# ############
+ ##############        ########      ############# ############
+ ###########             ####        ############# ############
+                          ##
+ PowerConnect 3548 board based on Orion 88F5181 ARM926EJ processor
+ 64 MByte SDRAM. I-Cache 8 KB. D-Cache 8 KB. Cache Enabled.
+
+
+MAC Address   :  a4:ba:db:70:6f:63.
+
+Autoboot in 2 seconds - press RETURN or Esc. to abort and enter prom.
+Preparing to decompress...
+ 100%
+Decompressing SW from image-1
+ 100%
+
+OK
+Running from RAM...
+
+*********************************************************************
+*** Running  SW  Ver. 2.0.0.29  Date  13-Jan-2009  Time  17:42:37 ***
+*********************************************************************
+
+HW version is 00.00.02
+Base Mac address is: a4:ba:db:70:6f:63
+Dram size is  : 128M bytes
+Dram first block size is  : 102400K bytes
+Dram first PTR is  : 0x1800000
+Dram second block size is  : 4096K bytes
+Dram second PTR is  : 0x7C00000
+Flash size is: 16M
+01-Jan-2000 00:00:06 %CDB-I-LOADCONFIG: Loading running configuration.
+01-Jan-2000 00:00:06 %CDB-I-LOADCONFIG: Loading startup configuration.
+Device configuration:
+Slot 1 - PowerConnect 3548
+CPLD revision:  4.01
+
+------------------------------------
+-- Unit Standalone                --
+------------------------------------
+
+Tapi Version: v1.3.3.1
+Core Version: v1.3.3.1
+01-Jan-2000 00:00:19 %INIT-I-InitCompleted: Initialization task is completed
+
+
+01-Jan-2000 00:00:19 %Environment-I-FAN-STAT-CHNG: FAN# 1 status changed - operational.
+01-Jan-2000 00:00:19 %Environment-I-FAN-STAT-CHNG: FAN# 2 status changed - operational.
+01-Jan-2000 00:00:19 %Environment-I-PS-STAT-CHNG: PS# 1 status changed - operational.
+01-Jan-2000 00:00:19 %Environment-W-PS-STAT-CHNG: PS# 2 status changed - not present.
+01-Jan-2000 00:00:19 %Entity-I-SEND-ENT-CONF-CHANGE-TRAP: entity configuration change trap.
+01-Jan-2000 00:00:19 %SNMP-I-CDBITEMSNUM: Number of running configuration items loaded: 0
+
+01-Jan-2000 00:00:19 %SNMP-I-CDBITEMSNUM: Number of startup configuration items loaded: 0
+
+
+
+
+
+Welcome to Dell Easy Setup Wizard.
+
+The Setup Wizard guides you through the initial switch configuration, and gets
+you up and running as quickly as possible.  You can skip the setup wizard, and
+enter CLI mode to manually configure the switch.
+The system will prompt you with a default answer; by pressing enter, you accept
+the default.
+You must respond to the next question to run the setup wizard within
+60 seconds, otherwise the system will continue with normal operation using
+the default system configuration.
+
+Would you like to enter the setup wizard (you must answer this question within
+60 seconds)? (Y/N)[Y]
+Setup Wizard Timeout.....
+	]]>
+	</screen>
+
+<section id="switch.show">
+	<title>show</title>
+	<section>
+		<title>bootvar</title>
+		<screen>
+		<![CDATA[
+console> show bootvar
+Image  Filename   Version     Date                    Status
+-----  ---------  ---------   ---------------------   -----------
+1      image-1    2.0.0.29    13-Jan-2009  17:42:37   Active*
+2      image-2    2.0.0.29    13-Jan-2009  17:42:37   Not active
+
+"*" designates that the image was selected for the next boot
+		]]>
+		</screen>
+	</section>
+	<section>
+		<title>qos</title>
+		<screen>
+		<![CDATA[
+console> show qos
+Qos: basic
+Basic trust: vpt
+		]]>
+		</screen>
+	</section>
+	<section>
+		<title>line</title>
+		<screen>
+		<![CDATA[
+console> show line
+Console configuration:
+Interactive timeout:  10 minute(s)
+History:  10
+Baudrate:  9600
+Databits: 8
+Parity: none
+Stopbits: 1
+
+Telnet configuration:
+Telnet is enabled.
+Interactive timeout:  10 minute(s)
+History:  10
+
+SSH configuration:
+Interactive timeout:  10 minute(s)
+History:  10
+		]]>
+		</screen>
+	</section>
+	<section>
+		<title>privilege</title>
+		<screen>
+		<![CDATA[
+console> show privilege
+Current privilege level is 1
+		]]>
+		</screen>
+	</section>
+	<section id="switch.radius-servers">
+		<title>radius-servers</title>
+		<![CDATA[
+console> show radius-servers
+
+  IP address    Port  port  Time-   Ret-  Dead-     source IP    Prio. Usage
+                Auth  Acct  Out     rans  Time
+--------------- ----- ----- ------ ------ ------ --------------- ----- -----
+
+
+Global values
+--------------
+
+TimeOut : 3
+Retransmit : 3
+Deadtime : 0
+Source IP : 0.0.0.0
+Source IPv6 : ::
+
+		]]>
+	</section>
+	<section>
+		<title>sessions</title>
+		<![CDATA[
+console> show sessions
+
+Connection   Host                            Address             Port    Byte
+
+-----------  ----------------------------    ------------------- ------  ------
+		]]>
+	</section>
+	<section>
+		<title>system</title>
+		<screen>
+		<![CDATA[
+console> show  system
+System Description:                       Ethernet Switch
+System Up Time (days,hour:min:sec):       00,00:09:52
+System Contact:
+System Name:
+System Location:
+System MAC Address:                       a4:ba:db:70:6f:63
+System Object ID:                         1.3.6.1.4.1.674.10895.3017
+Type:                                     PowerConnect 3548
+Asset tag:
+
+Main Power Supply Status:                 OK
+Fan 1 Status:                             OK
+Fan 2 Status:                             OK
+
+
+          Unit            Temperature (Celsius)            Status
+------------------------ ------------------------ ------------------------
+           1                        35                       OK
+
+
+console>
+		]]>
+		</screen>
+	</section>
+
+	<section>
+		<title>users</title>
+		<![CDATA[
+console> show users
+
+   Username       Protocol          Location
+--------------- ------------ -----------------------
+                   Serial            0.0.0.0
+		]]>
+	</section>
+
+	<section>
+		<title>version</title>
+		<![CDATA[
+console> show version
+SW version    2.0.0.29 ( date  13-Jan-2009 time  17:42:37 )
+Boot version    2.0.0.00 ( date  03-Sep-2008 time  17:31:01 )
+HW version    00.00.02
+		]]>
+	</section>
+	<section>
+		<title>vlan</title>
+		<![CDATA[
+console> show vlan
+
+Vlan       Name                   Ports                Type     Authorization
+---- ----------------- --------------------------- ------------ -------------
+ 1           1           e(1-48),g(1-4),ch(1-15)      other       Required
+
+		]]>
+	</section>
+
+
+	<section>
+		<title>config</title>
+		<section>
+			<title>startup-config</title>
+			<screen>
+			<![CDATA[
+console# show startup-config
+Empty configuration
+
+
+
+
+
+
+Default settings:
+Service tag:
+
+SW version
+
+Fast Ethernet Ports
+==========================
+no shutdown
+speed 100
+duplex full
+negotiation
+flow-control off
+mdix auto
+no back-pressure
+
+Gigabit Ethernet Ports
+=============================
+no shutdown
+speed 1000
+duplex full
+negotiation
+flow-control off
+mdix auto
+no back-pressure
+
+interface vlan 1
+interface port-channel 1 - 15
+
+spanning-tree
+spanning-tree mode STP
+
+qos basic
+qos trust cos
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>running-config</title>
+			<screen>
+			<![CDATA[
+console# show running-config
+voice vlan oui-table add 0001e3 Siemens_AG_phone________
+voice vlan oui-table add 00036b Cisco_phone_____________
+voice vlan oui-table add 00096e Avaya___________________
+voice vlan oui-table add 000fe2 H3C_Aolynk______________
+voice vlan oui-table add 0060b9 Philips_and_NEC_AG_phone
+voice vlan oui-table add 00d01e Pingtel_phone___________
+voice vlan oui-table add 00e075 Polycom/Veritel_phone___
+voice vlan oui-table add 00e0bb 3Com_phone______________
+interface vlan 1
+ip address 172.16.0.252 255.255.255.0
+exit
+
+
+
+
+
+
+Default settings:
+Service tag:
+
+SW version
+
+Fast Ethernet Ports
+==========================
+no shutdown
+speed 100
+duplex full
+negotiation
+flow-control off
+mdix auto
+no back-pressure
+
+Gigabit Ethernet Ports
+=============================
+no shutdown
+speed 1000
+duplex full
+negotiation
+flow-control off
+mdix auto
+no back-pressure
+
+interface vlan 1
+interface port-channel 1 - 15
+
+spanning-tree
+spanning-tree mode STP
+
+qos basic
+qos trust cos
+console#
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>copy</title>
+			<screen>
+console# copy running-config startup-config
+Overwrite file [startup-config] ?[Yes/press any key for no]....01-Jan-2000 00:13:41 %COPY-I-FILECPY: Files Copy - source URL running-config destination URL flash://startup-config
+01-Jan-2000 00:13:49 %COPY-N-TRAP: The copy operation was completed successfully
+Copy succeeded
+			</screen>
+		</section>
+		<section>
+			<title>delete</title>
+			<screen>
+			<![CDATA[
+console>
+
+console>enable
+
+console#delete startup-config
+
+Startup file was deleted（启动文件已删除）
+
+console#reload
+
+Management switch has unsaved changes.（管理服务器仍未保存更改。）
+
+Are you sure you want to continue?（确实要继续吗？）(y/n)（是/否）y（是）
+
+
+Configuration Not Saved!（配置未保存！）
+
+Are you sure you want to reload the stack?（是否确定要重新载入堆栈？）(y/n)（是/否）y（是）
+
+
+Reloading all switches..（正在重新载入所有交换机..）
+
+			]]>
+			</screen>
+		</section>
+	</section>
+</section>
+
+<section id="switch.aaa">
+	<title>login/authentication</title>
+	<section>
+		<title>console</title>
+		<screen>
+console(config)# aaa authentication login default line
+
+console(config)# aaa authentication enable default line
+
+console(config)# line console
+
+console(config-line)# login authentication default
+
+console(config-line)# enable authentication default
+
+console(config-line)# password chen
+
+		</screen>
+	</section>
+	<section>
+		<title>telnet</title>
+		<screen>
+console# configure
+console(config)# aaa authentication login default line
+console(config)# aaa authentication enable default line
+console(config)# line telnet
+console(config-line)# login authentication default
+console(config-line)# enable authentication default
+console(config-line)# password chen
+console(config-line)# end
+		</screen>
+	</section>
+	<section>
+		<title>SSH</title>
+		<screen>
+console(config)# aaa authentication login default line
+
+console(config)# aaa authentication enable default line
+
+console(config)# line ssh
+
+console(config-line)# login authentication default
+
+console(config-line)# enable authentication default
+
+console(config-line)# password jones.
+
+		</screen>
+	</section>
+	<section>
+		<title>HTTP/HTTPS</title>
+		<para>HTTP</para>
+		<screen>
+console(config)# ip http authentication local
+
+console(config)# username admin password user1 level 15
+		</screen>
+		<para>HTTPS</para>
+		<screen>
+console(config)# ip https authentication local
+
+console(config)# username admin password user1 level 15
+		</screen>
+		<para>SSL 2.0</para>
+		<screen>
+console(config)# crypto certificate generate key_generate
+
+console(config)# ip https server
+		</screen>
+	</section>
+</section>
+
+<section id="switch.interface">
+	<title>Interface</title>
+	<section>
+		<title>status</title>
+		<para>3548</para>
+		<screen>
+console# show interfaces status
+                                             Flow Link          Back   Mdix
+Port     Type         Duplex  Speed Neg      ctrl State       Pressure Mode
+-------- ------------ ------  ----- -------- ---- ----------- -------- -------
+e1       100M-Copper    --      --     --     --  Down           --     --
+e2       100M-Copper    --      --     --     --  Down           --     --
+e3       100M-Copper    --      --     --     --  Down           --     --
+e4       100M-Copper    --      --     --     --  Down           --     --
+e5       100M-Copper    --      --     --     --  Down           --     --
+e6       100M-Copper    --      --     --     --  Down           --     --
+e7       100M-Copper    --      --     --     --  Down           --     --
+e8       100M-Copper    --      --     --     --  Down           --     --
+e9       100M-Copper    --      --     --     --  Down           --     --
+e10      100M-Copper    --      --     --     --  Down           --     --
+e11      100M-Copper    --      --     --     --  Down           --     --
+e12      100M-Copper    --      --     --     --  Down           --     --
+e13      100M-Copper    --      --     --     --  Down           --     --
+e14      100M-Copper    --      --     --     --  Down           --     --
+e15      100M-Copper    --      --     --     --  Down           --     --
+e16      100M-Copper    --      --     --     --  Down           --     --
+e17      100M-Copper    --      --     --     --  Down           --     --
+e18      100M-Copper    --      --     --     --  Down           --     --
+e19      100M-Copper    --      --     --     --  Down           --     --
+e20      100M-Copper    --      --     --     --  Down           --     --
+e21      100M-Copper    --      --     --     --  Down           --     --
+e22      100M-Copper    --      --     --     --  Down           --     --
+e23      100M-Copper    --      --     --     --  Down           --     --
+e24      100M-Copper    --      --     --     --  Down           --     --
+e25      100M-Copper    --      --     --     --  Down           --     --
+e26      100M-Copper    --      --     --     --  Down           --     --
+e27      100M-Copper    --      --     --     --  Down           --     --
+e28      100M-Copper    --      --     --     --  Down           --     --
+e29      100M-Copper    --      --     --     --  Down           --     --
+e30      100M-Copper    --      --     --     --  Down           --     --
+e31      100M-Copper    --      --     --     --  Down           --     --
+e32      100M-Copper    --      --     --     --  Down           --     --
+e33      100M-Copper    --      --     --     --  Down           --     --
+e34      100M-Copper    --      --     --     --  Down           --     --
+e35      100M-Copper    --      --     --     --  Down           --     --
+e36      100M-Copper    --      --     --     --  Down           --     --
+e37      100M-Copper  Full    100   Enabled  Off  Up          Disabled Off
+e38      100M-Copper    --      --     --     --  Down           --     --
+e39      100M-Copper    --      --     --     --  Down           --     --
+e40      100M-Copper    --      --     --     --  Down           --     --
+e41      100M-Copper    --      --     --     --  Down           --     --
+e42      100M-Copper    --      --     --     --  Down           --     --
+e43      100M-Copper    --      --     --     --  Down           --     --
+e44      100M-Copper    --      --     --     --  Down           --     --
+e45      100M-Copper    --      --     --     --  Down           --     --
+e46      100M-Copper    --      --     --     --  Down           --     --
+e47      100M-Copper    --      --     --     --  Down           --     --
+e48      100M-Copper    --      --     --     --  Down           --     --
+g1       1G-Fiber       --      --     --     --  Down           --     --
+g2       1G-Fiber       --      --     --     --  Down           --     --
+g3       1G-Copper      --      --     --     --  Down           --     --
+g4       1G-Copper      --      --     --     --  Down           --     --
+
+                                          Flow    Link
+Ch       Type    Duplex  Speed  Neg      control  State
+-------- ------- ------  -----  -------- -------  -----------
+ch1         --     --      --      --       --    Not Present
+ch2         --     --      --      --       --    Not Present
+ch3         --     --      --      --       --    Not Present
+ch4         --     --      --      --       --    Not Present
+ch5         --     --      --      --       --    Not Present
+ch6         --     --      --      --       --    Not Present
+ch7         --     --      --      --       --    Not Present
+ch8         --     --      --      --       --    Not Present
+ch9         --     --      --      --       --    Not Present
+ch10        --     --      --      --       --    Not Present
+ch11        --     --      --      --       --    Not Present
+ch12        --     --      --      --       --    Not Present
+ch13        --     --      --      --       --    Not Present
+ch14        --     --      --      --       --    Not Present
+ch15        --     --      --      --       --    Not Present
+		</screen>
+		<para>6224</para>
+		<screen>
+console#show interfaces status
+
+Port   Type                            Duplex  Speed    Neg  Link  Flow Control
+                                                             State Status
+-----  ------------------------------  ------  -------  ---- ----- -----------
+1/g1   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g2   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g3   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g4   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g5   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g6   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g7   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g8   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g9   Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g10  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g11  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g12  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g13  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g14  Gigabit - Level                 Full    100      Auto  Up    Inactive
+1/g15  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g16  Gigabit - Level                 Full    1000     Auto  Up    Inactive
+1/g17  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g18  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g19  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+--More-- or (q)uit
+1/g20  Gigabit - Level                 Full    100      Auto  Up    Inactive
+1/g21  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g22  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g23  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/g24  Gigabit - Level                 N/A     Unknown  Auto  Down  Inactive
+1/xg1  10G - Level                     N/A     Unknown  Auto  Down  Inactive
+1/xg2  10G - Level                     N/A     Unknown  Auto  Down  Inactive
+1/xg3  10G - Level                     N/A     Unknown  Auto  Down  Inactive
+1/xg4  10G - Level                     N/A     Unknown  Auto  Down  Inactive
+
+
+Ch   Type                            Link
+                                     State
+---  ------------------------------  -----
+ch1  Link Aggregate                  Down
+ch2  Link Aggregate                  Down
+ch3  Link Aggregate                  Down
+ch4  Link Aggregate                  Down
+ch5  Link Aggregate                  Down
+ch6  Link Aggregate                  Down
+ch7  Link Aggregate                  Down
+ch8  Link Aggregate                  Down
+ch9  Link Aggregate                  Down
+--More-- or (q)uit
+ch10 Link Aggregate                  Down
+ch11 Link Aggregate                  Down
+ch12 Link Aggregate                  Down
+ch13 Link Aggregate                  Down
+ch14 Link Aggregate                  Down
+ch15 Link Aggregate                  Down
+ch16 Link Aggregate                  Down
+ch17 Link Aggregate                  Down
+ch18 Link Aggregate                  Down
+ch19 Link Aggregate                  Down
+ch20 Link Aggregate                  Down
+ch21 Link Aggregate                  Down
+ch22 Link Aggregate                  Down
+ch23 Link Aggregate                  Down
+ch24 Link Aggregate                  Down
+
+Flow Control:Disabled
+		</screen>
+	</section>
+	<section>
+		<title>ip address</title>
+		<para>分配动态 IP 地址：</para>
+		<screen>
+console# configure
+
+console(config)# interface ethernet 1/e1
+
+console(config-if)# ip address dhcp hostname powerconnect
+
+console(config-if)# exit
+
+console(config)#
+		</screen>
+		<para>分配动态 IP 地址（在 VLAN 上）：</para>
+		<screen>
+console# configure
+
+console(config)# interface ethernet vlan 1
+
+console(config-if)# ip address dhcp hostname device
+
+console(config-if)# exit
+
+console(config)#
+
+接口将自动获取 IP 地址。
+		</screen>
+		<para>要验证 IP 地址，请在系统提示符后输入 show ip interface 命令，如以下示例所示。</para>
+		<screen>
+console# show ip interface
+
+IP Address I/F Type
+
+------------- ------ -------
+
+100.1.1.1/24 vlan 1 dynamic
+		</screen>
+	</section>
+	<section>
+		<title>speed</title>
+		<screen>
+console#configure
+
+console(config)#line console
+
+console(config-line)#speed 38400
+		</screen>
+	</section>
+	<section>
+		<title>QOS</title>
+		<para>1000Kpbs</para>
+		<screen>
+console# configure
+console(config)# interface ethernet e36
+console(config-if)# rate-limit 1000
+console(config-if)#
+		</screen>
+	</section>
+</section>
+<section id="switch.vlan">
+	<title>VLAN</title>
+	<section>
+		<title>define vlan id</title>
+		<screen>
+console(config)#vlan database
+
+console(config-vlan)#vlan 2-10
+Warning: The use of large numbers of VLANs or interfaces may cause significant
+delays in applying the configuration.
+
+
+console(config-vlan)#
+
+		</screen>
+	</section>
+	<section>
+		<title>show vlan</title>
+		<screen>
+console#show vlan
+
+VLAN       Name                         Ports          Type      Authorization
+-----  ---------------                  -------------  -----     -------------
+1      Default                          ch1-24,        Default   Required
+                                        1/g1-1/xg4
+2                                                      Static    Required
+3                                                      Static    Required
+4                                                      Static    Required
+5                                                      Static    Required
+6                                                      Static    Required
+7                                                      Static    Required
+8                                                      Static    Required
+9                                                      Static    Required
+10                                                     Static    Required
+		</screen>
+	</section>
+	<section>
+		<title>interface vlan</title>
+		<screen>
+		<![CDATA[
+console#configure
+
+console(config)#interface vlan 2
+
+console(config-if-vlan2)#ip address 192.168.0.1 255.255.255.0
+		]]>
+		</screen>
+	</section>
+	<section>
+		<title>interface ethernet</title>
+		<screen>
+console(config)#interface ethernet 1/g5
+console(config-if-1/g5)#switchport mode access
+console(config-if-1/g5)#switchport access vlan 5
+Warning: The use of large numbers of VLANs or interfaces may cause significant
+delays in applying the configuration.
+
+console(config-if-1/g5)#
+		</screen>
+
+	</section>
+	<section>
+		<title>Virtual LAN Routing Commands</title>
+		<screen>
+console(config)#interface vlan 11
+
+console(config-if-vlan11)#routing
+		</screen>
+		<screen>
+console#vlan database
+
+console(config-vlan)#vlan routing 10
+		</screen>
+	</section>
+</section>
+<section id="switch.routing">
+	<title>Routing Information Protocol (RIP) Commands</title>
+	<section>
+		<title>show line</title>
+		<screen>
+console(config)#router rip
+
+console(config-router)#
+		</screen>
+	</section>
+	<section>
+		<title>show interfaces</title>
+		<para>FastEthernet0/0 is f0/0</para>
+		<screen>
+		<![CDATA[
+console#show ip interface management
+
+IP Address..................................... 172.16.0.251
+Subnet Mask.................................... 255.255.255.0
+Default Gateway................................ 0.0.0.0
+Burned In MAC Address.......................... A4BA.DB6E.522E
+Network Configuration Protocol Current......... None
+Management VLAN ID............................. 1
+		]]>
+		</screen>
+	</section>
+</section>
+
+</chapter>

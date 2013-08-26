@@ -1,0 +1,242 @@
+<chapter id="terminal">
+	<title>Terminal</title>
+	<section id="putty">
+		<title>Putty</title>
+		<para>点击Serial</para>
+		<para>Serial line中填写COM1， Speed中填写9600</para>
+		<para>点击Open按钮即可</para>
+	</section>	
+	<section id="minicom">
+		<title>minicom - friendly serial communication program</title>
+		<para></para>
+		<screen>
+sudo apt-get install minicom
+		</screen>
+		<para>环境变量</para>
+		<screen>
+MINICOM='-m -c on'
+export MINICOM		
+		</screen>
+		<para>setup</para>
+		<screen>
+neo@debian:~$ sudo minicom -s
+		</screen>
+		<para>TUI</para>
+		<screen>
++-----[configuration]------+
+| Filenames and paths      |
+| File transfer protocols  |
+| Serial port setup        |
+| Modem and dialing        |
+| Screen and keyboard      |
+| Save setup as dfl        |
+| Save setup as..          |
+| Exit                     |
+| Exit from Minicom        |
++--------------------------+
+		</screen>
+		<para>选择 Serial port setup</para>
+		<screen>
+    +-----------------------------------------------------------------------+
+    | A -    Serial Device      : /dev/ttyS0                                |
+    | B - Lockfile Location     : /var/lock                                 |
+    | C -   Callin Program      :                                           |
+    | D -  Callout Program      :                                           |
+    | E -    Bps/Par/Bits       : 9600 8N1                                  |
+    | F - Hardware Flow Control : Yes                                       |
+    | G - Software Flow Control : No                                        |
+    |                                                                       |
+    |    Change which setting?                                              |
+    +-----------------------------------------------------------------------+
+            | Screen and keyboard      |
+            | Save setup as dfl        |
+            | Save setup as..          |
+            | Exit                     |
+            | Exit from Minicom        |
+            +--------------------------+
+		</screen>
+		<para>使用A键和E键分别修改串口设备和波特率，然后ESC间推出，再将光标移动到Exit处按Enter键</para>
+		<screen>
+		<![CDATA[
+Welcome to minicom 2.3
+
+OPTIONS: I18n
+Compiled on Sep 25 2009, 23:45:34.
+Port /dev/ttyS0
+
+               Press CTRL-A Z for help on special keys
+
+
+Translating "z"...domain server (255.255.255.255)
+% Unknown command or computer name, or unable to find computer address
+Switch>AT S7=45 S0=0 L1 V1 X4 &c1 E1 Q0
+        ^
+% Invalid input detected at '^' marker.
+
+Switch>en
+Password:
+Switch#show
+Switch#show running-config
+Building configuration...
+
+Current configuration : 3265 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$zQct$RlZjEVk3PV//OrS4KYm46.
+enable password 123456
+!
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+no ip dhcp snooping information option
+!
+ --More--
+
+ CTRL-A Z for help |  9600 8N1 | NOR | Minicom 2.3    | VT102 |      Offline
+ 		]]>
+		</screen>
+	</section>
+	<section>
+		<title>kermit</title>
+		<para>下载安装</para>
+		<screen>
+neo@ubuntu:~$ apt-cache search kermit
+gkermit - A serial and network communications package
+modemu - Telnet services for communication programs
+ckermit - a serial and network communications package
+
+neo@ubuntu:~$ sudo apt-get install ckermit
+		</screen>	
+		<para>改写kermit的配置文件/etc/kermit/kermrc</para>
+		<screen>
+$ sudo vim /etc/kermit/kermrc
+
+; This is /etc/kermit/kermrc
+; It is executed on startup if ~/.kermrc is not found.
+; See "man kermit" and http://www.kermit-project.org/ for details on
+; configuring this file, and /etc/kermit/kermrc.full
+; for an example of a complex configuration file
+
+; If you want to run additional user-specific customisations in
+; addition to this file, place them in ~/.mykermrc
+
+; Execute user's personal customization file (named in environment var
+; CKERMOD or ~/.mykermrc)
+;
+
+if def \$(CKERMOD) assign _myinit \$(CKERMOD)
+if not def _myinit assign _myinit \v(home).mykermrc
+
+xif exist \m(_myinit)  {                ; If it exists,
+    echo Executing \m(_myinit)...       ; print message,
+    take \m(_myinit)                    ; and TAKE the file.
+}
+
+set line /dev/ttyS0
+set speed 9600
+set carrier-watch off
+set handshake none
+set flow-control none
+robust
+set file type bin
+set file name lit
+set rec pack 1000
+set send pack 1000
+set window 5
+		</screen>
+		<para>console</para>
+		<screen>
+$ kermit
+
+C-Kermit>
+C-Kermit>connect		
+		</screen>
+		<para>现在就已经成功连接到串口com1了,并且你可以看到cisco console信息</para>
+		<para>切换</para>
+		<para>按下 Ctrl + \, 再按c可以跳回kermit</para>
+		<screen>
+C-Kermit>
+		</screen>
+		<para> 此时输入c,即connect即可连接到串口</para>
+		<screen>
+neo@ubuntu:~$ kermit
+C-Kermit 8.0.211, 10 Apr 2004, for Linux
+ Copyright (C) 1985, 2004,
+  Trustees of Columbia University in the City of New York.
+Type ? or HELP for help.
+(/home/neo/) C-Kermit>c
+Connecting to /dev/ttyS0, speed 9600
+ Escape character: Ctrl-\ (ASCII 28, FS): enabled
+Type the escape character followed by C to get back,
+or followed by ? to see other options.
+----------------------------------------------------
+
+Switch>
+		</screen>
+		<para>接下来你就可以配置交换机了</para>
+		<screen>
+		<![CDATA[
+Switch>en
+Password:
+Switch#show running-config
+Building configuration...
+
+Current configuration : 3265 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$zQct$RlZjEVk3PV//OrS4KYm46.
+enable password 123456
+!
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+no ip dhcp snooping information option
+!
+ --More--
+		]]>
+		</screen>
+	</section>
+	<section>
+		<title>快捷键</title>
+		<para>快捷键:</para>
+		<screen>
+
+1.Ctrl+A:把光标快速移动到整行的最开始
+2.Ctrl+E:把光标快速移动到整行的最末尾
+3.Esc+B:后退1个单词
+4.Ctrl+B:后退1个字符
+5.Esc+F:前进1个单词
+6.Ctrl+F:前进1个字符
+7.Ctrl+D:删除单独1个字符
+8.Backspace:删除单独1个字符
+9.Ctrl+R:重新显示1行
+10.Ctrl+U:擦除1整行
+11.Ctrl+W:删除1个单词
+12. Ctrl+Z从全局模式退出到特权模式
+13.Up arrow或者Ctrl+P:显示之前最后输入过的命令
+14.Down arrow或者Ctrl+N:显示之前刚刚输入过的命令		
+		</screen>		
+	</section>
+</chapter>

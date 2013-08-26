@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../docbook.css" type="text/css"?>
+<part id="index"><?dbhtml dir="juniper" ?>
+	<title>Juniper</title>
+<chapter id="juniper.firewall">
+	<title>Firewall</title>
+	<screen>
+	<![CDATA[
+[root@dev1 ~]# ssh neo@192.168.1.1
+neo@192.168.3.1's password:
+Remote Management Console
+firewall->
+	]]>
+	</screen>
+
+	<section id="config">
+		<title>config</title>
+		<screen>
+		<![CDATA[
+firewall-> get config
+Total Config size 17376:
+set clock ntp
+set clock timezone 7
+set vrouter trust-vr sharable
+set vrouter "untrust-vr"
+exit
+set vrouter "trust-vr"
+unset auto-route-export
+exit
+...
+...
+...
+exit
+set vrouter "untrust-vr"
+exit
+set vrouter "trust-vr"
+exit
+firewall->
+		]]>
+		</screen>
+	</section>
+	<section id="interface">
+		<title>interface</title>
+		<screen>
+		<![CDATA[
+firewall-> get interface all
+box is not in pure_l2_mode
+
+A - Active, I - Inactive, U - Up, D - Down, R - Ready
+
+Total interface: 12
+Name           IP Address         Zone        MAC            VLAN State VSD
+trust          192.168.3.1/24     Trust       001f.1255.a902    -   U   -
+untrust        61.144.230.41/29   Untrust     001f.1255.a901    -   U   -
+serial         0.0.0.0/0          Null        001f.1255.a906    -   D   -
+tun.1          unnumbered         Untrust     untrust           -   D   -
+vlan1          0.0.0.0/0          VLAN        001f.1255.a90f    1   D   -
+null           0.0.0.0/0          Null        N/A               -   U   0
+firewall->
+		]]>
+		</screen>
+		<section id="pppoe">
+			<title>PPPoE</title>
+			<screen>
+set pppoe name "PPPoE"
+set pppoe name "PPPoE" username "cjf0000@163.gd" password "yVizHVPmNgsYRvCpTP7RsQnxg2VpbQ=="
+set pppoe name "PPPoE" idle 0
+set pppoe name "PPPoE" interface untrust
+set pppoe name "PPPoE" auto-connect 30
+			</screen>
+		</section>
+		<section id="interface.mode">
+			<title>接口模式</title>
+			<screen>
+set interface eth4 nat    //将接口4设置为nat模式
+set interface eth4 route  //将接口4设置为路由模式
+			</screen>
+			<para>Route between multiple subnets without a router</para>
+			<screen>
+set interface trust ip (ip address) (subnet mask) secondary [Enter]
+save [Enter]
+			</screen>
+		</section>
+		<section id="interface.vlan">
+			<title>vlan</title>
+			<screen>
+set zone name office //建立一个3层的zone，名为Office
+set zone name L2-office  L2 1   //建立一个2层的zone，名为L2-Office（二层接口必须以L2-开始命名），vlan id 为1。
+set interface eth4 zone office   //将接口4设置为office  zone的接口。
+set interface vlan1 ip 10.10.10.10/24  //将vlan1的ip设置为10.10.10.10
+set interface vlan1 manage web  //开通vlan1接口的web管理功能
+set interface vlan1 manage ping  //开通vlan1接口的ping功能
+			</screen>
+		</section>
+		<section>
+			<title>MIP</title>
+			<screen>
+set interface eth3 mip 1.1.1.1 host 2.2.2.2 vrouter trust-vr   //设置mip，外网ip1.1.1.1 绑定到内网ip 2.2.2.2上
+unset interface eth3 mip 1.1.1.1   //取消1.1.1.1的mip设置
+			</screen>
+			<screen>
+unset interface "untrust" mip 61.144.230.44
+set interface "untrust" mip 61.144.230.44 host 192.168.3.46 netmask 255.255.255.255 vr "trust-vr"
+
+set policy from "Untrust" to "Trust"  "Any" "MIP(61.144.230.44)" "HTTP" permit log
+
+policy id = 79
+
+set policy id 79
+set service "HTTPS"
+exit
+			</screen>
+		</section>
+		<section>
+			<title>VIP</title>
+			<screen>
+set interface eth3 vip untrust-ip + 21 ftp 192.168.0.10       //设置vip
+set interface eth3 vip untrust-ip + 8000 ftp 192.168.0.10
+			</screen>
+			<screen>
+set service "OpenSSH" protocol tcp src-port 0-65535 dst-port 22-22
+
+set interface untrust vip 61.144.230.45 + 22 OpenSSH 192.168.3.10
+
+set policy from untrust to trust any vip(61.144.230.45) OpenSSH permit
+
+save
+			</screen>
+		</section>
+
+	</section>
+	<section id="juniper.arp">
+		<title>arp</title>
+		<screen>
+host1(config)#arp 192.56.20.1 0090.1a00.0170
+host1(config-if)#arp timeout 8000
+host1#clear arp
+		</screen>
+	</section>
+	<section id="juniper.ntp-server">
+		<title>ntp-server</title>
+		<screen>
+set interface ethernet0/3 ntp-server
+		</screen>
+	</section>
+	<section id="juniper.dhcp">
+		<title>DHCP</title>
+		<screen>
+		<![CDATA[
+set interface ethernet1 dhcp server service  //在接口1开启dhcp服务
+set interface ethernet1 dhcp server enable  //在接口1开启dhcp服务
+set interface ethernet1 dhcp server option lease 1440000  //设置dhcp服务租期
+set interface ethernet1 dhcp server option gateway 192.168.0.2
+set interface ethernet1 dhcp server option netmask 255.255.255.0
+set interface ethernet1 dhcp server option dns1 202.96.209.5
+set interface ethernet1 dhcp server option dns2 202.96.209.133
+set interface ethernet1 dhcp server ip 192.168.0.10 to 192.168.0.100   //dhcp地址池
+		]]>
+		</screen>
+		<para>DMZ 口 DHCP</para>
+		<screen>
+set interface ethernet0/3 dhcp server service
+set interface ethernet0/3 dhcp server enable
+set interface ethernet0/3 dhcp server option lease 1440
+set interface ethernet0/3 dhcp server option gateway 10.10.0.254
+set interface ethernet0/3 dhcp server option netmask 255.255.255.0
+set interface ethernet0/3 dhcp server option dns1 208.67.222.222
+set interface ethernet0/3 dhcp server option dns2 208.67.220.220
+set interface ethernet0/3 dhcp server option dns3 8.8.8.8
+set interface ethernet0/3 dhcp server ip 10.10.0.200 to 10.10.0.250
+set interface ethernet0/3 dhcp server config next-server-ip
+		</screen>
+	</section>
+	<section id="juniper.snmp">
+		<title>SNMP</title>
+		<para>v1 / v2</para>
+		<screen>
+set snmp community "public" Read-Only Trap-on version v2
+set snmp host "public" 172.16.0.0 255.255.255.0 src-interface ethernet0/0
+set snmp location "XXX Build 4F"
+set snmp contact "neo.chen@example.com"
+set snmp port listen 161
+		</screen>
+		<para>v2c</para>
+		<screen>
+set snmp community "public" Read-Only Trap-on version v2c
+set snmp host "public" 192.168.3.5 255.255.255.255 src-interface ethernet0/0 trap v2
+set snmp location "XXX Build 4F"
+set snmp contact "neo.chen@example.com"
+set snmp port listen 161
+set snmp port trap 162
+		</screen>
+		<para>登录Linux测试SNMP</para>
+		<screen>
+		<![CDATA[
+$ snmpwalk -v 2c -c public <juniper address>
+
+$ snmpwalk -v 2c -Ob -c public 172.16.0.254 |head
+iso.3.6.1.2.1.1.1.0 = STRING: "SSG-520 version 6.2.0r5.0 (SN: JN119AD15ADA, Firewall+VPN)"
+iso.3.6.1.2.1.1.2.0 = OID: iso.3.6.1.4.1.3224.1.50
+iso.3.6.1.2.1.1.3.0 = Timeticks: (508773200) 58 days, 21:15:32.00
+iso.3.6.1.2.1.1.4.0 = STRING: "neo.chen@example.com"
+iso.3.6.1.2.1.1.5.0 = STRING: "SSG520"
+iso.3.6.1.2.1.1.6.0 = STRING: "TianXiang Build 4F"
+iso.3.6.1.2.1.1.7.0 = INTEGER: 72
+iso.3.6.1.2.1.2.1.0 = INTEGER: 5
+iso.3.6.1.2.1.2.2.1.1.1 = INTEGER: 1
+iso.3.6.1.2.1.2.2.1.1.2 = INTEGER: 2
+
+		]]>
+		</screen>
+		<para>http://www.juniper.net/techpubs/software/junos/junos74/swconfig74-net-mgmt/html/enterprise-traps3.html#1097425</para>
+		<screen>
+unset snmp community "public"
+		</screen>
+	</section>
+	<section id="service">
+		<title>Service</title>
+		<screen>
+set service "OpenSSH" protocol tcp src-port 0-65535 dst-port 22-22
+set service "POP3" protocol tcp src-port 0-65535 dst-port 110-110
+set service "SMTP" protocol tcp src-port 0-65535 dst-port 25-25
+set service "RemoteDesktop" protocol tcp src-port 0-65535 dst-port 3389-3389
+		</screen>
+
+		<screen>
+unset service "OpenSSH"
+		</screen>
+	</section>
+	<section id="address">
+		<title>Address</title>
+		<screen>
+set address "Trust" "webserver" 192.168.0.1 255.255.255.255
+set address "Trust" "ftpserver" 192.168.0.2 255.255.255.255
+set address "Untrust" "DNS1" 202.96.134.133 255.255.255.0
+set address "Untrust" "DNS2" 202.96.128.68 255.255.255.0
+		</screen>
+		<screen>
+unset address "Trust" "webserver"
+		</screen>
+	</section>
+
+	<section id="syslog">
+		<title>syslog</title>
+		<para>syslog host</para>
+		<screen>
+		<![CDATA[
+	set syslog config "10.0.0.1"
+	set syslog config "10.0.0.1"" facilities local1 local1
+	set syslog config "10.0.0.1"" log traffic
+	set syslog src-interface eth0/0
+		]]>
+		</screen>
+	</section>
+	<section>
+		<title>PPTP</title>
+		<screen>
+set vip multi-port [Enter]
+save [Enter]
+reset [Enter]
+
+The multi-port command will match the first port it sees in the custom service.
+
+Next, define a custom service for PPTP and apply this service in the VIP.  From the CLI:
+
+set service CustomPPTP group "other" 47 src 2048-2048 dst 2048-2048 [Enter]
+set service CustomPPTP + tcp src 0-65535 dst 1723-1723 [Enter]
+set interface ethernet0/0 vip 2048 CustomPPTP 10.1.1.10 [Enter]
+
+Finally, create an incoming policy with destination address as the VIP using the custom service object.  From the CLI:
+
+set policy from untrust to trust "any" "VIP::1" "CustomPPTP" permit [Enter]
+save [Enter]
+		</screen>
+	</section>
+</chapter>
+
+<chapter id="juniper.router">
+	<title>Router</title>
+	<screen>
+set interface trust nat
+set interface untrust route
+
+set route 0.0.0.0/0 interface untrust gateway 61.144.230.40 preference 20
+set route 192.168.6.0/24 interface trust gateway 192.168.3.12
+set route 192.168.7.0/24 interface trust gateway 192.168.3.12
+set route 192.168.8.0/24 interface trust gateway 192.168.3.12
+set route 192.168.9.0/24 interface trust gateway 192.168.3.12
+	</screen>
+	<screen>
+set route 172.16.3.0/24 interface ethernet0/3 gateway 10.10.0.5
+	</screen>
+</chapter>
+
+	&chapter.juniper.policy.xml;
+	&chapter.juniper.flow.xml;
+</part>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="juniper.policy">
+	<title>Policy</title>
+	<section>
+		<title>策略管理</title>
+		<para>show policy</para>
+		<screen>
+firewall-> get policy
+Total regular policies 24, Default deny.
+    ID From     To       Src-address  Dst-address  Service              Action State   ASTLCB
+    76 Untrust  Trust    Any          VIP(61.144.~ OpenSSH              Permit enabled -----X
+    77 Untrust  Trust    Any          VIP(61.144.~ CTBS                 Permit enabled -----X
+    78 Untrust  Trust    Any          VIP(61.144.~ RemoteDesktop        Permit enabled -----X
+
+
+
+firewall-> get policy
+Total regular policies 23, Default deny.
+    76 Untrust  Trust    Any          VIP(61.144.~ OpenSSH              Permit enabled -----X
+    78 Untrust  Trust    Any          VIP(61.144.~ RemoteDesktop        Permit enabled -----X
+		</screen>
+		<para>Removing policy</para>
+		<screen>
+		<![CDATA[
+firewall-> get policy
+Total regular policies 24, Default deny.
+    ID From     To       Src-address  Dst-address  Service              Action State   ASTLCB
+    76 Untrust  Trust    Any          VIP(61.144.~ OpenSSH              Permit enabled -----X
+    77 Untrust  Trust    Any          VIP(61.144.~ CTBS                 Permit enabled -----X
+    78 Untrust  Trust    Any          VIP(61.144.~ RemoteDesktop        Permit enabled -----X
+
+firewall-> unset policy 77
+
+firewall-> get policy
+Total regular policies 23, Default deny.
+    76 Untrust  Trust    Any          VIP(61.144.~ OpenSSH              Permit enabled -----X
+    78 Untrust  Trust    Any          VIP(61.144.~ RemoteDesktop        Permit enabled -----X
+		]]>
+		</screen>
+		<para></para>
+		<para>policy id = 79</para>
+		<screen>
+set policy id 79
+set service "HTTPS"
+		</screen>
+		<para></para>
+		<screen>
+unset service "SSH"
+exit
+		</screen>
+		<para></para>
+	</section>
+	<section id="acl.other">
+		<title>OpenSSH</title>
+		<para>OpenSSH 22 Port</para>
+		<screen>
+set service "OpenSSH" protocol tcp src-port 0-65535 dst-port 22-22
+
+set interface untrust vip 61.144.230.45 + 22 OpenSSH 192.168.3.10
+
+set policy from untrust to trust any vip(61.144.230.45) OpenSSH permit
+
+save
+		</screen>
+	</section>
+
+	<section>
+		<title>HTTP</title>
+		<screen>
+set service "HTTP" protocol tcp src-port 0-65535 dst-port 80-80
+
+set interface untrust vip 61.144.230.45 + 80 HTTP 192.168.3.114
+
+set policy from untrust to trust any vip(61.144.230.45) HTTP permit
+
+save
+		</screen>
+	</section>
+	<section>
+		<title>RemoteDesktop</title>
+		<screen>
+set service "RemoteDesktop" protocol tcp src-port 0-65535 dst-port 3389-3389
+
+set interface untrust vip 61.144.230.45 + 3389 RemoteDesktop 192.168.3.114
+
+set policy from untrust to trust any vip(61.144.230.45) RemoteDesktop permit
+
+save
+		</screen>
+	</section>
+	<section>
+		<title>PPTP</title>
+		<para>user -> internet -> juniper -> vip 1723 -> 192.168.3.9:1723</para>
+		<screen>
+set vip multi-port
+set alg pptp enable
+
+set service "LinuxPPTP" protocol tcp src-port 0-65535 dst-port 1723-1723
+set service "LinuxPPTP" + udp src-port 0-65535 dst-port 1723-1723
+
+set interface untrust vip 61.144.230.44 + 1723 "LinuxPPTP" 192.168.3.9
+
+set policy id 82 from "Trust" to "Untrust"  "Any" "Any" "PPTP" permit
+set policy id 82 application "PPTP"
+set policy id 82
+		</screen>
+	</section>
+	<section>
+		<title>DMZ to Untrust (nat src)</title>
+		<screen>
+set policy id 94 from "Untrust" to "DMZ"  "Any" "Any" "ANY" permit log
+set policy id 94 disable
+set policy id 94
+exit
+set policy id 95 from "DMZ" to "Untrust"  "Any" "Any" "ANY" nat src permit log
+set policy id 95
+exit
+set policy id 96 from "Trust" to "DMZ"  "Any" "Any" "ANY" permit
+set policy id 96
+exit
+set policy id 97 from "DMZ" to "Trust"  "Any" "Any" "ANY" permit log
+set policy id 97
+exit
+		</screen>
+		<para>未设置nat src,DMZ 将不能访问外网</para>
+	</section>
+</chapter>

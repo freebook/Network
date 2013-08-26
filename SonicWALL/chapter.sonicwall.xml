@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="index"><?dbhtml dir="sonicwall" ?>
+	<title>SonicWALL</title>
+	<screen>
+To escape to local shell, press 'Ctrl+Alt+]'.
+
+
+                         ,,,,,,,,,,,,,,,
+          ,,,mmbbbbbb11111111111111111111111bbbbbmm,,,
+   ,,,b||PPPPPPP||````````````````|PPPPPPPPP111111111111bbm,,
+ ``````                                     `````PPPP111111111bm,
+                                                     ```PP1111111bm,
+                                                          `PP111111b,
+                                                             |111111:
+                                                             .1111P|.
+Copyright (c) 2010 SonicWALL, Inc.                          ,b1PP|`
+                                                         ,,||```
+User:admin
+Password:
+
+NSA 240>
+	</screen>
+	<para>默认用户admin, 密码password</para>
+	<para>输入help帮助，使用tab键或者“？”可以提示参数。</para>
+	<section id="show">
+		<title>show 命令</title>
+		<screen>
+		<![CDATA[
+NSA 240> show status
+Model: NSA 240
+Product Code: 6931
+Firewall Serial Number: 0017C565A5FE
+Authentication Code: V3F4-ACU4
+Number of IP addresses allowed with this license: Unlimited
+System Time: 11/27/2012 21:08:27
+Up Time: 0 Days 23:07:27
+Firmware Version: SonicOS Enhanced 5.8.1.0-30o
+Safemode Version: Safemode 5.0.1.13
+ROM Version: SonicROM 5.0.2.12
+Interfaces:
+  Interface X0, name X0, zone LAN, ipaddr 192.168.100.1, 100 Mbps full-duplex
+  Interface X1, name X1, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X2, name X2, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X3, name X3, zone WAN, ipaddr 116.204.103.163, 100 Mbps full-duplex
+  Interface X4, name X4, zone LAN, ipaddr 192.168.200.1, 100 Mbps full-duplex
+  Interface X5, name X5, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X6, name X6, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X7, name X7, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X8, name X8, zone LAN, ipaddr 192.168.1.1, 100 Mbps full-duplex
+  Interface M0, name M0, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface U0, name U0, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface U1, name U1, zone Unassigned, ipaddr 0.0.0.0, No link
+CPUs: 2 x 500 MHz Mips64 Octeon Processor
+Total Memory: 256 MB RAM, 32 MB Flash
+This firewall is not yet registered.
+		]]>
+		</screen>
+	</section>
+	<section id="exp">
+		<title>配置文件的导入与导出</title>
+		<para></para>
+		<screen>
+		<![CDATA[
+NSA 240> export preferences
+		]]>
+		</screen>
+	</section>
+	<section id="monitor">
+		<title>monitor 监控命令</title>
+		<screen>
+		<![CDATA[
+NSA 240> monitor show status
+
+Model: NSA 240
+Product Code: 6931
+Firewall Serial Number: 0017C565A5FE
+Authentication Code: V3F4-ACU4
+Number of IP addresses allowed with this license: Unlimited
+System Time: 11/27/2012 21:10:15
+Up Time: 0 Days 23:09:16
+Firmware Version: SonicOS Enhanced 5.8.1.0-30o
+Safemode Version: Safemode 5.0.1.13
+ROM Version: SonicROM 5.0.2.12
+Interfaces:
+  Interface X0, name X0, zone LAN, ipaddr 192.168.100.1, 100 Mbps full-duplex
+  Interface X1, name X1, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X2, name X2, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X3, name X3, zone WAN, ipaddr 116.204.103.163, 100 Mbps full-duplex
+  Interface X4, name X4, zone LAN, ipaddr 192.168.200.1, 100 Mbps full-duplex
+  Interface X5, name X5, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X6, name X6, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X7, name X7, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface X8, name X8, zone LAN, ipaddr 192.168.1.1, 100 Mbps full-duplex
+  Interface M0, name M0, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface U0, name U0, zone Unassigned, ipaddr 0.0.0.0, No link
+  Interface U1, name U1, zone Unassigned, ipaddr 0.0.0.0, No link
+CPUs: 2 x 500 MHz Mips64 Octeon Processor
+Total Memory: 256 MB RAM, 32 MB Flash
+This firewall is not yet registered.
+
+--------- interval 1: press the Enter key to abort ----------
+		]]>
+		</screen>
+	</section>
+</chapter>

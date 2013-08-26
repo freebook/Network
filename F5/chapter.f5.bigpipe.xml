@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="bigpipe">
+	<title>bigpipe - a command line interface for configuring BIG-IP and VIPRION and displaying configuration data and statistics</title>
+	<section id="b">
+		<title>b</title>
+		<screen>
+[root@F5:Active] config # which b
+/usr/bin/b
+[root@F5:Active] config # ll /usr/bin/b
+lrwxrwxrwx 1 root root 7 Jan  5 17:10 /usr/bin/b -> bigpipe
+
+		</screen>
+	</section>
+	<section id="f5.config">
+		<title>F5 Management Port Setup</title>
+		<screen>
+[root@F5:Active] config # config
+		</screen>
+	</section>
+
+	&chapter.f5.bigpipe.traffic.xml;
+	&chapter.f5.bigpipe.network.xml;
+	&chapter.f5.bigpipe.system.xml;
+
+</chapter>
+
+<chapter id="f5.utility">
+	<title>utility</title>
+	<section id="bigtop">
+		<title>bigtop -    bigtop is a BIG-IP live statistics display utility.</title>
+		<screen>
+[root@F5:Active] config # bigtop
+                     |  bits  since       |  bits  in prior    |  current
+                     |  Jan  6 14:07:10   |  4 seconds         |  time
+BIG-IP      ACTIVE   |---In----Out---Conn-|---In----Out---Conn-|  17:26:29
+F5.3900.Test          326.9M 888.6M  59721   3632   2944      3
+
+VIRTUAL ip:port      |---In----Out---Conn-|---In----Out---Conn-|-Nodes Up--
+192.168.3.19:http     1.636M 20.14M    101      0      0      0      0
+172.16.0.25:http       45424  14784     15      0      0      0      0
+
+NODE ip:port         |---In----Out---Conn-|---In----Out---Conn-|--State----
+10.0.0.51:http        441280 5.464M     20      0      0      0 DOWN
+10.0.0.41:http        115216 498040      9      0      0      0 DOWN
+172.16.0.5:http            0      0      0      0      0      0 DOWN
+172.16.0.9:http            0      0      0      0      0      0 DOWN
+192.168.3.9:http           0      0      0      0      0      0 DOWN
+		</screen>
+	</section>
+	<section id="qkview">
+		<title>qkview - grab diagnostic information from an BIG-IP system.</title>
+		<screen>
+[root@test:Active] config # qkview
+Gathering System Diagnostics: Please wait ...
+Diagnostic information has been saved in:
+/var/tmp/test.f5.com.tgz
+Please send this file to F5 support.
+		</screen>
+	</section>
+	<section id="tmstat">
+		<title>tmstat</title>
+		<screen>
+ CPU:   4% busy     1% idle   95% sleep                                                                                                       Fri Jan  7 17:27:28 2011
+
+       Memory Allocated                                                                                                             Packets              53,172 Polls
+   28,684,904 / 1,665,138,688                                                                                                New Flows   Old Flows
+  [  .  :  .  |  .  :  .  ]                                                                                                          0           7
+
+ Memory Count Object
+
+  105MB   2-- (total)
+   41MB    -- mco db (variable)
+    6MB    -- ifnet (variable)
+    6MB    -- tcl (variable)
+    5MB    -- ssl (variable)
+    2MB    -- umem (variable)
+    2MB    -- ramcache (variable)
+    2MB    -- leasepool (variable)
+  812kB    -- profile (variable)
+  519kB    -- temp (variable)
+  387kB    3k packet
+  368kB    -- devbuf (variable)
+  353kB    -- filter (variable)
+  257kB    -- string cache (variable)
+  151kB   480 listener
+  145kB    -- isession (variable)                                                                                                             0.0
+   69kB    -- pool (variable)                                                                                                        0b tx        link             0b rx
+   61kB   592 access_whitelist_uri_entries                                                                            [ . : . | . : . ]       0.1      [ . : . | . : . ]
+   43kB    -- proxy (variable)                                                                                                   6,560b tx 10,000 link        14,368b rx
+   32kB   286 neighbor_entry                                                                                          [ . : . | . : . ]       0.2      [ . : . | . : . ]
+   19kB    68 poolmbr                                                                                                            8,912b tx 10,000 link        14,168b rx
+   11kB   184 mpi_request                                                                                             [ . : . | . : . ]       0.3      [ . : . | . : . ]
+   10kB    72 rt_entry                                                                                                           8,728b tx 10,000 link         7,104b rx
+    7kB    -- mcp (variable)                                                                                          [ . : . | . : . ]       0.4      [ . : . | . : . ]
+    6kB    20 pool                                                                                                               6,560b tx 10,000 link         6,560b rx
+    6kB    22 connflow                                                                                                [ . : . | . : . ]       1.1      [ . : . | . : . ]
+    6kB    25 ramcache document                                                                                                  4,904b tx      0 link         9,072b rx
+    6kB    21 ifc                                                                                                     [ . : . | . : . ]       1.2      [ . : . | . : . ]
+    6kB    -- rules (variable)                                                                                                       0b tx      0 link             0b rx
+    5kB    60 vaddr                                                                                                   [ . : . | . : . ]       1.3      [ . : . | . : . ]
+    5kB    -- acl (variable)                                                                                                         0b tx      0 link             0b rx
+    5kB    -- sso (variable)                                                                                          [ . : . | . : . ]       1.4      [ . : . | . : . ]
+    5kB    -- web application (variable)                                                                                             0b tx      0 link             0b rx
+    4kB    44 laddr                                                                                                   [ . : . | . : . ]       1.5      [ . : . | . : . ]
+   22kB    -- (unseen)                                                                                                               0b tx      0 link             0b rx
+		</screen>
+	</section>
+	<section id="physmem">
+		<title>physmem</title>
+		<screen>
+[root@F5:Active] config # physmem -m
+8192
+		</screen>
+	</section>
+</chapter>

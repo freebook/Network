@@ -1,0 +1,12 @@
+#!/bin/bash
+grep "[0-9].*\.[0-9].*\.[0-9].*\.[0-9].*" dns.lst | awk -F ':' '{print $2}' > ping.lst
+
+for addr in `cat ping.lst`
+do
+        ping -c 5 -s 128 -W 5 $addr
+        echo
+        echo
+#       echo "" >> report.txt
+done
+# > report.txt &
+

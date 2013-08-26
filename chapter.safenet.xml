@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="safenet">
+	<title>safenet</title>
+	<para>/safeconfig/key.properties</para>
+	<screen>
+cat /safeconfig/key.properties
+
+Myid01-key.username=Myid01
+Myid01-key.password=P@ssw0rd
+	</screen>
+	<para></para>
+	<screen>
+# ll /usr/local/
+total 128
+drwxr-xr-x  6 root root 4096 Apr 19  2012 apache-ant-1.8.2
+drwxr-xr-x 10 root root 4096 Apr  2 16:44 apache-tomcat-7.0.21
+drwxr-xr-x  8 root root 4096 Apr 19  2012 axis2-1.6.1
+drwxr-xr-x  2 root root 4096 Jan 27  2010 bin
+drwxr-xr-x  2 root root 4096 Jan 27  2010 etc
+drwxr-xr-x  2 root root 4096 Jan 27  2010 games
+drwxr-xr-x  2 root root 4096 Jan 27  2010 include
+drwxr-xr-x  6 root root 4096 Apr 19  2012 IngrianJCE
+drwxr-xr-x  3 root root 4096 Apr 19  2012 java
+drwxr-xr-x  2 root root 4096 Jan 27  2010 lib
+drwxr-xr-x  2 root root 4096 Jan 27  2010 lib64
+drwxr-xr-x  2 root root 4096 Jan 27  2010 libexec
+drwxr-xr-x  2 root root 4096 Jan 27  2010 sbin
+drwxr-xr-x  2 root root 4096 Apr 19  2012 set-path
+drwxr-xr-x  4 root root 4096 Apr 19  2012 share
+drwxr-xr-x  2 root root 4096 Jan 27  2010 src
+	</screen>
+	<para>set-path</para>
+	<screen>
+# cat /usr/local/set-path/set-path
+#set $PATH
+export PATH=/usr/local/apache-ant-1.8.2/bin:/usr/local/java/jdk1.6.0_27:/user/local/java/jdk1.6.0_27/bin:$PATH
+
+
+#set $CLASSPATH
+export CLASSPATH=/usr/local/java/jdk1.6.0_27/jre/lib/ext/IngrianNAE-5.1.1.jar:/usr/local/apache-tomcat-7.0.21/lib/servlet-api.jar:/usr/local/apache-tomcat-7.0.21/lib/tomcat-api.jar:/usr/local/apache-tomcat-7.0.21/lib/tomcat-coyote.jar:/usr/local/apache-tomcat-7.0.21/lib/tomcat-util.jar:/usr/local/apache-tomcat-7.0.21/bin/tomcat-juli.jar
+
+
+#set $JAVA_HOME
+export JAVA_HOME=/usr/local/java/jdk1.6.0_27
+
+
+#set $AXIS_HOME
+export AXIS2_HOME=/usr/local/axsis2-1.6.1
+	</screen>
+	<para>/etc/profile</para>
+	<screen>
+#set $PATH
+export PATH=/usr/local/apache-ant-1.8.2/bin:/usr/local/java/jdk1.6.0_27:/usr/local/java/jdk1.6.0_27/bin:$PATH
+
+#set $CLASSPATH
+export CLASSPATH=.:/usr/local/java/jdk1.6.0_27/jre/lib/ext/IngrianNAE-5.1.1.jar:/usr/local/apache-tomcat-7.0.21/lib/servlet-api.jar:/usr/local/apache-tomcat-7.0.21/lib/tomcat-api.jar:/usr/local/apache-tomcat-7.0.21/lib/tomcat-coyote.jar:/usr/local/apache-tomcat-7.0.21/lib/tomcat-util.jar:/usr/local/apache-tomcat-7.0.21/bin/tomcat-juli.jar
+
+#set $JAVA_HOME
+export JAVA_HOME=/usr/local/java/jdk1.6.0_27
+
+export AXIS2_HOME=/usr/local/axsis2-1.6.1
+	</screen>
+</chapter>

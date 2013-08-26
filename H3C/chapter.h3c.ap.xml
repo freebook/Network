@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: chapter.h3c.ap.xml 408 2012-05-11 11:24:49Z netkiller $ -->
+<chapter id="ap">
+	<title>H3C WA2220E-AG</title>
+	<para>默认参数</para>
+	<screen>
+IP：192.168.0.50
+User: admin
+Password: h3capadmin
+SSID: H3C
+HTTP：enable
+	</screen>
+	<section id="user-interface">
+		<title>用户界面</title>
+		<screen>
+		<![CDATA[
+[WA2220E-AG]display user-interface
+  Idx  Type     Tx/Rx      Modem Privi Auth  Int
++ 0    CON 0    9600       -     3     N     -
+  1    VTY 0               -     0     A     -
+  2    VTY 1               -     0     A     -
+  3    VTY 2               -     0     A     -
+  4    VTY 3               -     0     A     -
+  5    VTY 4               -     0     A     -
+  +    : Current UI is active.
+  F    : Current UI is active and work in async mode.
+  Idx  : Absolute index of UIs.
+  Type : Type and relative index of UIs.
+  Privi: The privilege of UIs.
+  Auth : The authentication mode of UIs.
+  Int  : The physical location of UIs.
+  A    : Authentication use AAA.
+  L    : Authentication use local database.
+  N    : Current UI need not authentication.
+  P    : Authentication use current UI's password.
+		]]>
+		</screen>
+		<section id="ap.console">
+			<title>Console</title>
+			<screen>
+			<![CDATA[
+system-view
+user-interface aux 0
+authentication-mode password
+set authentication password simple chen
+			]]>
+			</screen>
+		</section>
+		<section id="ap.webui">
+			<title>启用HTTP</title>
+			<para>status</para>
+			<screen>
+			<![CDATA[
+[WA2220E-AG]display ip http
+HTTP port: 80
+WLAN ACL: 0
+Basic ACL: 0
+Current connection: 0
+Operation status: Running
+			]]>
+			</screen>
+			<para>enable</para>
+			<screen>
+			<![CDATA[
+<WA2220E-AG>system-view
+[WA2220E-AG]ip http enable
+Info: HTTP server has been started!
+			]]>
+			</screen>
+			<para>disable</para>
+			<screen>
+			<![CDATA[
+[WA2220E-AG]undo ip http enable
+[WA2220E-AG]
+%Apr 26 12:28:31:522 2000 WA2220E-AG HTTPD/4/Log:Stop HTTP server.
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>Telnet</title>
+			<para>启动</para>
+			<screen>
+			<![CDATA[
+<WA2220E-AG>system-view
+System View: return to User View with Ctrl+Z.
+[WA2220E-AG]telnet server enable
+% Start Telnet server
+
+[WA2220E-AG]telnet server enable
+% Telnet server has been started
+			]]>
+			</screen>
+			<para>关闭</para>
+			<screen>
+			<![CDATA[
+[WA2220E-AG]telnet server enable
+% Start Telnet server
+			]]>
+			</screen>
+			<para>设置密码</para>
+			<screen>
+			<![CDATA[
+[WA2220E-AG]user-interface vty 0 4
+[WA2220E-AG-ui-vty0-4]authentication-mode password
+[WA2220E-AG-ui-vty0-4]set authentication password cipher your_password
+[WA2220E-AG-ui-vty0-4]user privilege level 2
+[WA2220E-AG-ui-vty0-4]quit
+			]]>
+			</screen>
+		</section>
+	</section>
+	<section id="ap.local-user">
+		<title>用户认证</title>
+		<screen>
+[H3C]local-user neo
+New local user added.
+[H3C-luser-neo]password cipher chen
+[H3C-luser-neo]service-type telnet terminal
+[H3C-luser-neo]
+		</screen>
+	</section>	
+	<section id="ap.mode">
+		<title>FAT/FIT AP </title>
+		<para>fat</para>
+		<screen>
+		<![CDATA[
+<WA2220E-AG>ap-mode fat
+ Current working mode is already FAT
+		]]>
+		</screen>
+		<para>fit</para>
+		<screen>
+		<![CDATA[
+<WA2220E-AG>ap-mode fit
+ Change working mode will reboot system, do you want to continue? [Y/N]:y
+ Change working mode to FIT now? [Y/N]:y
+		]]>
+		</screen>
+		<section>
+			<title>异常处理</title>
+			<screen>
+			<![CDATA[
+system start booting......Version  1.31
+
+      *******************************************************
+      *                                                     *
+      *          H3C WA2200 BootWare , Ver 1.31             *
+      *                                                     *
+      *******************************************************
+ Copyright(c) 2004-2009 Hangzhou H3C Tech. Co., Ltd. and its licensors.
+ Compiled date: Mar  4 2009, 19:30:07
+ CPU type        : PPC405EP
+ CPU L1 Cache    : 16KB
+ CPU Clock Speed : 266MHz
+ Memory Type     : SDRAM
+ Memory Size     : 64MB
+ Memory Speed    : 133MHz
+ BootWare Size   : 512KB
+ Flash  Size     : 8MB
+
+ HardWare Version is Ver.B
+
+
+  Application program does not exist.
+
+Press Ctrl+B to enter extended boot menu...
+  Please input BootWare password:
+===================<EXTEND-BOOTWARE MENU>====================
+| <1> Boot System                                           |
+| <2> Enter Serial SubMenu                                  |
+| <3> Enter Ethernet SubMenu                                |
+| <4> File Control                                          |
+| <5> Modify BootWare Password                              |
+| <6> Ignore System Configuration                           |
+| <7> BootWare Operation Menu                               |
+| <8> Clear Super Password                                  |
+| <9> Device Operation                                      |
+| <0> Reboot                                                |
+=============================================================
+Enter your choice(0-9):4
+
+========================<File CONTROL>=======================
+|Note:the operating device is Flash                         |
+| <1> Display All File(s)                                   |
+| <2> Delete File                                           |
+| <0> Exit To Main Menu                                     |
+=============================================================
+Enter your choice(0-3):1
+
+Display All File In flash:
+****************************************************************************
+ NO.    Size(B)                Time       Name
+  0     6285856   Oct-10-2002 10:10    flash:/wa2200_fat.bin
+  1         388   Apr-26-2000 13:52    flash:/private-data.txt
+  2       12149   Apr-26-2000 13:52    flash:/config.cwmp
+  3         470   Apr-26-2000 13:52    flash:/system.xml
+****************************************************************************
+
+========================<File CONTROL>=======================
+|Note:the operating device is Flash                         |
+| <1> Display All File(s)                                   |
+| <2> Delete File                                           |
+| <0> Exit To Main Menu                                     |
+=============================================================
+Enter your choice(0-3):0
+
+===================<EXTEND-BOOTWARE MENU>====================
+| <1> Boot System                                           |
+| <2> Enter Serial SubMenu                                  |
+| <3> Enter Ethernet SubMenu                                |
+| <4> File Control                                          |
+| <5> Modify BootWare Password                              |
+| <6> Ignore System Configuration                           |
+| <7> BootWare Operation Menu                               |
+| <8> Clear Super Password                                  |
+| <9> Device Operation                                      |
+| <0> Reboot                                                |
+=============================================================
+Enter your choice(0-9):9
+
+========================<Device CONTROL>=====================
+| <1> Display Current Device Model                          |
+| <2> Set The Device Into FIT AP Model                      |
+| <3> Set The Device Into FAT AP Model                      |
+| <0> Exit To Main Menu                                     |
+=============================================================
+Enter your choice(0-3):3
+........
+FAT AP Mode setting successfully.
+
+========================<Device CONTROL>=====================
+| <1> Display Current Device Model                          |
+| <2> Set The Device Into FIT AP Model                      |
+| <3> Set The Device Into FAT AP Model                      |
+| <0> Exit To Main Menu                                     |
+=============================================================
+Enter your choice(0-3):0
+
+===================<EXTEND-BOOTWARE MENU>====================
+| <1> Boot System                                           |
+| <2> Enter Serial SubMenu                                  |
+| <3> Enter Ethernet SubMenu                                |
+| <4> File Control                                          |
+| <5> Modify BootWare Password                              |
+| <6> Ignore System Configuration                           |
+| <7> BootWare Operation Menu                               |
+| <8> Clear Super Password                                  |
+| <9> Device Operation                                      |
+| <0> Reboot                                                |
+=============================================================
+Enter your choice(0-9):0
+			]]>
+			</screen>
+		</section>
+	</section>
+	<section id="ap.ipaddress">
+		<title>IP Address</title>
+		<screen>
+		<![CDATA[
+<WA2220E-AG>system-view
+System View: return to User View with Ctrl+Z.
+[WA2220E-AG]interface vlan-interface 1
+[WA2220E-AG-Vlan-interface1]ip address 172.16.1.1 24
+[WA2220E-AG-Vlan-interface1]quit
+		]]>
+		</screen>
+		<para>查看 IP 地址</para>
+		<screen>
+		<![CDATA[
+[WA2220E-AG]display ip interface
+Vlan-interface1 current state :UP
+Line protocol current state :UP
+Internet Address is 172.16.1.1/24 Primary
+Broadcast address : 172.16.1.255
+The Maximum Transmit Unit : 1500 bytes
+input packets : 476, bytes : 56024, multicasts : 0
+output packets : 439, bytes : 204306, multicasts : 0
+ARP packet input number:          12
+  Request packet:                 11
+  Reply packet:                    1
+  Unknown packet:                  0
+TTL invalid packet number:         0
+ICMP packet input number:          3
+  Echo reply:                      0
+  Unreachable:                     0
+  Source quench:                   0
+  Routing redirect:                0
+  Echo request:                    3
+  Router advert:                   0
+  Router solicit:                  0
+  Time exceed:                     0
+  IP header bad:                   0
+  Timestamp request:               0
+  Timestamp reply:                 0
+  Information request:             0
+  Information reply:               0
+  Netmask request:                 0
+  Netmask reply:                   0
+  Unknown type:                    0
+
+[WA2220E-AG]
+		]]>
+		</screen>
+	</section>
+	<section id="ap.ssid">
+		<title>SSID</title>
+		<para>禁用WLAN-BSS1</para>
+		<screen>
+		<![CDATA[
+[WA2220E-AG]interface WLAN-BSS1
+[WA2220E-AG-WLAN-BSS1]wlan service-template 1 clear
+[WA2220E-AG-wlan-st-1]service-template disable
+
+interface WLAN-BSS1
+wlan service-template 1 clear
+service-template disable
+		]]>
+		</screen>
+
+		<para>新建WLAN-BSS2</para>
+		<screen>
+		<![CDATA[
+[WA2220E-AG]interface WLAN-BSS2
+[WA2220E-AG-WLAN-BSS2]wlan service-template 2 clear
+[WA2220E-AG-wlan-st-2]ssid www.example.com
+[WA2220E-AG-wlan-st-2]authentication-method open-system
+[WA2220E-AG-wlan-st-2]service-template enable
+
+interface WLAN-BSS2
+wlan service-template 2 clear
+ssid www.example.com
+authentication-method open-system
+service-template enable
+		]]>
+		</screen>
+		<para>应用模板</para>
+		<screen>
+[WA2220E-AG]interface WLAN-Radio 1/0/2
+[WA2220E-AG-WLAN-Radio1/0/2]service-template 2 interface WLAN-BSS 2
+[WA2220E-AG-WLAN-Radio1/0/2]quit
+
+interface WLAN-Radio 1/0/2
+service-template 2 interface WLAN-BSS 2
+quit
+		</screen>
+	</section>
+	<section id="ap.login">
+		<title>用户验证</title>
+		<para></para>
+		<section>
+			<title>Telnet</title>
+			<screen>
+local-user neo
+ password simple chen
+ service-type telnet
+
+			</screen>
+		</section>
+		<section>
+			<title>WEP</title>
+			<para>WEP 加密</para>
+			<screen>
+			<![CDATA[
+<WA2220E-AG>system-view
+System View: return to User View with Ctrl+Z.
+[WA2220E-AG]interface WLAN-BSS2
+[WA2220E-AG-WLAN-BSS2]wlan service-template 2 crypto
+[WA2220E-AG-wlan-st-2]ssid www.example.com
+[WA2220E-AG-wlan-st-2]authentication-method open-system
+[WA2220E-AG-wlan-st-2]cipher-suite wep40
+[WA2220E-AG-wlan-st-2]wep default-key 1 wep40 pass-phrase 123456
+[WA2220E-AG-wlan-st-2]service-template enable
+
+[WA2220E-AG]interface WLAN-Radio 1/0/2
+[WA2220E-AG-WLAN-Radio1/0/2]service-template 2 interface WLAN-BSS 2
+[WA2220E-AG-WLAN-Radio1/0/2]quit
+			]]>
+			</screen>
+			<literallayout>
+interface WLAN-BSS2
+wlan service-template 2 crypto
+ssid www.example.com
+authentication-method open-system
+cipher-suite wep40
+wep default-key 1 wep40 pass-phrase 12345
+service-template enable
+
+interface WLAN-Radio 1/0/2
+service-template 2 interface WLAN-BSS 2
+			</literallayout>
+		</section>
+		<section>
+			<title>WAP2</title>
+			<screen>
+wlan service-template 2 crypto
+ ssid www.example.com
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+
+
+interface WLAN-BSS2
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase simple your_password
+
+ interface WLAN-Radio1/0/2
+ service-template 2 interface wlan-bss 2
+#
+
+			</screen>
+		</section>
+		<section>
+			<title>WAP2 cipher</title>
+			<screen>
+ wlan service-template 3 crypto
+ ssid www.example.com
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+
+interface WLAN-BSS3
+ port link-type hybrid
+ port hybrid vlan 1 untagged
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase cipher wrWR2LZofLw4qvbcs+daVw==
+#
+interface WLAN-Radio1/0/2
+ service-template 3 interface wlan-bss 3
+#
+			</screen>
+		</section>
+		<section>
+			<title>Mac</title>
+			<screen>
+配置radius scheme：
+radius scheme mac-radius
+primary authentication 192.168.30.3
+primary accounting 192.168.30.3
+secondary authentication 192.168.30.4
+secondary accounting 192.168.30.4
+key authentication 123456
+key accounting 123456
+user-name-format without-domain
+
+2、配置MAC认证的域：
+domain mac-dom
+authentication default radius-scheme mac-radius
+authorization default radius-scheme mac-radius
+accounting default radius-scheme mac-radius
+access-limit disable
+state active
+idle-cut disable
+self-service-url disable
+
+3、配置全局MAC认证：
+port-security enable
+mac-authentication domain mac-dom
+
+4、开启无线端口的MAC认证
+[AP01]  int WLAN-BSS 1
+[AP01-WLAN-BSS1]   port-security port-mode mac-authentication
+[AP01]  int WLAN-BSS 2
+[AP01-WLAN-BSS2]   port-security port-mode mac-authentication
+			</screen>
+		</section>
+	</section>
+	<section id="ap.wlan">
+		<title>WLAN</title>
+		<screen>
+[WA2220E-AG-wlan-st-2]display wlan client
+ Total Number of Clients           : 2
+ Total Number of Clients Connected : 2
+                              Client Information
+-------------------------------------------------------------------------------
+ MAC Address        BSSID              AID    State           PS Mode  QoS Mode
+-------------------------------------------------------------------------------
+ 0012-7b42-8bd2     0023-898b-10d1     127    Running         Active   None
+ d85d-4c7d-7cbb     0023-898b-10d1     126    Running         Active   WMM
+-------------------------------------------------------------------------------
+		</screen>
+		<section>
+			<title>用户互通与隔离</title>
+			<screen>
+			<![CDATA[
+<WA2220E-AG>system-view
+System View: return to User View with Ctrl+Z.
+[WA2220E-AG]l2fw wlan-client-isolation enable
+% Info: wlan-client-isolation is enabled.
+			]]>
+			</screen>
+
+			<screen>
+			<![CDATA[
+<WA2220E-AG>system-view
+System View: return to User View with Ctrl+Z.
+[WA2220E-AG]undo l2fw wlan-client-isolation enable
+% Info: wlan-client-isolation is disabled.
+			]]>
+			</screen>
+		</section>
+	</section>
+	<section id="ap.dhcp">
+		<title>DHCP</title>
+		<para>H3C WA2220E-AG 这款不支持DHCP</para>
+	</section>
+</chapter>

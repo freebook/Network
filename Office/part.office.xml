@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: part.office.xml 358 2012-03-01 12:11:22Z netkiller $ -->
+<part id="index"><?dbhtml dir="office" ?>
+	<title>Office network</title>
+	&chapter.network.xml;
+	&chapter.office.windows.xml;
+	&chapter.office.workstation.xml;
+</part>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<part>
+	<title>WMware</title>
+</part>
+-->
+<chapter id="wmware">
+	<title>WMware</title>
+	<para><ulink url="http://www.vmware.com/">http://www.vmware.com/</ulink></para>
+	<section id="esxi">
+		<title>WMware ESXi</title>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000034.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000035.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000036.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000037.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000038.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000039.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000040.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000042.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-000043.png" srccredit="neo" width=""/></para>
+		<para>ESXi 界面</para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-esxi.png" srccredit="neo" width=""/></para>
+		<para>F2键进入</para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-login.png" srccredit="neo" width=""/></para>
+		<para>更改root密码</para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-password-1.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-password-2.png" srccredit="neo" width=""/></para>
+		<para>配置网络</para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-network-1.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-network-2.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-network-3.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-network-4.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMware-network-5.png" srccredit="neo" width=""/></para>
+	</section>
+	<section id="vsphere">
+		<title>VMware vSphere Client</title>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000054.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000055.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000056.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000057.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000058.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000059.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000060.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000061.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000062.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000063.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000064.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000065.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000066.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000067.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000068.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000069.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000070.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000071.png" srccredit="neo" width=""/></para>
+		<para><graphic  format="png" fileref="images/vmware/VMwarevSphereClient-000072.png" srccredit="neo" width=""/></para>
+	</section>
+</chapter>

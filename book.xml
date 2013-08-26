@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: book.xml 643 2013-07-19 07:13:13Z netkiller $ -->
+<?xml-stylesheet type="text/xsl" href="../stylesheet/docbook-article.xsl"?>
+<!-- DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN"
+	"http://www.oasis-open.org/docbook/xml/5.0b5/dtd/docbook.dtd" [ -->
+<!DOCTYPE subject SYSTEM "/usr/share/xml/docbook/schema/dtd/5.0/docbook.dtd"
+	[
+	<!ENTITY book.info.legalnotice.xml	SYSTEM "../common/book.info.legalnotice.xml">
+	<!ENTITY book.info.abstract.xml		SYSTEM "../common/book.info.abstract.xml">
+	<!ENTITY book.preface.xml			SYSTEM "../common/book.preface.xml">
+	<!ENTITY preface.about.me.xml       SYSTEM "../common/about.me.xml">
+	<!ENTITY book.dedication.xml       	SYSTEM "../common/book.dedication.xml">
+
+	<!ENTITY chapter.cisco.xml			SYSTEM "chapter.cisco.xml">
+
+	<!ENTITY chapter.h3c.xml			SYSTEM "H3C/chapter.h3c.xml">
+	<!ENTITY chapter.h3c.ap.xml			SYSTEM "H3C/chapter.h3c.ap.xml">
+	<!ENTITY chapter.h3c.switch.xml		SYSTEM "H3C/chapter.h3c.switch.xml">
+
+	<!ENTITY chapter.juniper.xml		SYSTEM "Juniper/chapter.juniper.xml">
+	<!ENTITY chapter.juniper.policy.xml	SYSTEM "Juniper/chapter.juniper.policy.xml">
+	<!ENTITY chapter.juniper.flow.xml	SYSTEM "Juniper/chapter.juniper.flow.xml">
+
+	<!ENTITY % dell.doctype.entity.xml 			SYSTEM "DELL/doctype.entity.xml">
+	%dell.doctype.entity.xml;
+
+	<!ENTITY % ibm.doctype.entity.xml 			SYSTEM "IBM/doctype.entity.xml">
+	%ibm.doctype.entity.xml;
+
+	<!ENTITY chapter.hp.xml						SYSTEM "HP/chapter.hp.xml">
+
+	<!ENTITY chapter.f5.xml						SYSTEM "F5/chapter.f5.xml">
+	<!ENTITY chapter.f5.bigpipe.xml				SYSTEM "F5/chapter.f5.bigpipe.xml">
+	<!ENTITY chapter.f5.bigpipe.traffic.xml		SYSTEM "F5/chapter.f5.bigpipe.traffic.xml">
+	<!ENTITY chapter.f5.bigpipe.network.xml	 	SYSTEM "F5/chapter.f5.bigpipe.network.xml">
+	<!ENTITY chapter.f5.bigpipe.system.xml		SYSTEM "F5/chapter.f5.bigpipe.system.xml">
+	<!ENTITY chapter.f5.icontrol.xml			SYSTEM "F5/chapter.f5.icontrol.xml">
+
+	<!ENTITY chapter.array.xml				SYSTEM "Array/chapter.array.xml">
+	<!ENTITY chapter.a10.xml				SYSTEM "chapter.a10.xml">
+	<!ENTITY chapter.banggoo.xml			SYSTEM "chapter.banggoo.xml">
+
+	<!ENTITY chapter.sonicwall.xml			SYSTEM "SonicWALL/chapter.sonicwall.xml">
+
+	<!ENTITY part.office.xml				SYSTEM "Office/part.office.xml">
+	<!ENTITY chapter.network.xml			SYSTEM "Office/chapter.network.xml">
+	<!ENTITY chapter.office.route.xml		SYSTEM "Office/chapter.office.route.xml">
+	<!ENTITY chapter.office.windows.xml		SYSTEM "Office/chapter.office.windows.xml">
+	<!ENTITY chapter.office.workstation.xml	SYSTEM "Office/chapter.office.workstation.xml">
+
+	<!ENTITY chapter.vmware.xml 			SYSTEM "VMware/chapter.vmware.xml">
+
+	<!ENTITY % idc.doctype.entity.xml 		SYSTEM "IDC/doctype.entity.xml">
+	%idc.doctype.entity.xml;
+
+
+]>
+<book xml:base="http://netkiller.github.net/intranet/"
+	xmlns="http://docbook.org/ns/docbook" xml:lang="zh-cn">
+	<info>
+		<title>Netkiller Network 手札</title>
+		<subtitle>Enterprise Intranet (Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell)</subtitle>
+		<authorgroup>
+		<author>
+			<firstname>netkiller</firstname>
+			<surname>Neo Chan</surname>
+			<address>
+				<phone>13113668890</phone>
+				<email>openunix(at)163(dot)com</email>
+			</address>
+			<affiliation>
+
+			</affiliation>
+		</author>
+
+		</authorgroup>
+		<copyright>
+			<year>2010</year>
+			<year>2011</year>
+			<year>2012</year>
+			<year>2013</year>
+			<holder>Neo Chan</holder>
+		</copyright>
+		<releaseinfo>
+			<remark>2010-4-23</remark>
+		</releaseinfo>
+
+		&book.info.legalnotice.xml;
+		&book.info.abstract.xml;
+
+		<keywordset>
+			<keyword>Cisco, H3C, Juniper</keyword>
+			<keyword>F5 BIG-IP, Array</keyword>
+			<keyword>Dell, IBM, HP</keyword>
+			<keyword></keyword>
+			<keyword></keyword>
+		</keywordset>
+
+	</info>
+
+	&book.dedication.xml;
+	&book.preface.xml;
+
+	&chapter.idc.xml;
+	&part.office.xml;
+
+	&chapter.cisco.xml;
+	&chapter.juniper.xml;
+	&chapter.h3c.xml;
+	&chapter.dell.xml;
+	&chapter.hp.xml;
+	&chapter.ibm.xml;
+	&chapter.f5.xml;
+	&chapter.array.xml;
+	&chapter.a10.xml;
+	&chapter.banggoo.xml;
+	&chapter.vmware.xml;
+	&chapter.sonicwall.xml;
+
+</book>

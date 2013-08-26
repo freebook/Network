@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="ibm">
+	<title>IBM</title>
+	<section id="ibm.imm">
+		<title>IMM</title>
+		<para>
+要访问Web 界面，您需要可通过Setup Utility 获取的IMM IP 地址。要获取该IP 地
+址，请完成以下步骤：
+		</para>
+		<screen>
+		<![CDATA[
+1. 开启服务器。
+2. 当显示<F1> Setup 提示时，请按F1 键。如果您设置了开机密码和管理员密码，
+那么必须输入管理员密码才能访问完整的Setup Utility 菜单。
+3. 选择System Settings → Integrated Management Module → Network Configuration。
+4. 找到该IP 地址。
+5. 退出Setup Utility。	
+		]]>
+		</screen>
+		<para>
+注：最初设置的IMM 用户名为USERID，密码为PASSW0RD（其中的“0”是数
+字“零”，而不是字母“O”）。您具有读/写访问权。当您第一次登录时，必须更
+改缺省密码。		
+		</para>
+	</section>
+</chapter>

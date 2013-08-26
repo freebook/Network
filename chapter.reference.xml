@@ -1,0 +1,23 @@
+<chapter>
+	<title>FAQ</title>
+	<section>
+		<title>switchport trunk encapsulation dot1q 提示 invaild input at^marker.</title>
+		<para>switchport trunk encapsulation dot1q它提示无效的输入 invaild input at^marker.^就是指向encapsulation的位置</para>
+		<para>对于switchport trunk encapsulation dot1q中的错误是因为encapsulation dot1q 是不用配置的，也就是说它只支持dot1q协议。不用配置。如果你遇到一个支持sli 和dot1q两个协议的交换机时才用。 </para>
+	</section>
+</chapter>
+<chapter>
+	<title>Reference</title>
+	<section>
+		<title>Cisco IOS IP Configuration Guide, Release 12.2</title>
+		<para>http://www.cisco.com/en/US/docs/ios/12_2/ip/configuration/guide/fipr_c.html</para>
+	</section>
+	<section>
+		<title>Cisco IOS Firewall</title>
+		<para>http://www.cisco.com/en/US/products/sw/secursw/ps1018/tsd_products_support_series_home.html</para>
+	</section>
+	<section>
+		<title>Network Command</title>
+		<para>http://networkcommand.org/cisco/</para>
+	</section>
+</chapter>

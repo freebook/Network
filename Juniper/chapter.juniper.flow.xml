@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter>
+	<title>Juniper Flow</title>
+	<screen>
+interfaces {
+    ge-0/3/0 {
+        unit 0 {
+            family inet {
+                filter {
+                    input all;
+                    output all;
+                }
+                address 10.0.0.1/24;
+            }
+        }
+    }
+
+firewall {
+    filter all {
+        term all {
+            then {
+                sample;
+                accept;
+            }
+        }
+    }
+}
+
+forwarding-options {
+    sampling {
+        input {
+            family inet {
+                rate 100;
+            }
+        }
+        output {
+            cflowd 10.0.0.100 {
+                port 9800;
+                version 5;
+            }
+        }
+    }
+}
+	</screen>
+	<para>调试命令</para>
+	<screen>
+debug flow basic
+debug flow drop
+undebug all
+
+get dbuf stream
+	</screen>
+</chapter>

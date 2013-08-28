@@ -13,6 +13,7 @@
 
 	<!ENTITY chapter.cisco.xml			SYSTEM "chapter.cisco.xml">
 
+	<!ENTITY part.h3c.xml			SYSTEM "part.h3c.xml">
 	<!ENTITY chapter.h3c.xml			SYSTEM "H3C/chapter.h3c.xml">
 	<!ENTITY chapter.h3c.ap.xml			SYSTEM "H3C/chapter.h3c.ap.xml">
 	<!ENTITY chapter.h3c.switch.xml		SYSTEM "H3C/chapter.h3c.switch.xml">
@@ -106,7 +107,7 @@
 
 	&chapter.cisco.xml;
 	&chapter.juniper.xml;
-	&chapter.h3c.xml;
+	&part.h3c.xml;
 	&chapter.dell.xml;
 	&chapter.hp.xml;
 	&chapter.ibm.xml;

@@ -1,3 +1,6 @@
 [submodule "Cisco"]
 	path = Cisco
 	url = https://github.com/freebook/Cisco.git
+[submodule "H3C"]
+	path = H3C
+	url = https://github.com/freebook/H3C.git

@@ -1,0 +1,110 @@
+<chapter id="ruckus">
+  <title>Ruckus</title>
+  <section>
+    <title>SSH</title>
+    <screen>
+$ ssh super@192.168.0.1
+
+
+Connecting to 192.168.0.1:22...
+Connection established.
+To escape to local shell, press 'Ctrl+Alt+]'.
+
+
+Please login: super
+password : 
+Copyright(C) 2005-2008 Ruckus Wireless, Inc. All Rights Reserved.
+rkscli: 
+    </screen>
+    
+    <screen>
+rkscli: get vlan all
+---------------------------------------
+Network  0: (Management) VID 1
+	Services: DHCP Client
+	Eth Port (no tag): 0,1 
+	Wireless (no tag):
+		 - wlan2 (Wireless 3)
+		 - wlan3 (Wireless 4)
+		 - wlan4 (Wireless 5)
+		 - wlan5 (Wireless 6)
+		 - wlan6 (Wireless 7)
+		 - wlan7 (Home)
+---------------------------------------
+Network  4: (Vlan A) VID 2
+	Services: 
+	Eth Port (tagged): 0,1 
+	Wireless (no tag):
+		 - wlan0 (Company)
+---------------------------------------
+Network  5: (Vlan B) VID 3
+	Services: 
+	Eth Port (tagged): 0,1 
+	Wireless (no tag):
+		 - wlan1 (Visitor)
+---------------------------------------
+
+OK
+rkscli:
+
+
+rkscli: get wlanlist
+name         status   type   wlanID   radioID  bssid            
+-----------------------------------------------------------
+svcp         up       AP     wlan0    0        c4:10:8a:1c:cf:b8
+home         up       AP     wlan1    0        c4:10:8a:5c:cf:b8
+rcks         down     AP     wlan2    0        00:00:00:00:00:00
+mdfx         down     AP     wlan3    0        00:00:00:00:00:00
+wlan4        down     AP     wlan4    0        00:00:00:00:00:00
+wlan5        down     AP     wlan5    0        00:00:00:00:00:00
+wlan6        down     AP     wlan6    0        00:00:00:00:00:00
+wlan7        up       AP     wlan7    0        c4:10:8a:dc:cf:b9
+OK
+rkscli: 
+
+rkscli: get eth 
+
+Interface   Logical Link Status
+--------------------------------
+     eth0            Down
+     eth1            Up
+
+     Port   Physical Link Status
+--------------------------------
+        0            N
+        1            Y
+OK
+rkscli: get eth 0
+Ethernet state of Port 0: Disabled
+OK
+rkscli: get eth 1
+Ethernet state of Port 1: Enabled
+OK
+rkscli: 
+
+
+
+rkscli: get mq
+Missing WIFI name
+rkscli: get ntp
+Device GMT time   : Sat May 10 15:24:52 2014
+Active NTP Server : ntp.ruckuswireless.com
+Backup NTP Server : ntp.ruckuswireless.com
+OK
+rkscli:
+
+
+rkscli: get ssh
+SSH service is enabled
+OK
+
+
+rkscli: get passphrase Home
+Home WPA PassPhrase (16): ChenJingFeng2013
+OK
+
+
+
+    </screen>
+  </section>
+</chapter>

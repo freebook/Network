@@ -7,11 +7,11 @@
 	[
 	<!ENTITY book.info.legalnotice.xml	SYSTEM "../common/book.info.legalnotice.xml">
 	<!ENTITY book.info.abstract.xml		SYSTEM "../common/book.info.abstract.xml">
-	<!ENTITY book.preface.xml			SYSTEM "../common/book.preface.xml">
-	<!ENTITY preface.about.me.xml       SYSTEM "../common/about.me.xml">
+	<!ENTITY book.preface.xml		SYSTEM "../common/book.preface.xml">
+	<!ENTITY preface.about.me.xml       	SYSTEM "../common/about.me.xml">
 	<!ENTITY book.dedication.xml       	SYSTEM "../common/book.dedication.xml">
 
-	<!ENTITY chapter.cisco.xml			SYSTEM "chapter.cisco.xml">
+	<!ENTITY chapter.cisco.xml		SYSTEM "chapter.cisco.xml">
 
 	<!ENTITY part.h3c.xml			SYSTEM "part.h3c.xml">
 	<!ENTITY chapter.h3c.xml			SYSTEM "H3C/chapter.h3c.xml">
@@ -53,7 +53,9 @@
 
 	<!ENTITY % idc.doctype.entity.xml 		SYSTEM "IDC/doctype.entity.xml">
 	%idc.doctype.entity.xml;
-
+	
+	<!ENTITY % ruckus.doctype.entity.xml 		SYSTEM "Ruckus/doctype.entity.xml">
+	%ruckus.doctype.entity.xml;
 
 ]>
 <book xml:base="http://netkiller.github.net/intranet/"
@@ -115,6 +117,7 @@
 	&chapter.array.xml;
 	&chapter.a10.xml;
 	&chapter.banggoo.xml;
+	&chapter.ruckus.xml;
 	&chapter.vmware.xml;
 	&chapter.sonicwall.xml;
 

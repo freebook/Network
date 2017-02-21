@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: chapter.h3c.xml 539 2013-03-20 08:09:55Z netkiller $ -->
+<chapter id="command">
+	<title>H3C Command</title>
+	<section id="config">
+		<title>config</title>
+		<section>
+			<title>current-configuration</title>
+			<para>current-configuration</para>
+			<screen>
+			<![CDATA[
+[WA2220E-AG]display current-configuration
+#
+ version 5.20, Release 1110P01
+#
+ sysname WA2220E-AG
+#
+ domain default enable system
+#
+ telnet server enable
+#
+ port-security enable
+#
+vlan 1
+#
+radius scheme system
+#
+domain system
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+#
+user-group system
+#
+local-user admin
+ password simple h3capadmin
+ authorization-attribute level 3
+ service-type telnet
+#
+wlan rrm
+ dot11a mandatory-rate 6 12 24
+ dot11a supported-rate 9 18 36 48 54
+ dot11b mandatory-rate 1 2
+ dot11b supported-rate 5.5 11
+ dot11g mandatory-rate 1 2 5.5 11
+ dot11g supported-rate 6 9 12 18 24 36 48 54
+#
+wlan service-template 1 clear
+ ssid H3C
+ service-template enable
+#
+wlan service-template 2 crypto
+ ssid www.davosfair.com
+#
+interface NULL0
+#
+interface Vlan-interface1
+ ip address 172.16.1.1 255.255.255.0
+#
+interface Ethernet1/0/1
+#
+interface WLAN-BSS1
+#
+interface WLAN-BSS2
+#
+interface WLAN-Radio1/0/1
+ channel auto
+ max-power 19
+#
+interface WLAN-Radio1/0/2
+ channel 1
+ max-power 20
+ service-template 1 interface wlan-bss 1
+ service-template 2 interface wlan-bss 2
+#
+ ip route-static 0.0.0.0 0.0.0.0 172.16.0.254
+#
+ load xml-configuration
+#
+user-interface con 0
+user-interface vty 0 4
+ authentication-mode scheme
+#
+return
+[WA2220E-AG]
+
+			]]>
+			</screen>
+		</section>
+		<section id="saved-configuration">
+			<title>saved-configuration</title>
+			<para>saved-configuration</para>
+			<screen>
+			<![CDATA[
+[WA2220E-AG]display saved-configuration
+#
+ version 5.20, Release 1110P01
+#
+ sysname WA2220E-AG
+#
+ domain default enable system
+#
+ telnet server enable
+#
+ port-security enable
+#
+vlan 1
+#
+domain system
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+#
+user-group system
+#
+local-user admin
+ password simple h3capadmin
+ authorization-attribute level 3
+ service-type telnet
+#
+wlan rrm
+ dot11a mandatory-rate 6 12 24
+ dot11a supported-rate 9 18 36 48 54
+ dot11b mandatory-rate 1 2
+ dot11b supported-rate 5.5 11
+ dot11g mandatory-rate 1 2 5.5 11
+ dot11g supported-rate 6 9 12 18 24 36 48 54
+#
+wlan service-template 1 clear
+ ssid H3C
+#
+wlan service-template 2 clear
+ ssid www.example.com
+ service-template enable
+#
+interface NULL0
+#
+interface Vlan-interface1
+ ip address 192.168.0.50 255.255.255.0
+#
+interface Ethernet1/0/1
+#
+interface WLAN-BSS1
+#
+interface WLAN-BSS2
+#
+interface WLAN-Radio1/0/1
+ channel auto
+ max-power 19
+#
+interface WLAN-Radio1/0/2
+ channel 1
+ max-power 20
+ service-template 1 interface wlan-bss 1
+ service-template 2 interface wlan-bss 2
+#
+ load xml-configuration
+#
+user-interface con 0
+user-interface vty 0 4
+ authentication-mode scheme
+#
+return
+
+			]]>
+			</screen>
+		</section>
+		<section id="save">
+			<title>保存配置</title>
+			<screen>
+			<![CDATA[
+[WA2220E-AG]save
+The current configuration will be written to the device. Are you sure? [Y/N]:y
+Please input the file name(*.cfg)[flash:/startup.cfg]
+(To leave the existing filename unchanged, press the enter key):
+flash:/startup.cfg exists, overwrite? [Y/N]:y
+ Validating file. Please wait.............................
+ Configuration is saved to device successfully.
+			]]>
+			</screen>
+		</section>
+	</section>
+	<section id="boot-loader">
+		<title>boot-loader</title>
+		<screen>
+		<![CDATA[
+<H3C>dis   boot-loader
+ Unit 1:
+   The current boot app is: s36si_e-cmw310-r1702p13-s168.bin
+   The main boot app is:    s36si_e-cmw310-r1702p13-s168.bin
+   The backup boot app is:  s3900si-vrp310-t1540-bad.bin
+		]]>
+		</screen>
+	</section>
+
+	<section id="display">
+		<title>display</title>
+		<section>
+			<title>显示设备工作状态</title>
+			<screen>
+display lock
+display users
+display cpu
+display memory
+display fan
+display device
+display power
+			</screen>
+		</section>
+		<section>
+			<title>接口相关信息</title>
+			<screen>
+display arp | include 77
+display arp _count计算arp表的记录数
+display ndp 显示交换机端口的详细配置信息。
+display ntdp device-list verbose 收集设备详细信息
+			</screen>
+		</section>
+	</section>
+</chapter>

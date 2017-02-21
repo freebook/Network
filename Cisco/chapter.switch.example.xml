@@ -1,0 +1,2439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="switch.example">
+	<title>Switch Config Example</title>
+	<section id="vlan.routing">
+		<title>VLan Router</title>
+		<section>
+			<title>VLAN间DHCP</title>
+			<screen>
+			<![CDATA[
+Switch#vlan database
+% Warning: It is recommended to configure VLAN from config mode,
+  as VLAN database mode is being deprecated. Please consult user
+  documentation for configuring VTP/VLAN in config mode.
+
+Switch(vlan)#vlan 2 name development
+VLAN 2 modified:
+    Name: development
+Switch(vlan)#vlan 3 name market
+VLAN 3 modified:
+    Name: market
+Switch(vlan)#exit
+APPLY completed.
+Exiting....
+
+Switch#conf terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+Switch(config)#int vlan 2
+Switch(config-if)#ip address 192.168.8.1 255.255.255.0
+Switch(config-if)#exit
+Switch(config)#int vlan 3
+Switch(config-if)#ip address 192.168.9.1 255.255.255.0
+Switch(config-if)#exit
+
+Switch(config)#ip dhcp pool vlan2
+Switch(dhcp-config)#network 192.168.8.0 255.255.255.0
+Switch(dhcp-config)#default-router 192.168.8.254
+Switch(dhcp-config)#dns-server 208.67.222.222 208.67.220.220
+Switch(dhcp-config)#lease 7
+Switch(dhcp-config)#exit
+
+Switch(config)#ip dhcp pool vlan3
+Switch(dhcp-config)#network 192.168.9.0 255.255.255.0
+Switch(dhcp-config)#default-router 192.168.9.254
+Switch(dhcp-config)#dns-server 208.67.222.222 208.67.220.220
+Switch(dhcp-config)#lease 7
+Switch(dhcp-config)#exit
+
+Switch(config)#ip dhcp excluded 192.168.8.1 192.168.8.254
+Switch(config)#ip dhcp excluded 192.168.9.1 192.168.9.254
+
+Switch(config)#ip dhcp snooping
+Switch(config)#ip dhcp snooping vlan 2-3
+
+Switch(config)#interface  range f0/1 - 10
+Switch(config-if-range)#switchport access vlan 2
+Switch(config-if-range)#switchport mode access
+Switch(config-if-range)#spanning-tree portfast
+Switch(config-if-range)#ip dhcp snooping trust
+Switch(config-if-range)#exit
+Switch(config)#interface  range f0/11 - 20
+Switch(config-if-range)#switchport access vlan 3
+Switch(config-if-range)#switchport mode access
+Switch(config-if-range)#spanning-tree portfast
+Switch(config-if-range)#ip dhcp snooping trust
+Switch(config-if-range)#exit
+
+Switch(config)#interface GigabitEthernet0/1
+Switch(config-if)#switchport mode trunk
+Switch(config-if)#switchport trunk allowed vlan all
+Switch(config-if)#end
+			]]>
+			</screen>
+			<example>
+				<title>VLAN间DHCP实例</title>
+				<para>Cisco Catalyst 2960 Series Switches</para>
+				<screen>
+				<![CDATA[
+
+Switch#show running-config
+Building configuration...
+
+Current configuration : 4716 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$zQct$RlZjEVk3PV//OrS4KYm46.
+enable password 123456
+!
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+ip dhcp pool vlan2
+   network 192.168.8.0 255.255.255.0
+   default-router 192.168.8.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 192.168.9.0 255.255.255.0
+   default-router 192.168.9.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp snooping vlan 2-3
+no ip dhcp snooping information option
+ip dhcp snooping
+!
+!
+crypto pki trustpoint TP-self-signed-2135278336
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2135278336
+ revocation-check none
+ rsakeypair TP-self-signed-2135278336
+!
+!
+crypto pki certificate chain TP-self-signed-2135278336
+ certificate self-signed 01
+  3082023F 308201A8 A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 32313335 32373833 3336301E 170D3933 30333031 30303030
+  35315A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 31333532
+  37383333 3630819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100B628 478437A6 397971B0 B3A62590 C505A465 D7D1E604 DC5F92E2 68868536
+  286DA2A2 3C782BCC 47625B33 5CC22974 04B26BDF F353FEFB DE2A2F27 2964BC40
+  5CDEE5DE 7D9EB86F A32118E6 9345B5C4 8632832E 397D2F58 41F70394 EB49DCE9
+  633DABDF 140E6ECD BA8927B4 8EF18AAB 700C9063 2C571D79 04341253 08507FA4
+  5FB30203 010001A3 67306530 0F060355 1D130101 FF040530 030101FF 30120603
+  551D1104 0B300982 07537769 7463682E 301F0603 551D2304 18301680 1419F564
+  86C05FAB 617613B5 943AF70D 6754DF2C A3301D06 03551D0E 04160414 19F56486
+  C05FAB61 7613B594 3AF70D67 54DF2CA3 300D0609 2A864886 F70D0101 04050003
+  818100A2 3658FCD0 2E373F72 05DB683D 9EDD2244 0439DB83 AA6A65BE 14309A5C
+  9B317329 2E5B4275 0FA7A78C 7681F7EC 8DAD3CC8 85B315F1 DA43BFB4 B4D92F6F
+  0C983A7A 0C8030EE F0AE34DB 81C18F45 A2F2B98A 232430D5 EF2C3667 E9C2C1EF
+  C6457E0A 1EA81332 E7691037 6A2AFF97 DBCAFECB CB673797 7D2D0547 C1D742F0 F99208
+  quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface FastEthernet0/1
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/2
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/3
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/4
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/5
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/6
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/7
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/8
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/9
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/10
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/11
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/12
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+ switchport mode trunk
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Vlan2
+ ip address 192.168.8.1 255.255.255.0
+ no ip route-cache
+!
+interface Vlan3
+ ip address 192.168.9.1 255.255.255.0
+ no ip route-cache
+!
+no ip http server
+no ip http secure-server
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ password 123456
+ login
+line vty 5 15
+ password 123456
+ login
+!
+end
+
+Switch#
+				]]>
+				</screen>
+				<para>Cisco 2811 Router</para>
+				<screen>
+				<![CDATA[
+Router#show running-config
+Building configuration...
+
+Current configuration : 1103 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$d51C$qZVGfyDQJHQZ/W4muxjo4/
+enable password chen
+!
+no aaa new-model
+!
+resource policy
+!
+no network-clock-participate wic 0
+ip subnet-zero
+!
+!
+ip cef
+!
+!
+!
+!
+!
+controller E1 0/0/0
+!
+!
+interface FastEthernet0/0
+ ip address 192.168.3.39 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.1
+ encapsulation dot1Q 2
+ ip address 192.168.8.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.2
+ encapsulation dot1Q 3
+ ip address 192.168.9.254 255.255.255.0
+ no snmp trap link-status
+!
+router rip
+ network 192.168.3.0
+ network 192.168.8.0
+ network 192.168.9.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 192.168.3.1
+!
+no ip http server
+!
+snmp-server community public RO
+!
+control-plane
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ password 3655927
+ login
+!
+scheduler allocate 20000 1000
+!
+end
+
+Router#
+				]]>
+				</screen>
+			</example>
+		</section>
+		
+		<section id="vlan.dhcp.routing">
+			<title>多vlan与vlan间路由，并且每个vlan配合一个DHCP池，所有vlan均能访问internet</title>
+			<para>Cisco 2811 Router + 2960 Switch</para>
+			<screen>
+			<![CDATA[
+Router>enable
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ip dhcp excluded 192.168.8.1
+Router(config)#ip dhcp excluded 192.168.8.254
+Router(config)#ip dhcp excluded 192.168.9.1
+Router(config)#ip dhcp excluded 192.168.9.254
+
+Router(config)#ip dhcp pool vlan2
+Router(dhcp-config)#network 192.168.8.0 255.255.255.0
+Router(dhcp-config)#default-router 192.168.8.254
+Router(dhcp-config)#dns-server 208.67.222.222 208.67.220.220
+Router(dhcp-config)#lease 7
+Router(dhcp-config)#exit
+
+Router(config)#ip dhcp pool vlan3
+Router(dhcp-config)#network 192.168.9.0 255.255.255.0
+Router(dhcp-config)#default-router 192.168.9.254
+Router(dhcp-config)#dns-server 208.67.222.222 208.67.220.220
+Router(dhcp-config)#lease 7
+Router(dhcp-config)#exit
+
+Router(config)#interface f0/0
+Router(config-if)#ip address 172.16.0.1 255.255.255.0
+Router(config-if)#no shut
+Router(config-if)#exit
+
+Router(config)#interface f0/1
+Router(config-if)#description Connect to 2960_f0/24
+Router(config-if)#no shut
+Router(config-if)#exit
+
+Router(config)#interface f0/1.1
+Router(config-subif)#ip address 192.168.8.254 255.255.255.0
+
+% Configuring IP routing on a LAN subinterface is only allowed if that
+subinterface is already configured as part of an IEEE 802.10, IEEE 802.1Q,
+or ISL vLAN.
+
+Router(config-subif)#encapsulation dot1q 2
+Router(config-subif)#no shut
+Router(config-subif)#exit
+
+
+Router(config)#interface f0/1.2
+Router(config-subif)#ip address 192.168.9.254 255.255.255.0
+
+% Configuring IP routing on a LAN subinterface is only allowed if that
+subinterface is already configured as part of an IEEE 802.10, IEEE 802.1Q,
+or ISL vLAN.
+
+Router(config-subif)#encapsulation dot1q 3
+Router(config-subif)#no shut
+Router(config-subif)#exit
+
+Router(config)#ip routing
+Router(config)#ip route 0.0.0.0 0.0.0.0 172.16.0.254
+Router(config)#router rip
+Router(config-router)#network 172.16.0.0
+Router(config-router)#network 192.168.8.0
+Router(config-router)#network 192.168.9.0
+Router(config-router)#exit
+Router(config)#exit
+Router#wr
+Building configuration...
+[OK]
+
+
+			]]>
+			</screen>
+	<!--
+Router(config)#ip route 192.168.8.0 255.255.255.0 192.168.8.254
+Router(config)#ip route 192.168.9.0 255.255.255.0 192.168.9.254
+ -->
+			<screen>
+			<![CDATA[
+Switch(config)#interface  range f0/1 - 10
+Switch(config-if-range)#switchport access vlan 1
+Switch(config-if-range)#switchport mode access
+Switch(config-if-range)#spanning-tree portfast
+Switch(config-if-range)#no shut
+Switch(config-if-range)#exit
+
+Switch(config)#interface  range f0/11 - 20
+Switch(config-if-range)#switchport access vlan 2
+Switch(config-if-range)#switchport mode access
+Switch(config-if-range)#spanning-tree portfast
+Switch(config-if-range)#no shut
+Switch(config-if-range)#exit
+
+Switch(config)#interface f0/24
+Switch(config-if)#switchport mode trunk
+Switch(config-if)#switchport trunk encapsulation dot1q
+Switch(config-if)#switchport trunk allowed vlan all
+Switch(config-if)#no shut
+Switch(config-if)#exit
+
+Switch(config)#interface vlan 2
+Switch(config-if)#ip add 192.168.8.1 255.255.255.0
+192.168.8.0 overlaps with Vlan2
+Switch(config-if)#ip helper-address 192.168.8.254
+Switch(config-if)#no shut
+Switch(config-if)#exit
+
+Switch(config)#interface vlan 3
+Switch(config-if)#ip add 192.168.9.1 255.255.255.0
+Switch(config-if)#ip helper-address 192.168.9.254
+Switch(config-if)#no shut
+Switch(config-if)#exit
+
+Switch(config)#end
+Switch#wr
+Building configuration...
+[OK]
+
+			]]>
+			</screen>
+			<example>
+				<title>配置实例参考</title>
+				<para>Router: Cisco 2811 Series Routers</para>
+				<screen>
+				<![CDATA[
+Router#show running-config
+Building configuration...
+
+Current configuration : 1592 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$d51C$qZVGfyDQJHQZ/W4muxjo4/
+enable password chen
+!
+no aaa new-model
+!
+resource policy
+!
+no network-clock-participate wic 0
+ip subnet-zero
+!
+!
+ip cef
+no ip dhcp use vrf connected
+ip dhcp excluded-address 192.168.8.1
+ip dhcp excluded-address 192.168.8.254
+ip dhcp excluded-address 192.168.9.1
+ip dhcp excluded-address 192.168.9.254
+ip dhcp excluded-address 192.168.8.253
+!
+ip dhcp pool vlan2
+   network 192.168.8.0 255.255.255.0
+   default-router 192.168.8.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 192.168.9.0 255.255.255.0
+   default-router 192.168.9.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+!
+!
+!
+!
+controller E1 0/0/0
+!
+!
+interface FastEthernet0/0
+ ip address 192.168.3.39 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.1
+ encapsulation dot1Q 2
+ ip address 192.168.8.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.2
+ encapsulation dot1Q 3
+ ip address 192.168.9.254 255.255.255.0
+ no snmp trap link-status
+!
+router rip
+ network 192.168.3.0
+ network 192.168.8.0
+ network 192.168.9.0
+!
+
+Router#
+				]]>
+				</screen>
+				<para>Switch: Cisco Catalyst 2960 Series Switches</para>
+				<screen>
+				<![CDATA[
+Switch#show running-config
+Building configuration...
+
+Current configuration : 3502 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$zQct$RlZjEVk3PV//OrS4KYm46.
+enable password 123456
+!
+username neo password 0 chen
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+no ip dhcp snooping information option
+!
+!
+crypto pki trustpoint TP-self-signed-2135278336
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2135278336
+ revocation-check none
+ rsakeypair TP-self-signed-2135278336
+!
+!
+crypto pki certificate chain TP-self-signed-2135278336
+ certificate self-signed 01
+  3082023F 308201A8 A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 32313335 32373833 3336301E 170D3933 30333031 30303030
+  35315A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 31333532
+  37383333 3630819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100B628 478437A6 397971B0 B3A62590 C505A465 D7D1E604 DC5F92E2 68868536
+  286DA2A2 3C782BCC 47625B33 5CC22974 04B26BDF F353FEFB DE2A2F27 2964BC40
+  5CDEE5DE 7D9EB86F A32118E6 9345B5C4 8632832E 397D2F58 41F70394 EB49DCE9
+  633DABDF 140E6ECD BA8927B4 8EF18AAB 700C9063 2C571D79 04341253 08507FA4
+  5FB30203 010001A3 67306530 0F060355 1D130101 FF040530 030101FF 30120603
+  551D1104 0B300982 07537769 7463682E 301F0603 551D2304 18301680 1419F564
+  86C05FAB 617613B5 943AF70D 6754DF2C A3301D06 03551D0E 04160414 19F56486
+  C05FAB61 7613B594 3AF70D67 54DF2CA3 300D0609 2A864886 F70D0101 04050003
+  818100A2 3658FCD0 2E373F72 05DB683D 9EDD2244 0439DB83 AA6A65BE 14309A5C
+  9B317329 2E5B4275 0FA7A78C 7681F7EC 8DAD3CC8 85B315F1 DA43BFB4 B4D92F6F
+  0C983A7A 0C8030EE F0AE34DB 81C18F45 A2F2B98A 232430D5 EF2C3667 E9C2C1EF
+  C6457E0A 1EA81332 E7691037 6A2AFF97 DBCAFECB CB673797 7D2D0547 C1D742F0 F99208
+  quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/14
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+ switchport mode trunk
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Vlan2
+ ip address 192.168.8.1 255.255.255.0
+ ip helper-address 192.168.8.254
+ no ip route-cache
+!
+interface Vlan3
+ ip address 192.168.9.1 255.255.255.0
+ ip helper-address 192.168.9.254
+ no ip route-cache
+!
+no ip http server
+no ip http secure-server
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ password 123456
+ login
+line vty 5 15
+ password 123456
+ login
+!
+end
+
+Switch#
+
+				]]>
+				</screen>
+			</example>
+		</section>
+	</section>
+	
+	
+		
+
+	<section id="faq.switch.vlan">
+		<title>VLAN下联Switch</title>
+		<para>f0/21 与 f0/22 下个链接一个交换机并用vlan2,vlan3管理下联交换机</para>
+		<screen>
+		<![CDATA[
+Switch#show running-config
+Building configuration...
+
+Current configuration : 3800 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$zQct$RlZjEVk3PV//OrS4KYm46.
+enable password 123456
+!
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+ip dhcp pool vlan2
+   network 192.168.8.0 255.255.255.0
+   default-router 192.168.8.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 192.168.9.0 255.255.255.0
+   default-router 192.168.9.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp snooping vlan 2-3
+no ip dhcp snooping information option
+ip dhcp snooping
+!
+mls qos
+!
+crypto pki trustpoint TP-self-signed-2135278336
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2135278336
+ revocation-check none
+ rsakeypair TP-self-signed-2135278336
+!
+!
+crypto pki certificate chain TP-self-signed-2135278336
+ certificate self-signed 01
+  3082023F 308201A8 A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 32313335 32373833 3336301E 170D3933 30333031 30303030
+  35315A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 31333532
+  37383333 3630819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100B628 478437A6 397971B0 B3A62590 C505A465 D7D1E604 DC5F92E2 68868536
+  286DA2A2 3C782BCC 47625B33 5CC22974 04B26BDF F353FEFB DE2A2F27 2964BC40
+  5CDEE5DE 7D9EB86F A32118E6 9345B5C4 8632832E 397D2F58 41F70394 EB49DCE9
+  633DABDF 140E6ECD BA8927B4 8EF18AAB 700C9063 2C571D79 04341253 08507FA4
+  5FB30203 010001A3 67306530 0F060355 1D130101 FF040530 030101FF 30120603
+  551D1104 0B300982 07537769 7463682E 301F0603 551D2304 18301680 1419F564
+  86C05FAB 617613B5 943AF70D 6754DF2C A3301D06 03551D0E 04160414 19F56486
+  C05FAB61 7613B594 3AF70D67 54DF2CA3 300D0609 2A864886 F70D0101 04050003
+  818100A2 3658FCD0 2E373F72 05DB683D 9EDD2244 0439DB83 AA6A65BE 14309A5C
+  9B317329 2E5B4275 0FA7A78C 7681F7EC 8DAD3CC8 85B315F1 DA43BFB4 B4D92F6F
+  0C983A7A 0C8030EE F0AE34DB 81C18F45 A2F2B98A 232430D5 EF2C3667 E9C2C1EF
+  C6457E0A 1EA81332 E7691037 6A2AFF97 DBCAFECB CB673797 7D2D0547 C1D742F0 F99208
+  quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/22
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+ switchport mode trunk
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Vlan2
+ ip address 192.168.8.1 255.255.255.0
+ no ip route-cache
+!
+interface Vlan3
+ ip address 192.168.9.1 255.255.255.0
+ no ip route-cache
+!
+no ip http server
+no ip http secure-server
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ password 123456
+ login
+line vty 5 15
+ password 123456
+ login
+!
+end
+		]]>
+		</screen>
+	</section>
+	<section id="faq.lan2lan">
+		<title>LAN to LAN</title>
+		<para><![CDATA[ LAN -> Route <- LAN ]]></para>
+		<screen>
+		<![CDATA[
+Router#sh run
+Building configuration...
+
+*Dec 18 09:36:02.775: %SYS-5-CONFIG_I: Configured from console by console
+Current configuration : 700 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+resource policy
+!
+no network-clock-participate wic 0
+ip subnet-zero
+!
+!
+ip cef
+!
+!
+!
+!
+!
+controller E1 0/0/0
+!
+!
+interface FastEthernet0/0
+ ip address 192.168.3.39 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 192.168.6.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+ip default-gateway 192.168.3.1
+ip classless
+ip route 0.0.0.0 0.0.0.0 192.168.3.1
+!
+no ip http server
+!
+!
+control-plane
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+!
+scheduler allocate 20000 1000
+!
+end
+
+Router#
+
+		]]>
+		</screen>
+	</section>
+	<section id="2811-2960">
+		<title>Cisco 2811 Router + 2960 Switch</title>
+		<example>
+			<title>Cisco 2811 Router + 2960 Switch</title>
+			<screen>
+			<![CDATA[
+enable
+configure terminal
+!
+ip dhcp excluded-address 192.168.6.1
+ip dhcp excluded-address 192.168.6.254
+ip dhcp excluded-address 192.168.7.1
+ip dhcp excluded-address 192.168.7.254
+ip dhcp excluded-address 192.168.8.1
+ip dhcp excluded-address 192.168.8.254
+ip dhcp excluded-address 192.168.9.1
+ip dhcp excluded-address 192.168.9.254
+
+!
+ip dhcp pool vlan2
+   network 192.168.6.0 255.255.255.0
+   default-router 192.168.6.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 192.168.7.0 255.255.255.0
+   default-router 192.168.7.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan4
+   network 192.168.8.0 255.255.255.0
+   default-router 192.168.8.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan5
+   network 192.168.9.0 255.255.255.0
+   default-router 192.168.9.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp snooping
+ip dhcp snooping vlan 2-5
+!
+interface FastEthernet0/13
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/14
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/15
+ switchport access vlan 4
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/16
+ switchport access vlan 5
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface Vlan2
+ ip address 192.168.6.1 255.255.255.0
+ no ip route-cache
+!
+interface Vlan3
+ ip address 192.168.7.1 255.255.255.0
+ no ip route-cache
+!
+interface Vlan4
+ ip address 192.168.8.1 255.255.255.0
+ no ip route-cache
+!
+interface Vlan5
+ ip address 192.168.9.1 255.255.255.0
+ no ip route-cache
+!
+			]]>
+			</screen>
+			<para>Router</para>
+			<screen>
+			<![CDATA[
+interface FastEthernet0/0
+ ip address 192.168.3.39 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.1
+ encapsulation dot1Q 2
+ ip address 192.168.6.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.2
+ encapsulation dot1Q 3
+ ip address 192.168.7.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.3
+ encapsulation dot1Q 4
+ ip address 192.168.8.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.4
+ encapsulation dot1Q 5
+ ip address 192.168.9.254 255.255.255.0
+ no snmp trap link-status
+!
+router rip
+ network 192.168.3.0
+ network 192.168.8.0
+ network 192.168.9.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 192.168.3.1
+!
+			]]>
+			</screen>
+		</example>
+		<example>
+			<title>example 2</title>
+			<para>Switch</para>
+			<screen>
+			<![CDATA[
+interface FastEthernet0/13
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/14
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/15
+ switchport access vlan 4
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/16
+ switchport access vlan 5
+ switchport mode access
+ spanning-tree portfast
+!
+
+interface Vlan2
+ ip address 192.168.6.1 255.255.255.0
+ ip helper-address 192.168.6.254
+ no ip route-cache
+!
+interface Vlan3
+ ip address 192.168.7.1 255.255.255.0
+ ip helper-address 192.168.7.254
+ no ip route-cache
+!
+interface Vlan4
+ ip address 192.168.8.1 255.255.255.0
+ ip helper-address 192.168.8.254
+ no ip route-cache
+!
+interface Vlan5
+ ip address 192.168.9.1 255.255.255.0
+ ip helper-address 192.168.9.254
+ no ip route-cache
+!
+			]]>
+			</screen>
+			<para>Router</para>
+			<screen>
+			<![CDATA[
+ip dhcp excluded-address 192.168.6.1
+ip dhcp excluded-address 192.168.6.254
+ip dhcp excluded-address 192.168.7.1
+ip dhcp excluded-address 192.168.7.254
+ip dhcp excluded-address 192.168.8.1
+ip dhcp excluded-address 192.168.8.254
+ip dhcp excluded-address 192.168.9.1
+ip dhcp excluded-address 192.168.9.254
+
+!
+ip dhcp pool vlan2
+   network 192.168.6.0 255.255.255.0
+   default-router 192.168.6.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 192.168.7.0 255.255.255.0
+   default-router 192.168.7.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan4
+   network 192.168.8.0 255.255.255.0
+   default-router 192.168.8.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan5
+   network 192.168.9.0 255.255.255.0
+   default-router 192.168.9.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+interface FastEthernet0/0
+ ip address 192.168.3.39 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 172.16.0.254 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.1
+ encapsulation dot1Q 2
+ ip address 192.168.6.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.2
+ encapsulation dot1Q 3
+ ip address 192.168.7.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.3
+ encapsulation dot1Q 4
+ ip address 192.168.8.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.4
+ encapsulation dot1Q 5
+ ip address 192.168.9.254 255.255.255.0
+ no snmp trap link-status
+!
+router rip
+ network 192.168.3.0
+ network 192.168.6.0
+ network 192.168.7.0
+ network 192.168.8.0
+ network 192.168.9.0
+ network 172.16.0.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 192.168.3.1
+!
+			]]>
+			</screen>
+		</example>
+		<section>
+			<title>running-config</title>
+
+		<example>
+			<title>Router running-config</title>
+			<screen>
+			<![CDATA[
+Router#show running-config
+Building configuration...
+
+Current configuration : 2333 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$d51C$qZVGfyDQJHQZ/W4muxjo4/
+enable password chen
+!
+no aaa new-model
+!
+resource policy
+!
+no network-clock-participate wic 0
+ip subnet-zero
+!
+!
+ip cef
+no ip dhcp use vrf connected
+ip dhcp excluded-address 192.168.8.1
+ip dhcp excluded-address 192.168.8.254
+ip dhcp excluded-address 192.168.9.1
+ip dhcp excluded-address 192.168.9.254
+ip dhcp excluded-address 192.168.6.254
+ip dhcp excluded-address 192.168.7.1
+ip dhcp excluded-address 192.168.7.254
+ip dhcp excluded-address 192.168.6.1
+!
+ip dhcp pool vlan2
+   network 192.168.6.0 255.255.255.0
+   default-router 192.168.6.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 192.168.7.0 255.255.255.0
+   default-router 192.168.7.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan4
+   network 192.168.8.0 255.255.255.0
+   default-router 192.168.8.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan5
+   network 192.168.9.0 255.255.255.0
+   default-router 192.168.9.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+!
+!
+!
+!
+controller E1 0/0/0
+!
+!
+interface FastEthernet0/0
+ ip address 192.168.3.39 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 172.16.0.254 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.1
+ encapsulation dot1Q 2
+ ip address 192.168.6.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.2
+ encapsulation dot1Q 3
+ ip address 192.168.7.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.3
+ encapsulation dot1Q 4
+ ip address 192.168.8.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.4
+ encapsulation dot1Q 5
+ ip address 192.168.9.254 255.255.255.0
+ no snmp trap link-status
+!
+interface FastEthernet0/1.5
+!
+router rip
+ network 192.168.3.0
+ network 192.168.6.0
+ network 192.168.7.0
+ network 192.168.8.0
+ network 192.168.9.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 192.168.3.1
+!
+no ip http server
+!
+snmp-server community public RO
+!
+control-plane
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ password 3655927
+ login
+!
+scheduler allocate 20000 1000
+!
+end
+
+Router#
+			]]>
+			</screen>
+		</example>
+		<example>
+			<title>Switch running-config</title>
+			<screen>
+			<![CDATA[
+Switch#show running-config
+Building configuration...
+
+Current configuration : 3941 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$zQct$RlZjEVk3PV//OrS4KYm46.
+enable password 123456
+!
+username neo password 0 chen
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+no ip dhcp snooping information option
+!
+!
+crypto pki trustpoint TP-self-signed-2135278336
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2135278336
+ revocation-check none
+ rsakeypair TP-self-signed-2135278336
+!
+!
+crypto pki certificate chain TP-self-signed-2135278336
+ certificate self-signed 01
+  3082023F 308201A8 A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 32313335 32373833 3336301E 170D3933 30333031 30303030
+  35315A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 31333532
+  37383333 3630819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100B628 478437A6 397971B0 B3A62590 C505A465 D7D1E604 DC5F92E2 68868536
+  286DA2A2 3C782BCC 47625B33 5CC22974 04B26BDF F353FEFB DE2A2F27 2964BC40
+  5CDEE5DE 7D9EB86F A32118E6 9345B5C4 8632832E 397D2F58 41F70394 EB49DCE9
+  633DABDF 140E6ECD BA8927B4 8EF18AAB 700C9063 2C571D79 04341253 08507FA4
+  5FB30203 010001A3 67306530 0F060355 1D130101 FF040530 030101FF 30120603
+  551D1104 0B300982 07537769 7463682E 301F0603 551D2304 18301680 1419F564
+  86C05FAB 617613B5 943AF70D 6754DF2C A3301D06 03551D0E 04160414 19F56486
+  C05FAB61 7613B594 3AF70D67 54DF2CA3 300D0609 2A864886 F70D0101 04050003
+  818100A2 3658FCD0 2E373F72 05DB683D 9EDD2244 0439DB83 AA6A65BE 14309A5C
+  9B317329 2E5B4275 0FA7A78C 7681F7EC 8DAD3CC8 85B315F1 DA43BFB4 B4D92F6F
+  0C983A7A 0C8030EE F0AE34DB 81C18F45 A2F2B98A 232430D5 EF2C3667 E9C2C1EF
+  C6457E0A 1EA81332 E7691037 6A2AFF97 DBCAFECB CB673797 7D2D0547 C1D742F0 F99208
+  quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/14
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/15
+ switchport access vlan 4
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/16
+ switchport access vlan 5
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+ switchport access vlan 10
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/24
+ switchport mode trunk
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Vlan2
+ ip address 192.168.6.1 255.255.255.0
+ ip helper-address 192.168.6.254
+ no ip route-cache
+!
+interface Vlan3
+ ip address 192.168.7.1 255.255.255.0
+ ip helper-address 192.168.7.254
+ no ip route-cache
+!
+interface Vlan4
+ ip address 192.168.8.1 255.255.255.0
+ ip helper-address 192.168.8.254
+ no ip route-cache
+!
+interface Vlan5
+ ip address 192.168.9.1 255.255.255.0
+ ip helper-address 192.168.9.254
+ no ip route-cache
+!
+no ip http server
+no ip http secure-server
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ password 123456
+ login
+line vty 5 15
+ password 123456
+ login
+!
+end
+
+Switch#
+			]]>
+			</screen>
+		</example>
+		</section>
+	</section>
+	<section id="faq.3750">
+		<title>Cisco Catalyst 3750 series DHCP + VLAN + Routing Example</title>
+		<procedure>
+			<title>Cisco Catalyst 3750 series Example</title>
+			<step>
+				<para>进入交换机</para>
+				<screen>
+Switch#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#
+				</screen>
+			</step>
+
+			<step>
+				<para>划分VLAN.</para>
+				<screen>
+Switch#VLAN database
+% Warning: It is recommended to configure VLAN from config mode,
+  as VLAN database mode is being deprecated. Please consult user
+  documentation for configuring VTP/VLAN in config mode.
+
+
+Switch(vlan)#vlan 2
+VLAN 2 added:
+    Name: VLAN0002
+Switch(vlan)#vlan 3
+VLAN 3 added:
+    Name: VLAN0003
+Switch(vlan)#
+				</screen>
+				<screen>
+Switch(config)#interface vlan 1
+Switch(config-if)#ip address 172.16.0.100 255.255.255.0
+Switch(config)#exit
+
+Switch(config)#interface vlan 2
+Switch(config-if)#ip address 10.10.0.1 255.255.255.0
+
+Switch(config)#interface vlan 3
+Switch(config-if)#ip address 10.10.1.254 255.255.255.0
+				</screen>
+			</step>
+
+			<step>
+				<para>DHCP</para>
+				<screen>
+Switch(config)#ip dhcp pool vlan2
+Switch(dhcp-config)#network 10.10.0.0 255.255.255.0
+Switch(dhcp-config)#default-router 10.10.0.1
+Switch(dhcp-config)#dns-server 208.67.222.222 208.67.220.220
+Switch(dhcp-config)#lease 7
+Switch(dhcp-config)#exit
+
+Switch(config)#ip dhcp pool vlan3
+Switch(dhcp-config)#network 10.10.1.0 255.255.255.0
+Switch(dhcp-config)#default-router 10.10.1.254
+Switch(dhcp-config)#dns-server 208.67.222.222 208.67.220.220
+Switch(dhcp-config)#lease 7
+Switch(dhcp-config)#exit
+				</screen>
+				<para>启用路由 vlan 路由</para>
+				<screen>
+Switch(config)#ip routing
+Switch(config)#ip route 0.0.0.0 0.0.0.0 172.16.0.254
+				</screen>
+			</step>
+			<step>
+				<para>配置接口</para>
+				<screen>
+Switch(config)#interface GigabitEthernet1/0/2
+Switch(config-if)#switchport access vlan 2
+Switch(config-if)# switchport mode access
+Switch(config-if)# spanning-tree portfast
+%Warning: portfast should only be enabled on ports connected to a single
+ host. Connecting hubs, concentrators, switches, bridges, etc... to this
+ interface  when portfast is enabled, can cause temporary bridging loops.
+ Use with CAUTION
+
+%Portfast has been configured on GigabitEthernet1/0/2 but will only
+ have effect when the interface is in a non-trunking mode.
+Switch(config-if)# ip dhcp snooping trust
+Switch(config-if)#exit
+
+
+Switch(config)#interface GigabitEthernet1/0/3
+Switch(config-if)#switchport access vlan 3
+Switch(config-if)#switchport mode access
+Switch(config-if)#spanning-tree portfast
+%Warning: portfast should only be enabled on ports connected to a single
+ host. Connecting hubs, concentrators, switches, bridges, etc... to this
+ interface  when portfast is enabled, can cause temporary bridging loops.
+ Use with CAUTION
+
+%Portfast has been configured on GigabitEthernet1/0/3 but will only
+ have effect when the interface is in a non-trunking mode.
+Switch(config-if)#ip dhcp snooping trust
+Switch(config-if)#exit
+				</screen>
+			</step>
+			<step>
+				<para></para>
+				<para>配置访问控制列表 </para>
+				<screen>
+　　Switch(config)access-list 103 permit ip 192.168.2.0 0.0.0.255 192.168.3.0 0.0.0.255
+　　Switch(config)access-list 103 permit ip 192.168.3.0 0.0.0.255 192.168.2.0 0.0.0.255
+　　Switch(config)access-list 103 permit udp any any eq bootpc
+　　Switch(config)access-list 103 permit udp any any eq tftp
+　　Switch(config)access-list 103 permit udp any eq bootpc any
+　　Switch(config)access-list 103 permit udp any eq tftp any
+　　Switch(config)access-list 104 permit ip 192.168.2.0 0.0.0.255 192.168.4.0 0.0.0.255
+　　Switch(config)access-list 104 permit ip 192.168.4.0 0.0.0.255 192.168.2.0 0.0.0.255
+　　Switch(config)access-list 104 permit udp any eq tftp any
+　　Switch(config)access-list 104 permit udp any eq bootpc any
+　　Switch(config)access-list 104 permit udp any eq bootpc any
+　　Switch(config)access-list 104 permit udp any eq tftp any
+				</screen>
+				<para>应用访问控制列表</para>
+				<para>/*将访问控制列表应用到VLAN 3和VLAN 4,VLAN 2不需要*/</para>
+				<screen>
+Switch(config)Int Vlan 3
+　　Switch(config-vlan)ip access-group 103 out
+　　Switch(config-vlan)Int Vlan 4
+　　Switch(config-vlan)ip access-group 104 out
+				</screen>
+			</step>
+			<step>
+				<para>结束并保存配置</para>
+				<screen>
+Switch(config)#end
+Switch#write memory
+Building configuration...
+[OK]
+Switch#
+00:43:52: %SYS-5-CONFIG_I: Configured from console by console
+
+				</screen>
+			</step>
+		</procedure>
+		<example>
+			<title>Cisco Catalyst 3750 series Example</title>
+			<screen>
+Switch#show running-config
+Building configuration...
+
+Current configuration : 2085 bytes
+!
+version 12.2
+no service pad
+service timestamps debug uptime
+service timestamps log uptime
+no service password-encryption
+!
+hostname Switch
+!
+!
+no aaa new-model
+switch 1 provision ws-c3750g-24ts
+system mtu routing 1500
+ip subnet-zero
+ip routing
+!
+ip dhcp pool vlan2
+   network 10.10.0.0 255.255.255.0
+   default-router 10.10.0.1
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 10.10.1.0 255.255.255.0
+   default-router 10.10.1.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+!
+!
+!
+no file verify auto
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+interface GigabitEthernet1/0/1
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/4
+!
+interface GigabitEthernet1/0/5
+!
+interface GigabitEthernet1/0/6
+!
+interface GigabitEthernet1/0/7
+!
+interface GigabitEthernet1/0/8
+!
+interface GigabitEthernet1/0/9
+!
+interface GigabitEthernet1/0/10
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+!
+interface GigabitEthernet1/0/24
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface GigabitEthernet1/0/27
+!
+interface GigabitEthernet1/0/28
+!
+interface Vlan1
+ ip address 172.16.0.100 255.255.255.0
+!
+interface Vlan2
+ ip address 10.10.0.1 255.255.255.0
+!
+interface Vlan3
+ ip address 10.10.1.254 255.255.255.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 172.16.0.254
+ip http server
+!
+!
+control-plane
+!
+!
+line con 0
+line vty 5 15
+!
+end
+
+			</screen>
+		</example>
+<!--
+
+ 现有设备:
+防火墙/路由器：PIX515E
+交换机：2台3750 24口、2台2950 48口
+
+现在运用一台3750做VLAN间路由，要求如下：
+VLAN 10 工作区
+VLAN 20 市场/销售
+VLAN 30 财务部门
+Valn 40 服务器 （依旧维护原IP地址段）
+VLAN 100对外网络
+
+
+在这里面Vlan 10 、Vlan 20和 Valn 40可以访问除VLAN30外地所有网络
+VLAN30可以访问所有网络
+在这里面VLAN 40运用192.168.1.0网段（不能改变）
+Vlan 100 对外网络只能访问外网和访问本VLAN内机器
+
+3750上该如何配置?
+
+
+QUOTE:
+
+3750-1地配置
+
+3750-1>
+3750-1>en
+3750-1#VLAN database
+3750-1(VLAN)#vtp domain china
+VTP domain china modified
+3750-1(VLAN)#vtp server
+3750-1(VLAN)#exit
+APPLY completed.
+Exiting....
+3750-1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+3750-1(config)#int fa0/2
+3750-1(config-if)#description link to 3750-2
+3750-1(config-if)#switchport
+3750-1(config-if)#switchport trunk encapsulation dot1q
+3750-1(config-if)#switchport mode trunk
+3750-1(config-if)#int fa0/3
+3750-1(config-if)#description link to 2950-1
+3750-1(config-if)#switchport
+3750-1(config-if)#switchport trunk encapsulation dot1q
+3750-1(config-if)#switchport mode trunk
+3750-1(config-if)#int fa0/4
+3750-1(config-if)#description link to 2950-2
+3750-1(config-if)#switchport
+3750-1(config-if)#switchport trunk encapsulation dot1q
+3750-1(config-if)#switchport mode trunk
+3750-1(config-if)#exit
+3750-1(config)#exit
+3750-1#VLAN database
+3750-1(vlan)#VLAN 10 name workgroup
+VLAN 10 added:
+    Name:workgroup
+3750-1(vlan)#VLAN 20 name shichang
+VLAN 20 added:
+    Name:shichang
+3750-1(vlan)#VLAN 30 name caiwu
+VLAN 30 added:
+    Name:caiwu
+3750-1(vlan)#VLAN 40 name server
+VLAN 40 added:
+    Name:server
+3750-1(vlan)#VLAN 100 name out.net
+VLAN 100 added:
+    Nameut.net
+3750-1(VLAN)#exit
+APPLY completed.
+Exiting....
+3750-1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+3750-1(config)#interface VLAN 10
+3750-1(config-if)#ip address 192.168.10.1.254 255.255.255.0
+% Incomplete command.
+3750-1(config-if)#interface VLAN 20
+3750-1(config-if)#ip address 192.168.20.1.254 255.255.255.0
+% Incomplete command.
+3750-1(config-if)#interface VLAN 30
+3750-1(config-if)#ip address 192.168.30.1.254 255.255.255.0
+% Incomplete command.
+3750-1(config-if)#interface VLAN 40
+3750-1(config-if)#ip address 192.168.1.254 255.255.255.0
+3750-1(config-if)#interface VLAN 10
+3750-1(config-if)#ip address 192.168.10.254 255.255.255.0
+3750-1(config-if)#interface VLAN 20
+3750-1(config-if)#ip address 192.168.20.254 255.255.255.0
+3750-1(config-if)#interface VLAN 30
+3750-1(config-if)#ip address 192.168.30.254 255.255.255.0
+3750-1(config-if)#interface VLAN 100
+3750-1(config-if)#ip address 192.168.100.254 255.255.255.0
+3750-1(config-if)#exit
+3750-1(config)#ip Access-list extended outfilter
+3750-1(config-ext-nacl)#permit tcp any 192.168.0.0 0.0.255.255  reflect china timeout 200
+3750-1(config-ext-nacl)#permit udp any 192.168.0.0 0.0.255.255  reflect china timeout 200
+3750-1(config-ext-nacl)#permit icmp any 192.168.0.0 0.0.255.255  reflect china timeout 200
+3750-1(config-ext-nacl)#permit ip any any
+3750-1(config-ext-nacl)#exit
+3750-1(config)#ip Access-list extended infilter
+3750-1(config-ext-nacl)#permit tcp any 192.168.0.0 0.0.255.255  reflect china timeout 200
+3750-1(config-ext-nacl)#permit udp any 192.168.0.0 0.0.255.255  reflect china timeout 200
+3750-1(config-ext-nacl)#permit icmp any 192.168.0.0 0.0.255.255  reflect china timeout 200
+3750-1(config-ext-nacl)#permit ip any any
+3750-1(config-ext-nacl)#deny ip any 192.168.30.0 0.0.0.255
+3750-1(config-ext-nacl)#exit
+3750-1(config-if)#int  VLAN 10 20 40
+3750-1(config-if)#ip  Access-group infilter in
+
+QUOTE:
+3750-2以及2950－1－2地配置
+3750-2>
+3750-2>en
+3750-2#VLAN database
+3750-2(VLAN)#vtq
+3750-2(VLAN)#vtp domain china
+VTP domain china modified
+3750-2(VLAN)#vtp client
+3750-2(VLAN)#exit
+APPLY completed.
+Exiting....
+3750-2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+3750-2(config)#int fa 0/2
+3750-2(config-if)#switchport mode Access
+3750-2(config-if)#switchport Access VLAN 10
+3750-2(config-if)#int fa 0/3
+3750-2(config-if)#switchport mode Access
+3750-2(config-if)#switchport Access VLAN 20
+3750-2(config-if)#no shut
+.......
+ -->
+	</section>
+	<section id="3750-2960">
+		<title>Cisco Catalyst 3750 + Cisco Catalyst 2960 VTP Example</title>
+		<section>
+			<title>VTP Server</title>
+			<screen>
+config terminal
+
+vlan database
+vtp mode server
+vtp domain cisco
+vtp password cisco
+
+ip routing
+!
+ip dhcp pool vlan2
+   network 10.10.0.0 255.255.255.0
+   default-router 10.10.0.1
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 10.10.1.0 255.255.255.0
+   default-router 10.10.1.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+
+
+interface GigabitEthernet1/0/2
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+
+interface Vlan1
+ ip address 172.16.0.100 255.255.255.0
+!
+interface Vlan2
+ ip address 10.10.0.1 255.255.255.0
+!
+interface Vlan3
+ ip address 10.10.1.254 255.255.255.0
+!
+ip route 0.0.0.0 0.0.0.0 172.16.0.254
+
+
+end
+			</screen>
+		</section>
+		<section>
+			<title>VTP Client</title>
+			<screen>
+conf t
+int GigabitEthernet0/2
+switchport mode trunk
+end
+
+vlan database
+vtp client
+vtp domain cisco
+vtp password cisco
+
+interface FastEthernet0/23
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+
+
+interface FastEthernet0/24
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+
+exit
+			</screen>
+		</section>
+		<section>
+			<title>Cisco Config File</title>
+			<example>
+				<title>3750</title>
+				<screen>
+Switch#show running-config
+Building configuration...
+
+Current configuration : 1427 bytes
+!
+version 12.2
+no service pad
+service timestamps debug uptime
+service timestamps log uptime
+no service password-encryption
+!
+hostname Switch
+!
+!
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+!
+!
+!
+no file verify auto
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/24
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+ip http server
+!
+control-plane
+!
+!
+line con 0
+line vty 5 15
+!
+end
+
+Switch#
+Switch>
+Switch>
+Switch>
+Switch>en
+Switch#show run
+Switch#show running-config
+Building configuration...
+
+Current configuration : 2085 bytes
+!
+version 12.2
+no service pad
+service timestamps debug uptime
+service timestamps log uptime
+no service password-encryption
+!
+hostname Switch
+!
+!
+no aaa new-model
+switch 1 provision ws-c3750g-24ts
+system mtu routing 1500
+ip subnet-zero
+ip routing
+!
+ip dhcp pool vlan2
+   network 10.10.0.0 255.255.255.0
+   default-router 10.10.0.1
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+ip dhcp pool vlan3
+   network 10.10.1.0 255.255.255.0
+   default-router 10.10.1.254
+   dns-server 208.67.222.222 208.67.220.220
+   lease 7
+!
+!
+!
+!
+no file verify auto
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+interface GigabitEthernet1/0/1
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/4
+!
+interface GigabitEthernet1/0/5
+!
+interface GigabitEthernet1/0/6
+!
+interface GigabitEthernet1/0/7
+!
+interface GigabitEthernet1/0/8
+!
+interface GigabitEthernet1/0/9
+!
+interface GigabitEthernet1/0/10
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+!
+interface GigabitEthernet1/0/24
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface GigabitEthernet1/0/27
+!
+interface GigabitEthernet1/0/28
+!
+interface Vlan1
+ ip address 172.16.0.100 255.255.255.0
+!
+interface Vlan2
+ ip address 10.10.0.1 255.255.255.0
+!
+interface Vlan3
+ ip address 10.10.1.254 255.255.255.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 172.16.0.254
+ip http server
+!
+!
+control-plane
+!
+!
+line con 0
+line vty 5 15
+!
+end
+				</screen>
+			</example>
+			<example>
+				<title>2960</title>
+				<screen>
+Switch#show running-config
+Building configuration...
+
+Current configuration : 1427 bytes
+!
+version 12.2
+no service pad
+service timestamps debug uptime
+service timestamps log uptime
+no service password-encryption
+!
+hostname Switch
+!
+!
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+!
+!
+!
+no file verify auto
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface FastEthernet0/24
+ switchport access vlan 2
+ switchport mode access
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+ip http server
+!
+control-plane
+!
+!
+line con 0
+line vty 5 15
+!
+end
+
+				</screen>
+			</example>
+		</section>
+	</section>		
+</section>	

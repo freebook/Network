@@ -1,0 +1,379 @@
+#
+ version 5.20, Release 2202
+#
+ sysname H3C
+#
+ irf mac-address persistent timer
+ irf auto-update enable
+ undo irf link-delay
+#
+ domain default enable system
+#
+ telnet server enable
+#
+ undo ip ttl-expires
+#
+ dhcp-snooping
+#
+acl number 3000
+ rule 0 permit ip source 192.168.2.1 0
+acl number 3001
+ rule 0 permit ip source 192.168.6.0 0.0.0.255
+acl number 3010
+ rule 0 permit ip destination 192.168.0.0 0.0.255.255
+acl number 3020
+ rule 0 permit ip source 192.168.6.0 0.0.0.255
+#
+vlan 1
+ description default vlan
+#
+vlan 2
+ description Technology
+#
+vlan 3
+ description XXXX
+#
+vlan 4
+ description xx
+#
+vlan 5
+ description sssss
+#
+vlan 6
+ description Customer Service
+#
+vlan 7
+ description ssfff
+#
+vlan 8
+ description ssffweee
+#
+vlan 9
+ description ssdfsf
+#
+vlan 10
+ description SonicWall
+#
+vlan 20
+ description UC
+#
+vlan 30
+ description Avaya VOIP Phone
+#
+vlan 40
+ description Shenzhen - IPLC - Hongkong
+#
+radius scheme system
+ server-type extended
+ primary authentication 127.0.0.1 1645
+ primary accounting 127.0.0.1 1646
+ user-name-format without-domain
+#
+domain system
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+#
+ public-key peer 192.168.4.254
+  public-key-code begin
+   30819F300D06092A864886F70D010101050003818D0030818902818100E8854810B9DD27CC
+   DFFA9873A201DA7D2523D9C3BF3765B9F4C8F94D698B79632FEC9EF03966F983EE78618D8D
+   87CCC737328A9BEF5D2C0077C212CA37E7FB1E236CD329C6A18EB80FCE99EB5AF550A57D49
+   A3D32D8114BC087950B2BFCA21B338A3BF7F77FC34C5531665988F7A240BC564A0C41CDA07
+   3392730C587282A7F90203010001
+  public-key-code end
+ peer-public-key end
+#
+traffic classifier classifier1 operator or
+ if-match acl 3010
+traffic classifier classifier2 operator or
+ if-match acl 3020
+traffic classifier 2 operator or
+ if-match acl 3000
+traffic classifier 1 operator and
+ if-match acl 3001
+#
+traffic behavior 3
+ redirect next-hop 192.168.30.254
+traffic behavior behavior1
+ redirect next-hop 192.168.1.1
+traffic behavior behavior2
+ redirect next-hop 192.168.40.254
+ filter permit
+traffic behavior 1
+ redirect next-hop 192.168.40.254
+#
+qos policy policy1
+ classifier classifier1 behavior behavior1
+ classifier classifier2 behavior behavior2
+qos policy 2
+ classifier 2 behavior 1
+qos policy 1
+ classifier 1 behavior 1
+#
+dhcp server ip-pool vlan2
+ network 192.168.2.0 mask 255.255.255.0
+ gateway-list 192.168.2.254
+ dns-list 211.162.78.2 8.8.8.8
+ expired day 7
+#
+dhcp server ip-pool vlan3
+ network 192.168.3.0 mask 255.255.255.0
+ gateway-list 192.168.3.254
+ dns-list 211.162.78.2 8.8.8.8
+#
+dhcp server ip-pool vlan4
+ network 192.168.4.0 mask 255.255.255.0
+ gateway-list 192.168.4.254
+ dns-list 202.96.134.133 202.96.128.68 208.67.222.222 208.67.220.220
+#
+dhcp server ip-pool vlan5
+ network 192.168.5.0 mask 255.255.255.0
+ gateway-list 192.168.5.254
+ dns-list 211.162.78.2 8.8.8.8
+#
+dhcp server ip-pool vlan6
+ network 192.168.6.0 mask 255.255.255.0
+ gateway-list 192.168.6.254
+ dns-list 202.45.84.58 203.80.96.10 8.8.8.8
+#
+dhcp server ip-pool vlan7
+ network 192.168.7.0 mask 255.255.255.0
+ gateway-list 192.168.7.254
+ dns-list 208.67.222.222 208.67.220.220 8.8.8.8 4.4.4.4
+#
+dhcp server ip-pool vlan8
+ network 192.168.8.0 mask 255.255.255.0
+ gateway-list 192.168.8.254
+ dns-list 208.67.222.222 208.67.220.220 8.8.8.8 4.4.4.4
+#
+dhcp server ip-pool vlan9
+ network 192.168.9.0 mask 255.255.255.0
+ gateway-list 192.168.9.254
+ dns-list 208.67.222.222 208.67.220.220 8.8.8.8 4.4.4.4
+#
+user-group system
+#
+local-user admin
+ password cipher '`7&+[]_T$CQ=^Q`MAF4<1!!
+ authorization-attribute level 3
+ service-type ssh telnet terminal
+local-user h3c
+ password cipher OUM!K%F<+$[Q=^Q`MAF4<1!!
+ service-type telnet
+#
+ stp enable
+#
+interface NULL0
+#
+interface LoopBack0
+ ip address 1.1.1.1 255.255.255.255
+#
+interface Vlan-interface1
+ ip address 192.168.1.254 255.255.255.0
+#
+interface Vlan-interface2
+ description Technology
+ ip address 192.168.2.254 255.255.255.0
+#
+interface Vlan-interface3
+ ip address 192.168.3.254 255.255.255.0
+#
+interface Vlan-interface4
+ ip address 192.168.4.254 255.255.255.0
+#
+interface Vlan-interface5
+ ip address 192.168.5.254 255.255.255.0
+#
+interface Vlan-interface6
+ description Customer Service
+ ip address 192.168.6.254 255.255.255.0
+#
+interface Vlan-interface7
+ ip address 192.168.7.254 255.255.255.0
+#
+interface Vlan-interface8
+ ip address 192.168.8.254 255.255.255.0
+#
+interface Vlan-interface9
+ ip address 192.168.9.254 255.255.255.0
+#
+interface Vlan-interface10
+ ip address 192.168.10.254 255.255.255.0
+#
+interface Vlan-interface20
+#
+interface Vlan-interface30
+ description Avaya
+ ip address 192.168.30.1 255.255.255.0
+#
+interface Vlan-interface40
+ description IPLC
+ ip address 192.168.40.253 255.255.255.240
+#
+interface GigabitEthernet1/0/1
+ port link-type trunk
+ port trunk permit vlan all
+#
+interface GigabitEthernet1/0/2
+ port link-type trunk
+ port trunk permit vlan all
+#
+interface GigabitEthernet1/0/3
+ port access vlan 2
+ qos apply policy 2 inbound
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/4
+ port access vlan 2
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/5
+ port access vlan 3
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/6
+ port access vlan 3
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/7
+ port access vlan 4
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/8
+ port access vlan 4
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/9
+ port access vlan 5
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/10
+ port access vlan 5
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/11
+ port access vlan 6
+ qos apply policy policy1 inbound
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/12
+ port access vlan 6
+ qos apply policy 1 inbound
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/13
+ port access vlan 7
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/14
+ port access vlan 7
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/15
+ port access vlan 8
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/16
+ port access vlan 8
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/17
+ port access vlan 9
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/18
+ port access vlan 9
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/19
+ port access vlan 10
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/20
+ port access vlan 20
+#
+interface GigabitEthernet1/0/21
+ port access vlan 30
+#
+interface GigabitEthernet1/0/22
+ port access vlan 30
+#
+interface GigabitEthernet1/0/23
+ port access vlan 40
+#
+interface GigabitEthernet1/0/24
+ port access vlan 40
+#
+interface GigabitEthernet1/0/25
+ shutdown
+#
+interface GigabitEthernet1/0/26
+ shutdown
+#
+interface GigabitEthernet1/0/27
+ shutdown
+#
+interface GigabitEthernet1/0/28
+ shutdown
+#
+ospf 1
+ area 0.0.0.1
+  network 192.168.40.240 0.0.0.15
+  network 192.168.2.0 0.0.0.255
+  network 192.168.3.0 0.0.0.255
+  network 192.168.4.0 0.0.0.255
+  network 192.168.5.0 0.0.0.255
+  network 192.168.6.0 0.0.0.255
+  network 192.168.7.0 0.0.0.255
+  network 192.168.8.0 0.0.0.255
+  network 192.168.9.0 0.0.0.255
+  network 172.16.0.0 0.0.0.255
+  network 192.168.30.0 0.0.0.255
+  network 192.168.1.0 0.0.0.255
+#
+ ip route-static 0.0.0.0 0.0.0.0 192.168.1.1 preference 10 description TC
+ ip route-static 0.0.0.0 0.0.0.0 192.168.20.1 preference 20 description UC
+ ip route-static 64.4.61.215 255.255.255.255 192.168.40.254
+ ip route-static 74.125.71.94 255.255.255.255 192.168.40.254
+ ip route-static 192.168.20.0 255.255.255.0 192.168.20.1 description UC
+ ip route-static 192.168.30.112 255.255.255.255 192.168.30.254
+ ip route-static 192.168.200.0 255.255.255.0 192.168.40.254
+ ip route-static 203.208.46.146 255.255.255.255 192.168.40.254
+#
+ snmp-agent
+ snmp-agent local-engineid 800063A2035866BA917F11
+ snmp-agent community write public
+ snmp-agent sys-info version all
+#
+ dhcp server forbidden-ip 192.168.2.200 192.168.2.254
+ dhcp server forbidden-ip 192.168.3.200 192.168.3.254
+ dhcp server forbidden-ip 192.168.4.1 192.168.4.10
+ dhcp server forbidden-ip 192.168.4.200 192.168.4.254
+ dhcp server forbidden-ip 192.168.3.1 192.168.3.10
+ dhcp server forbidden-ip 192.168.5.1 192.168.5.10
+ dhcp server forbidden-ip 192.168.5.200 192.168.5.254
+ dhcp server forbidden-ip 192.168.6.1 192.168.6.10
+ dhcp server forbidden-ip 192.168.6.200 192.168.6.254
+ dhcp server forbidden-ip 192.168.7.1 192.168.7.10
+ dhcp server forbidden-ip 192.168.7.200 192.168.7.254
+ dhcp server forbidden-ip 192.168.8.1 192.168.8.10
+ dhcp server forbidden-ip 192.168.8.200 192.168.8.254
+ dhcp server forbidden-ip 192.168.9.1 192.168.9.10
+ dhcp server forbidden-ip 192.168.9.200 192.168.9.254
+ dhcp server forbidden-ip 192.168.2.1 192.168.2.30
+#
+ dhcp enable
+#
+ ssh server enable
+ ssh client source interface LoopBack0
+ ssh user admin service-type stelnet authentication-type password
+ ssh client authentication server 192.168.4.254 assign publickey 192.168.4.254
+#
+user-interface aux 0 8
+user-interface vty 0 4
+ authentication-mode scheme
+ user privilege level 3
+#
+return

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<?xml-stylesheet type="text/xsl" href="../stylesheet/docbook-article.xsl"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN"
+	"http://www.oasis-open.org/docbook/xml/5.0b5/dtd/docbook.dtd" [
+-->
+<!DOCTYPE book SYSTEM "/usr/share/xml/docbook/schema/dtd/5.0/docbook.dtd" [
+
+	<!ENTITY book.info.author.xml		SYSTEM "../common/book.info.author.xml">
+	<!ENTITY book.info.legalnotice.xml	SYSTEM "../common/book.info.legalnotice.xml">
+	<!ENTITY book.info.abstract.xml		SYSTEM "../common/book.info.abstract.xml">
+	<!ENTITY book.preface.xml			SYSTEM "../common/book.preface.xml">
+	<!ENTITY preface.about.me.xml       SYSTEM "../common/about.me.xml">
+	<!ENTITY book.dedication.xml       	SYSTEM "../common/book.dedication.xml">
+
+	<!ENTITY chapter.terminal.xml 		SYSTEM "chapter.terminal.xml">
+	<!ENTITY chapter.ios.show.xml		SYSTEM "chapter.ios.show.xml">
+	<!ENTITY chapter.ios.debug.xml		SYSTEM "chapter.ios.debug.xml">
+	<!ENTITY chapter.ios.config.xml		SYSTEM "chapter.ios.config.xml">
+	<!ENTITY chapter.router.xml			SYSTEM "chapter.router.xml">
+	<!ENTITY chapter.router.acl.xml		SYSTEM "chapter.router.acl.xml">
+	<!ENTITY chapter.switch.xml			SYSTEM "chapter.switch.xml">
+	<!ENTITY chapter.switch.example.xml	SYSTEM "chapter.switch.example.xml">
+	<!ENTITY chapter.firewall.xml		SYSTEM "chapter.firewall.xml">
+	<!ENTITY chapter.firewall.pix.xml	SYSTEM "chapter.firewall.pix.xml">
+	<!ENTITY chapter.firewall.asa.xml	SYSTEM "chapter.firewall.asa.xml">
+	<!ENTITY chapter.netflow.xml		SYSTEM "chapter.netflow.xml">
+	<!ENTITY chapter.pbx.xml	 		SYSTEM "chapter.pbx.xml">
+	<!ENTITY chapter.vpn.xml			SYSTEM "chapter.vpn.xml">
+	<!ENTITY chapter.reference.xml		SYSTEM "chapter.reference.xml">
+
+]>
+<book xml:base="http://netkiller.sourceforge.net/cisco/"
+	xmlns="http://docbook.org/ns/docbook" xml:lang="zh-cn">
+	<info>
+		<title>Netkiller Cisco IOS 手札</title>
+		<subtitle>Cisco Router, Switch and Firewall</subtitle>
+		<authorgroup>
+		&book.info.author.xml;
+
+		</authorgroup>
+		<copyright>
+			<year>2009</year>
+			<year>2010</year>
+			<year>2011</year>
+			<year>2012</year>
+			<year>2013</year>
+			<year>2014</year>
+			<year>2015</year>
+			<holder>Neo Chan</holder>
+		</copyright>
+		<releaseinfo>
+			<remark>2009-12-12</remark>
+		</releaseinfo>
+
+		&book.info.legalnotice.xml;
+		&book.info.abstract.xml;
+		<keywordset>
+			<keyword>pix,asa,3750,4507,5550</keyword>
+			<keyword>vlan,vtp</keyword>
+			<keyword>hsrp,vrrp</keyword>
+			<keyword>rip,ospf</keyword>
+		</keywordset>
+	</info>
+
+	&book.dedication.xml;
+	&book.preface.xml;
+
+<part id="cisco">
+	<title>Cisco IOS</title>
+
+	&chapter.terminal.xml;
+	&chapter.ios.show.xml;
+	&chapter.ios.debug.xml;
+	&chapter.ios.config.xml;
+	&chapter.router.xml;
+	&chapter.switch.xml;
+ 	&chapter.firewall.xml;
+ 	&chapter.netflow.xml;
+	&chapter.reference.xml;
+
+</part>
+</book>

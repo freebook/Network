@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<?xml-stylesheet type="text/xsl" href="../stylesheet/docbook-article.xsl"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN"
+	"http://www.oasis-open.org/docbook/xml/5.0b5/dtd/docbook.dtd" [
+-->
+<!DOCTYPE book SYSTEM "/usr/share/xml/docbook/schema/dtd/5.0/docbook.dtd" [
+
+	<!ENTITY book.info.author.xml		SYSTEM "../common/book.info.author.xml">
+	<!ENTITY book.info.legalnotice.xml	SYSTEM "../common/book.info.legalnotice.xml">
+	<!ENTITY book.info.abstract.xml		SYSTEM "../common/book.info.abstract.xml">
+	<!ENTITY book.preface.xml			SYSTEM "../common/book.preface.xml">
+	<!ENTITY preface.about.me.xml       SYSTEM "../common/about.me.xml">
+	<!ENTITY book.dedication.xml       	SYSTEM "../common/book.dedication.xml">
+
+	<!ENTITY chapter.terminal.xml 		SYSTEM "chapter.terminal.xml">
+	<!ENTITY chapter.route.xml			SYSTEM "chapter.route.xml">
+	<!ENTITY chapter.ap.xml				SYSTEM "chapter.ap.xml">
+	<!ENTITY chapter.switch.xml			SYSTEM "chapter.switch.xml">
+	<!ENTITY chapter.icg.xml			SYSTEM "chapter.icg.xml">
+	<!ENTITY chapter.reference.xml		SYSTEM "chapter.reference.xml">
+
+]>
+<book xml:base="http://netkiller.sourceforge.net/cisco/"
+	xmlns="http://docbook.org/ns/docbook" xml:lang="zh-cn">
+	<info>
+		<title>Netkiller H3C 手札</title>
+		<subtitle>H3C Router, Switch and Firewall</subtitle>
+		<authorgroup>
+		&book.info.author.xml;
+
+		</authorgroup>
+		<copyright>
+			<year>2009</year>
+			<year>2010</year>
+			<year>2011</year>
+			<year>2012</year>
+			<year>2013</year>
+			<year>2014</year>
+			<holder>Neo Chan</holder>
+		</copyright>
+		<releaseinfo>
+			<remark></remark>
+		</releaseinfo>
+
+		&book.info.legalnotice.xml;
+		&book.info.abstract.xml;
+		<keywordset>
+			<keyword>pix,asa,s5500</keyword>
+			<keyword>vlan,vtp</keyword>
+			<keyword>hsrp,vrrp</keyword>
+			<keyword>rip,ospf</keyword>
+		</keywordset>
+	</info>
+
+	&book.dedication.xml;
+	&book.preface.xml;
+
+	&chapter.route.xml;
+	&chapter.switch.xml;
+	&chapter.ap.xml;
+	&chapter.icg.xml;
+	
+
+</book>

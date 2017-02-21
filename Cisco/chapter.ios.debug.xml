@@ -1,0 +1,89 @@
+<chapter id="debug">
+	<title>Debug</title>
+	<section id="debug.dhcp">
+		<title>DHCP</title>
+		<screen>
+debug ip dhcp server packet 		
+		</screen>
+	</section>
+	<section id="debug.ip.rip">
+		<title>debug ip rip</title>
+		<screen>
+		<![CDATA[
+Router# debug ip dhcp server packet 
+
+*Dec 19 04:51:25.675: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+*Dec 19 04:51:26.583: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to down
+*Dec 19 04:51:41.275: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+*Dec 19 04:51:42.643: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/0.
+*Dec 19 04:51:46.643: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/0.
+*Dec 19 04:51:55.643: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/0.
+*Dec 19 04:52:10.639: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/0.
+*Dec 19 04:52:47.639: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/0.
+*Dec 19 04:52:50.635: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/0.
+*Dec 19 04:52:58.635: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/0.
+*Dec 19 04:53:13.635: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/0.
+*Dec 19 04:53:14.963: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to down
+*Dec 19 04:53:17.271: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+*Dec 19 04:53:19.371: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+*Dec 19 04:53:26.339: DHCPD: DHCPDISCOVER received from client 0100.50ba.eefa.d0 on interface FastEthernet0/1.
+*Dec 19 04:53:26.339: DHCPD: Sending DHCPOFFER to client 0100.50ba.eefa.d0 (10.10.0.2).
+*Dec 19 04:53:26.339: DHCPD: Including FQDN option name 'NEO.' rcode1=0, rcode2=0 flags=0x0
+*Dec 19 04:53:26.339: DHCPD: broadcasting BOOTREPLY to client 0050.baee.fad0.
+*Dec 19 04:53:26.343: DHCPD: DHCPREQUEST received from client 0100.50ba.eefa.d0.
+*Dec 19 04:53:26.343: DHCPD: No default domain to append - abort update
+*Dec 19 04:53:26.343: DHCPD: Sending DHCPACK to client 0100.50ba.eefa.d0 (10.10.0.2).
+*Dec 19 04:53:26.343: DHCPD: broadcasting BOOTREPLY to client 0050.baee.fad0.
+*Dec 19 04:53:31.143: DHCPD: DHCPREQUEST received from client 0100.50ba.eefa.d0.
+*Dec 19 04:53:31.143: DHCPD: No default domain to append - abort update
+*Dec 19 04:53:31.143: DHCPD: Sending DHCPACK to client 0100.50ba.eefa.d0 (10.10.0.2).
+*Dec 19 04:53:31.143: DHCPD: unicasting BOOTREPLY to client 0050.baee.fad0 (10.10.0.2).
+		
+		]]>
+		</screen>
+	</section>
+
+	<section id="debug.ip.igrp">
+		<title>debug ip igrp</title>
+		<para>debug ip igrp events</para>
+		<screen>
+		<![CDATA[
+		
+		]]>
+		</screen>
+		<para>debug ip igrp transactions</para>
+		<screen>
+		<![CDATA[
+		
+		]]>
+		</screen>		
+	</section>
+
+	<section id="debug.nat">
+		<title>nat</title>
+		<para>debug nat</para>
+		<screen>
+		<![CDATA[
+Router#term mon
+Router#debug ip nat detailed		
+		]]>
+		</screen>				
+	</section>
+	<section id="debug.platform">
+		<title>platform packet all receive buffer</title>
+		<para>分析 CPU 占用率</para>
+		<screen>
+debug platform packet all receive buffer
+sh platform cpu packet buffered
+un all 
+		</screen>
+	</section>	
+	<section id="debug.all">
+		<title>Switch all debugging off	no debug all</title>
+		<screen>
+no debug all		
+undebug all
+		</screen>
+	</section>
+
+</chapter>

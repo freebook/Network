@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: chapter.router.acl.xml 390 2012-04-17 10:49:40Z netkiller $ -->
+<section id="route.acl">
+	<title>ACLs</title>
+	<section>
+		<title>基本配置</title>
+		<para>show access-list</para>
+		<screen>
+Extended IP access list 101
+    10 permit tcp any any eq www (534 matches)
+    20 deny tcp any any (111 matches)
+		</screen>
+		<para>Removing ACLs</para>
+		<screen>
+		<![CDATA[
+no access-list <list number>
+		]]>
+		</screen>
+		<para>Here is an example:</para>
+		<para>permit all</para>
+		<screen>
+access-list 101 permit tcp any any
+access-list 101 permit udp any any
+access-list 101 permit icmp any any
+		</screen>
+		<para>deny all</para>
+		<screen>
+access-list 101 deny tcp any any
+access-list 101 deny udp any any
+access-list 101 deny icmp any any
+		</screen>
+		<para>Applying Access Lists</para>
+		<screen>
+conf t
+int f0/0
+ip access-group 101 out
+ip access-group 102 in
+		</screen>
+	</section>
+	<section id="acl.extended">
+		<title>extended</title>
+	
+		<section>
+			<title>port numbers</title>
+			<screen>
+Use an operator to match port numbers used by the source or destination. The permitted operators are as follows:
+
+•lt—less than
+•gt—greater than
+•eq—equal to
+•neq—not equal to
+•range—an inclusive range of values. When you use this operator, specify two port numbers, for example:
+range 100 200
+
+			</screen>
+			<screen>
+access-list 111 extended permit tcp any any range 8080 8080
+			</screen>
+		</section>
+	</section>	
+	<section id="acl.object-group">
+		<title>object-group</title>
+		<section>
+			<title>network-object</title>
+			<screen>
+object-group network www
+ description www
+ network-object 172.16.4.0 255.255.255.0
+ network-object 172.16.5.0 255.255.255.0
+			</screen>
+		</section>
+		<section>
+			<title>port-object</title>
+			<screen>
+object-group network dbhost
+ description database
+ network-object 172.16.4.0 255.255.255.0
+ network-object 172.16.5.0 255.255.255.0
+object-group service dbport tcp
+ description database
+ port-object eq 3306
+ port-object eq 2521
+ port-object eq 5432
+ port-object eq 1433
+
+object-group service webport tcp
+ description web
+ port-object eq 80
+ port-object range 81 88
+			</screen>
+		</section>
+		<section>
+			<title>access-list</title>
+			<screen>
+access-list outside extend permit tcp object-group dbhost host 172.16.4.10 object-group dbport
+access-list outside extend permit tcp any object-group webport any
+			</screen>
+		</section>
+	</section>
+	<section id="acl.example">
+		<title>www</title>
+		<screen>
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#access-list 101 deny tcp any any
+Router(config)#access-list 101 deny udp any any
+Router(config)#access-list 101 deny icmp any any
+Router(config)#int f0/1
+Router(config-if)#ip access-group 101 in
+Router(config-if)#end
+		</screen>
+		<para>www</para>
+		<screen>
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#access-list 101 permit tcp any any eq www
+Router(config)#access-list 101 deny tcp any any
+Router(config)#end
+Router#
+		</screen>
+	</section>
+	<section>
+		<title>show access-list</title>
+		<screen>
+# sh access-list | include udp
+		</screen>
+	</section>
+</section>

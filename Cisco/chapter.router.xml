@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: chapter.router.xml 390 2012-04-17 10:49:40Z netkiller $ -->
+<chapter id="route">
+	<title>Route</title>
+	<subtitle>Cisco 2811 / 2911</subtitle>
+	<section id="route.reset">
+		<title>reset password</title>
+		<para>reboot route and then pass Ctrl + Break</para>
+		<screen>
+		<![CDATA[
+rommon 3 > confreg 0x2142
+rommon 4 > reset
+		]]>
+		</screen>
+		<screen>
+		<![CDATA[
+Router>enable
+Password:
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#config-register 0x2102
+Router(config)#end
+Router#reload
+		]]>
+		</screen>
+	</section>
+	<section id="route.config">
+		<title>config</title>
+		<screen>
+		<![CDATA[
+Router>enable
+Password:
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#
+		]]>
+		</screen>
+		<section id="router.copy">
+			<title>copy</title>
+			<para>Cisco Router Copy Commands</para>
+			<screen>
+Requirement	Cisco Command
+Save the current configuration from DRAM to NVRAM
+copy running-config startup-config
+
+Merge NVRAM configuration to DRAM
+copy startup-config running-config
+
+Copy DRAM configuration to a TFTP server
+copy runing-config tftp
+
+Merge TFTP configuration with current router configuration held in DRAM
+copy tftp runing-config
+
+Backup the IOS onto a TFTP server
+copy flash tftp
+
+Upgrade the router IOS from a TFTP server
+copy tftp flash
+			</screen>
+		</section>
+	</section>
+	<section id="route.hostname">
+		<title>hostname</title>
+		<screen>
+		<![CDATA[
+Router>enable
+Password:
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname Neo
+Neo(config)#
+		]]>
+		</screen>
+	</section>
+	<section id="route.enable">
+		<title>Login &amp; Password</title>
+		<example>
+			<title>2811</title>
+			<para>更改路由器名、密码</para>
+			<screen>
+			<![CDATA[
+Router(config)#
+Router(config)#enable password cisco		enable password和enable secret命令可以修改特权模式的密码。
+Router(config)#enable secret cisco			进入line console局部配置模式下，修改console登录密码；进入line vty局部配置模式，修改telnet登录的密码。login命令指出需要登录，修改密码的命令都是password。
+			]]>
+			</screen>
+			<para>console</para>
+			<screen>
+Router(config)#line console 0
+Router(config-line)#login
+Router(config-line)#password cisco
+Router(config-line)#exit			
+			</screen>
+			<para>telnet</para>
+			<screen>
+			<![CDATA[
+Router(config)#line vty 0 4
+Router(config-line)#login
+Router(config-line)#password cisco			
+			]]>
+			</screen>
+		</example>
+		<example>
+			<title>2911</title>
+			<screen>
+2911(config)#crypto key generate rsa
+The name for the keys will be: 2911.cisco.com
+Choose the size of the key modulus in the range of 360 to 4096 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 2048
+% Generating 2048 bit RSA keys, keys will be non-exportable...
+[OK] (elapsed time was 13 seconds)
+			</screen>
+			<screen>
+ip access-list standard login
+ permit 192.168.50.0 0.0.0.128
+!
+			</screen>
+			<screen>
+line vty 0 4
+ access-class login in
+ privilege level 15
+ login local
+ transport input telnet ssh			
+			</screen>
+			<screen>
+			<![CDATA[
+username cisco privilege 15 secret your_password	#超级用户，不需要enable
+username mgmt secret your_password
+			]]>
+			</screen>
+		</example>
+	</section>
+	<section id="route.interface">
+		<title>Interface</title>
+		<para>2811</para>
+		<screen>
+		<![CDATA[
+Controller Timeslots D-Channel Configurable modes Status
+E1 0/0/0   31        15        pri/channelized     Administratively up
+
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            192.168.3.123   YES manual up                    up
+FastEthernet0/1            172.16.0.254    YES manual up                    down
+		]]>
+		</screen>
+		<para>controller E1 0/0/0</para>
+		<screen>
+		<![CDATA[
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#controller E1 0/0/0
+Router(config)#channel-group 0 unframedINIT2U
+Router(config)#interface Serial0/0/0:0%][
+Router(config)#ip address 144.*.*.* 255.255.255.252
+		]]>
+		</screen>
+		<para>f0/0 ~ f0/1</para>
+		<screen>
+		<![CDATA[
+Router>en
+Router#conf t
+Router(config)#int f0/0
+Router(config-if)#ip add 192.168.1.1 255.255.255.0
+Router(config-if)#no shu
+Router(config-if)#int s0/0
+Router(config-if)#ip add 10.0.0.1 255.0.0.0
+Router(config-if)#clock rate 64000
+Router(config-if)#no sh
+Router(config-if)#exit
+Router(config)#host R1
+R1(config)#ip route 192.168.2.0 255.255.255.0 s0/0
+R1(config)#end
+		]]>
+		</screen>
+		<para>default gateway</para>
+		<screen>
+ip default-gateway 210.22.111.193
+		</screen>
+		<section>
+			<title>description</title>
+			<screen>
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#int f0/1
+Router(config-if)#des
+Router(config-if)#description Connect to Cisco 2960 Switch f0/24
+Router(config-if)#end
+			</screen>
+			<para>running-config</para>
+			<screen>
+Router#show running-config
+
+!
+interface FastEthernet0/1
+ description Connect to Cisco 2960 Switch f0/24
+ ip address 172.16.0.254 255.255.255.0
+ duplex auto
+ speed auto
+!
+			</screen>
+		</section>
+		<section>
+			<title>bandwidth</title>
+			<screen>
+Router(config-if)bandwidth 64
+Note that the zeroes are not missing
+			</screen>
+		</section>
+
+		<section>
+			<title>primary/secondary</title>
+			<screen>
+Router#sh run
+
+interface Serial0
+ip address 10.250.1.10 255.255.255.252
+no ip proxy-arp
+encapsulation ppp
+no fair-queue
+no cdp enable
+hold-queue 150 out
+!
+interface FastEthernet0
+ip address 61.63.15.190 255.255.255.192 primary
+ip address 61.63.44.190 255.255.255.192 secondary
+no ip proxy-arp
+speed auto
+			</screen>
+		</section>
+	</section>
+	<section id="route.dhcp">
+		<title>DHCP</title>
+		<screen>
+		<![CDATA[
+ip dhcp excluded 192.168.0.1 （排除的IP）
+ip dhcp pool xxx（随便你定义的名字）
+network 192.168.0.0 255.255.255.0 （你分配的IP段）
+default-router 192.168.0.1 （关网的网内）
+dns-server 202.96.64.68 （DNS服务器的IP）
+lease 7
+netbios-name-server
+
+Router>en
+Password:
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ip dhcp excluded 10.10.0.1 10.10.0.254
+Router(config)#ip dhcp pool office
+Router(dhcp-config)#network 10.10.0.0 255.255.255.0
+Router(dhcp-config)#default-router 10.10.0.254
+Router(dhcp-config)#dns-server 208.67.222.222 208.67.220.220
+Router(dhcp-config)#netbios-name-server 10.10.0.2
+Router(dhcp-config)#lease 7
+Router(dhcp-config)#end
+Router#
+		]]>
+		</screen>
+		<para>可变长子网掩码实例</para>
+		<screen>
+		<![CDATA[
+ip dhcp excluded-address 192.168.40.250 192.168.40.254
+ip dhcp excluded-address 192.168.50.250 192.168.50.254
+!
+ip dhcp pool Office-1
+ network 192.168.40.240 255.255.255.240
+ default-router 192.168.40.254
+ dns-server 208.67.222.222 208.67.220.220
+ lease 7
+!
+ip dhcp pool Office-2
+ network 192.168.50.128 255.255.255.128
+ default-router 192.168.50.254
+ dns-server 208.67.222.222 208.67.220.220
+ lease 7
+!
+
+interface GigabitEthernet0/1
+ description Office-1
+ ip address 192.168.40.254 255.255.255.240
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ description Office-2
+ ip address 192.168.50.254 255.255.255.128
+ ip nat inside
+ ip nat enable
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+
+
+
+2911(dhcp-config)#do show ip dhcp pool Office-2
+
+Pool Office-2 :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0
+ Total addresses                : 126
+ Leased addresses               : 0
+ Pending event                  : none
+ 1 subnet is currently in the pool :
+ Current index        IP address range                    Leased addresses
+ 192.168.50.129       192.168.50.129   - 192.168.50.254    0
+
+2911(config)#do show ip dhcp pool Office-1
+
+Pool Office-1 :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0
+ Total addresses                : 14
+ Leased addresses               : 1
+ Pending event                  : none
+ 1 subnet is currently in the pool :
+ Current index        IP address range                    Leased addresses
+ 192.168.40.242       192.168.40.241   - 192.168.40.254    1
+		]]>
+		</screen>
+		<section>
+			<title>dns-server</title>
+			<para>OpenDNS</para>
+			<screen>
+dns-server 208.67.222.222
+dns-server 208.67.220.220
+			</screen>
+			<para>Google</para>
+			<screen>
+dns-server 8.8.8.8
+dns-server 4.4.4.4
+			</screen>
+		</section>
+	</section>
+<section id="route.protocol">
+	<title>路由协议</title>
+
+	<section>
+		<title>静态路由</title>
+		<para>enable routing</para>
+		<screen>
+Router(config)#ip routing
+		</screen>
+		<screen>
+		<![CDATA[
+Router(config)#ip route 192.168.3.0 255.255.255.0 192.168.3.1
+Router(config)#ip route 172.16.0.0 255.255.255.0 172.16.0.254
+Router(config)#ip route 192.168.5.0 255.255.255.0 192.168.5.1
+		]]>
+		</screen>
+
+		<screen>
+		<![CDATA[
+!--- The default route is configured and points to 192.168.1.2.
+ip route 0.0.0.0 0.0.0.0 192.168.1.2
+
+		]]>
+		</screen>
+		<para>remove route</para>
+		<screen>
+no ip route 1.1.1.0 255.255.255.0 fastEthernet 0/0
+		</screen>
+		<para>save</para>
+		<screen>
+		<![CDATA[
+copy run sta
+		]]>
+		</screen>
+		<para>debug rip</para>
+		<screen>
+			<![CDATA[
+testBJ#debug ip rip
+			]]>
+		</screen>
+	</section>
+	<section>
+		<title>RIP</title>
+		<para>enable rip</para>
+		<screen>
+		<![CDATA[
+Switch>en            		//进入特权模式
+Switch#conf t        		//进入全局模式
+Switch(config)#router rip   //启动rip进程
+Switch(config-router)#network 192.168.1.0    //宣告网络192.168.1.0
+Switch(config-router)#ex    //退出到全局模式
+		]]>
+		</screen>
+		<para>disable rip</para>
+		<screen>
+Router(config)#no router rip
+		</screen>
+	</section>
+	<section>
+		<title>IGRP</title>
+		<para>enable igrp</para>
+		<screen>
+		<![CDATA[
+Router(config)#router igrp 200
+Router(config-router)#network 172.16.0.0
+		]]>
+		</screen>
+		<para>Disable IGRP</para>
+		<screen>
+		<![CDATA[
+Router(config)#no router igrp 200
+		]]>
+		</screen>
+	</section>
+	<section>
+		<title>PBR</title>
+		<screen>
+access-list 10 permit 192.168.1.0
+access-list 20 permit 192.168.2.0
+!
+int e0
+ip policy route-map nexthop
+!
+route-map nexthop permit 10
+match ip address 10
+set ip next-hop 192.168.1.1
+!
+route-map nexthop permit 20
+match ip address 20
+set ip next-hop 192.168.2.1
+!
+route-map nexthop permit 30
+		</screen>
+	</section>
+</section>
+	<section id="route.nat">
+		<title>NAT</title>
+		<screen>
+		<![CDATA[
+需求如下：
+CISCO2621路由器需要做NAT地址转换
+内网是192.168.1.0 192.168.2.0 两个网段上网
+外口是218.98.0.1
+NAT地址是外口地址
+
+
+配置：
+interface Fastethernet 0/0
+ip address 218.98.0.1 255.255.255.0
+ip nat outside
+
+interface fastethernet 0/1
+ip address 192.168.1.1 255.255.254.0
+ip nat inside
+
+ip nat pool aaa 218.98.0.1 218.98.0.1 netmask 255.255.255.0
+ip nat inside source list 1 pool aaa
+access-list 1 permit 192.168.1.0 0.0.1.255
+
+
+ip nat pool office 192.168.3.123 192.168.3.123 netmask 255.255.255.0
+ip nat inside source list 1 pool office
+access-list 1 permit 192.168.3.0 0.0.0.255
+		]]>
+
+		</screen>
+		<para>port mapped</para>
+		<screen>
+		<![CDATA[
+ip nat inside source static tcp 172.16.1.1 80 192.168.1.3 500 extendable
+		]]>
+		</screen>
+		<para>show ip nat translation</para>
+		<screen>
+		<![CDATA[
+Router#show ip nat translation
+		]]>
+		</screen>
+		<example>
+			<title>2911 NAT</title>
+			<screen>
+interface GigabitEthernet0/1
+ description Default-Shenzhen-IPLC-Hongkong-WAN
+ ip address 192.168.1.254 255.255.255.0
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/0/0
+ description Office-1
+ ip address 192.168.40.254 255.255.255.240
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/0/1
+ description Office-2
+ ip address 192.168.50.254 255.255.255.128
+ ip nat inside
+ ip nat enable
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+
+ip nat inside source list 100 interface GigabitEthernet0/1 overload
+ip route 0.0.0.0 0.0.0.0 192.168.1.1
+!
+access-list 100 permit ip any any
+			</screen>
+			<para>access-list extended</para>
+			<screen> 
+ip nat inside source list nat interface FastEthernet0/0/0 overload
+ip route 0.0.0.0 0.0.0.0 192.168.1.1
+!
+ip access-list extended nat
+ permit ip any any
+
+ip nat inside source list pat interface FastEthernet0/0/1 overload
+!
+ip access-list extended pat
+ permit ip 192.168.1.0 0.0.0.255 any
+			</screen>
+		</example>
+		<section>
+			<title>IP 映射</title>
+			<screen>
+			<![CDATA[
+ena
+
+conf t
+
+ip nat inside source static 192.168.1.4 200.200.200.200
+
+int f0/0
+
+ip nat outside
+
+no shut
+
+int f0/1
+
+ip nat inside
+
+no shut
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>端口映射</title>
+			<screen>
+			<![CDATA[
+至少做两条NAT，因为FTP有两个端口，20，21，一个数据，一个指令
+
+端口映射：
+ip nat inside source static tcp 192.168.1.4 21 200.200.200.200 21
+ip nat inside source static tcp 192.168.1.4 20 200.200.200.200 20
+
+在外网的接口（你的f0/0）上配置
+Router（config-if）#ip nat outside（只能有一个出接口）
+在内网的接口（你的f0/1）上配置
+Router（config-if）#ip nat inside（可以有多个进接口）
+			]]>
+			</screen>
+		</section>
+
+		<section>
+			<title>example 1</title>
+			<para>cisco上做端口映射，要求192.168.0.180:8000和192.168.0.181：8000分别映射外网202.122.111.66的3000和3002端口  其他192.168.0.0/24的主机可以上网，具体配置</para>
+			<screen>
+			<![CDATA[
+int fa0/0
+ip nat inside
+int fa0/1
+ip nat outside
+
+全局模式：
+access-list 10 permit any
+ip nat inside source list 10 interface fa0/1 overload
+
+端口映射：
+ip nat inside source static tcp 192.168.0.180 8000 interface fa0/1 3000
+ip nat inside source static tcp 192.168.0.181 8000 interface fa0/1 3002
+
+interface fa0/1是外网的端口
+			]]>
+			</screen>
+		</section>
+	</section>
+
+	<section id="route.rate-limit">
+		<title>限制流量</title>
+		<section>
+			<title>rate-limit</title>
+			<screen>
+在Cisco设备中，只有支持思科快速转发（CEF，Cisco Express Forward)的路由器或交换机才能使用rate-limit来限制流量，具体设置分三步
+
+1. 在全局模式下开启cef：
+configure terminal
+Router(config)#ip cef
+2. 定义标准或者扩展访问列表（定义一个方向就可以了）：
+Router(config)#access-list 111 permit ip 192.168.1.0 0.0.0.255 any
+3. 在希望限制的端口上进行rate-limit：
+Router(config)#interface FastEthernet 0/1
+Rounter(config-if)#rate-limit input access-group 111 2000000 40000 60000 conform-action transmit exceed-action drop
+
+这样我们就对192.168.1.0网段进行了限速，速率为2Mbps。注意，是对整个网段，因为你定义的ACL就是针对整个网段的。
+
+rate-limit命令格式：
+
+#rate-limit {input|output} [access-group number] bps burst-normal burst-max conform-action action exceed-action action
+
+input|output：这是定义数据流量的方向。
+
+access-group number：定义的访问列表的号码。
+
+bps：定义流量速率的上限，单位是bps。
+
+burst-normal burst-max：定义的数据容量的大小，一般采用8000，16000，32000，单位是字节，当到达的数据超过此容量时，将触发某个动作，丢弃或转发等，从而达到限速的目的。
+
+conform-action和exceed-action：分别指在速率限制以下的流量和超过速率限制的流量的处理策略。
+
+action：是处理策略，包括drop和transmit等
+			</screen>
+		</section>
+	</section>
+	<section id="ppp">
+		<title>PPPoE</title>
+		<screen>
+假设E0接内网，E1接ADSL上外网
+第一步:配置vpdn
+vpdn enable(启用路由器的虚拟专用拨号网络---vpnd)
+vpdn-group office(建立一个vpdn组,)
+request-dialin(初始化一个vpnd tunnel,建立一个请求拨入的vpdn子组,)
+protocol pppoe(vpdn子组使用pppoe建立会话隧道)
+
+第二步: 配置路由器连接adsl modem的接口
+interface Ethernet1
+no ip address
+pppoe enable允许以太接口运行pppoe
+pppoe-client dial-pool-number 1将以太接口的pppoe拨号客户端加入拨号池1
+
+第三步:配置逻辑拨号接口:
+interface Dialer1
+ip address negotiated从adsl服务商动态协商得到ip地址
+ip nat outside为该接口启用NAT
+encapsulation ppp为该接口封装ppp协议
+dialer pool 1该接口使用1号拨号池进行拨号
+dialer-group 1该命令对于pppoe是意义不大的
+ppp authentication pap callin启用ppp pap验证
+ppp pap sent-username bnnXXXXX password  XXXXX使用已经申请的用户名和口令
+
+第四步:配置内部网络接口
+interface Ethernet0(内部网络接口)
+ip address 10.1.1.1 255.255.255.0
+ip nat inside为该接口启用NAT
+
+第五步:配置路由器为内部网络主机提供dhcp服务
+ip dhcp excluded-address 10.1.1.1
+ip dhcp pool ABC
+import all(导入dns和wins server)
+network 10.1.1.0 255.255.255.0
+default-router 10.1.1.1
+
+第六步:配置NAT:
+access-list 1 permit 10.1.1.0 0.0.0.255
+ip nat inside source list 1 interface Dialer1 overload
+
+第七步:配置缺省路由
+ip route 0.0.0.0 0.0.0.0 Dialer1
+		</screen>
+	</section>
+	<section id="route.snmp">
+		<title>SNMP</title>
+		<screen>
+snmp-server host 172.16.0.5 ro 		"安装了MRTG和Cacti服务器地址
+snmp-server location Shenzhen 		"位置描述
+snmp-server contact netkiller@example.com
+snmp-server community public ro
+snmp-server enable traps
+		</screen>
+		<screen>
+2911(config)#do show snmp
+Chassis: FGL1607125L
+Contact: netkiller@68msn.com
+Location: Shenzhen
+0 SNMP packets input
+    0 Bad SNMP version errors
+    0 Unknown community name
+    0 Illegal operation for community name supplied
+    0 Encoding errors
+    0 Number of requested variables
+    0 Number of altered variables
+    0 Get-request PDUs
+    0 Get-next PDUs
+    0 Set-request PDUs
+    0 Input queue packet drops (Maximum queue size 1000)
+0 SNMP packets output
+    0 Too big errors (Maximum packet size 1500)
+    0 No such name errors
+    0 Bad values errors
+    0 General errors
+    0 Response PDUs
+    0 Trap PDUs
+SNMP Dispatcher:
+   queue 0/75 (current/max), 0 dropped
+SNMP Engine:
+   queue 0/1000 (current/max), 0 dropped
+
+SNMP logging: enabled
+    Logging to 172.16.0.5.162, 0/10, 0 sent, 0 dropped.
+    Logging to 192.168.1.246.162, 0/10, 0 sent, 0 dropped.
+		</screen>
+	</section>
+	&chapter.router.acl.xml;
+	<section id="route.reload">
+		<title>reload</title>
+		<screen>
+Router#reload
+		</screen>
+	</section>
+</chapter>

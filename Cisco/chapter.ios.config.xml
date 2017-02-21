@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="file">
+	<title>文件管理</title>
+	<section id="tftp">
+		<title>tftp</title>
+		<screen>
+4A3750G#copy running-config tftp://192.168.3.10
+Address or name of remote host [192.168.3.10]?
+Destination filename [4a3750g-confg]?
+!!!
+7100 bytes copied in 1.233 secs (5758 bytes/sec)
+		</screen>
+		<screen>
+4A3750G#copy flash:/config.text tftp://192.168.3.10
+Address or name of remote host [192.168.3.10]?
+Destination filename [config.text]?
+!!!
+7098 bytes copied in 0.034 secs (208765 bytes/sec)
+
+		</screen>
+	</section>
+
+	<section id="license">
+		<title>License</title>
+		<screen>
+4507R-B#copy ftp://test@172.16.1.2/FOX1522GLS6_20111208005620795.lic .
+		</screen>
+		<screen>
+4507R-B#copy ftp://test:chen1980@172.16.1.2/FOX1522GLS6_20111208005620795.lic .
+Destination filename [./FOX1522GLS6_20111208005620795.lic]?
+Accessing ftp://*****:*****@172.16.1.2/FOX1522GLS6_20111208005620795.lic...
+Loading FOX1522GLS6_20111208005620795.lic !
+[OK - 1144/4096 bytes]
+
+1144 bytes copied in 0.088 secs (13000 bytes/sec)
+4507R-B#
+4507R-B#dir
+Directory of bootflash:/
+
+14595  -rw-    85229120  May 12 2011 07:39:41 +00:00  cat4500e-universal.SPA.03.01.01.SG.150-1.XO1.bin
+14596  -rw-        1144  Dec 12 2011 18:36:22 +00:00  FOX1522GLS6_20111208005620795.lic
+14597  -rw-        1223  Nov 22 2011 10:21:19 +00:00  license
+14599  -rw-        4353  Nov 22 2011 12:38:42 +00:00  backup.cfg2011.11.22
+
+822910976 bytes total (737497088 bytes free)
+4507R-B#
+		</screen>
+	</section>
+</chapter>

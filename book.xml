@@ -5,19 +5,14 @@
 	"http://www.oasis-open.org/docbook/xml/5.0b5/dtd/docbook.dtd" [ -->
 <!DOCTYPE subject SYSTEM "/usr/share/xml/docbook/schema/dtd/5.0/docbook.dtd"
 	[
-	<!ENTITY book.info.legalnotice.xml	SYSTEM "../common/book.info.legalnotice.xml">
-	<!ENTITY book.info.abstract.xml		SYSTEM "../common/book.info.abstract.xml">
-	<!ENTITY book.preface.xml		SYSTEM "../common/book.preface.xml">
-	<!ENTITY preface.about.me.xml       	SYSTEM "../common/about.me.xml">
-	<!ENTITY book.dedication.xml       	SYSTEM "../common/book.dedication.xml">
+
+	<!ENTITY % common.doctype.entity.xml 		SYSTEM "../common/doctype.entity.xml">
+	%common.doctype.entity.xml;
+	
+	<!ENTITY book.info.abstract.xml 	SYSTEM "book.info.abstract.xml">
 
 	<!ENTITY chapter.cisco.xml		SYSTEM "chapter.cisco.xml">
-
-	<!ENTITY part.h3c.xml			SYSTEM "part.h3c.xml">
-	<!ENTITY chapter.h3c.xml			SYSTEM "H3C/chapter.h3c.xml">
-	<!ENTITY chapter.h3c.ap.xml			SYSTEM "H3C/chapter.h3c.ap.xml">
-	<!ENTITY chapter.h3c.switch.xml		SYSTEM "H3C/chapter.h3c.switch.xml">
-
+	
 	<!ENTITY chapter.juniper.xml		SYSTEM "Juniper/chapter.juniper.xml">
 	<!ENTITY chapter.juniper.policy.xml	SYSTEM "Juniper/chapter.juniper.policy.xml">
 	<!ENTITY chapter.juniper.flow.xml	SYSTEM "Juniper/chapter.juniper.flow.xml">
@@ -78,10 +73,7 @@
 
 		</authorgroup>
 		<copyright>
-			<year>2010</year>
-			<year>2011</year>
-			<year>2012</year>
-			<year>2013</year>
+			<year>2010-2017</year>
 			<holder>Neo Chan</holder>
 		</copyright>
 		<releaseinfo>

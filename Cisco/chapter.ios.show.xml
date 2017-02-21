@@ -1,0 +1,565 @@
+<!-- $Id: chapter.ios.show.xml 334 2012-02-01 05:59:34Z netkiller $ -->
+<chapter id="show">
+	<title>show</title>
+	<section id="show.version">
+		<title>show version</title>
+		<screen>
+Router#show version
+Cisco IOS Software, 2800 Software (C2800NM-IPBASE-M), Version 12.4(3i), RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2007 by Cisco Systems, Inc.
+Compiled Wed 28-Nov-07 21:09 by stshen
+
+ROM: System Bootstrap, Version 12.4(13r)T, RELEASE SOFTWARE (fc1)
+
+Router uptime is 49 minutes
+System returned to ROM by power-on
+System image file is "flash:c2800nm-ipbase-mz.124-3i.bin"
+
+Cisco 2811 (revision 53.51) with 251904K/10240K bytes of memory.
+Processor board ID FHK1152F1QF
+2 FastEthernet interfaces
+1 Channelized E1/PRI port
+DRAM configuration is 64 bits wide with parity enabled.
+239K bytes of non-volatile configuration memory.
+62720K bytes of ATA CompactFlash (Read/Write)
+
+Configuration register is 0x2142
+
+		</screen>
+	</section>
+	<section id="show.line">
+		<title>show line</title>
+		<screen>
+
+		</screen>
+	</section>
+	<section id="show.interface">
+		<title>show interfaces</title>
+		<para>FastEthernet0/0 is f0/0</para>
+		<screen>
+		<![CDATA[
+Router#show interfaces
+FastEthernet0/0 is up, line protocol is up
+  Hardware is MV96340 Ethernet, address is 001e.7ae0.4740 (bia 001e.7ae0.4740)
+  Internet address is 192.168.3.39/24
+  MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Full-duplex, 100Mb/s, 100BaseTX/FX
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:00, output 00:00:00, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 43000 bits/sec, 86 packets/sec
+  5 minute output rate 6000 bits/sec, 9 packets/sec
+     160163 packets input, 10159221 bytes
+     Received 155086 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 watchdog
+     0 input packets with dribble condition detected
+     6160 packets output, 732967 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+FastEthernet0/1 is up, line protocol is up
+  Hardware is MV96340 Ethernet, address is 001e.7ae0.4741 (bia 001e.7ae0.4741)
+  Internet address is 192.168.6.1/24
+  MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Full-duplex, 100Mb/s, 100BaseTX/FX
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:00, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 43000 bits/sec, 86 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     155406 packets input, 9677011 bytes
+     Received 151563 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 watchdog
+     0 input packets with dribble condition detected
+     509 packets output, 67569 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+
+		]]>
+		</screen>
+		<section>
+			<title>show interfaces counters</title>
+			<screen>
+# show interfaces counters
+
+Port            InOctets   InUcastPkts   InMcastPkts   InBcastPkts
+Fa0/1      2379327296184   10979280099           485        192752
+Fa0/2       296014579556    1366095693           171         43447
+Fa0/3      3183094910407    9958929000           315       3652593
+Fa0/4      3390297882614   11050928174           208       3653027
+Fa0/5       713746812545    2156063532           146       3506457
+Fa0/6      5820647654184    5834009783            12         25417
+Fa0/7      4082998183543    4738181544             8        664486
+Fa0/8      3881386497397    3470425864           157         71607
+Fa0/9      3448924790734    3574503546           258       1370329
+Fa0/10     5359204222315    6336042807           219         61829
+Fa0/11      443781559337     700314879           107         14633
+Fa0/12      206467769769     474380960          1466          5332
+Fa0/13     5014038301762    7032277335       1660694       1253268
+Fa0/14     3328766937851    4771525509        115767        105209
+Fa0/15      165277335824     150521964           141         27380
+Fa0/16     6648033552242   34767920446             0        190169
+Fa0/17       20059975664      37395851           130         34157
+Fa0/18         959154299       5664538         12064         24836
+Fa0/19      544011647073    1118388248           179          7907
+Fa0/20        3198019694      43739891            47           597
+Fa0/21    43920844537221   44221593064             0     126542762
+Fa0/22                 0             0             0             0
+Fa0/23     3591391278622   18628916636      16194340      45121928
+Fa0/24     3089759856323   16570933097      16675291        952603
+Gi0/1     19350417632314   23775137822      26153899      10372199
+Gi0/2     26741429410404   32445020479       3709263       5652997
+
+Port           OutOctets  OutUcastPkts  OutMcastPkts  OutBcastPkts
+Fa0/1      2314327534046   11138672916      29967451      30690533
+Fa0/2       215863081281    1706941398      29983016      30883449
+Fa0/3      6562564324539   11198668653      29982867      27270456
+Fa0/4      8085972337363   12651412798      29982767      27270074
+Fa0/5      1418549036203    2569992844      29972955      27396996
+Fa0/6       912785966115    4805712756      29983511      30901354
+Fa0/7       984705622618    3398551525      29983778      30262541
+Fa0/8       425397050952    2912467841      29964019      30769573
+Fa0/9       511529095198    3130871808      29983385      29556291
+Fa0/10      828312555904    5667103408      29983198      30864778
+Fa0/11      212566354130    1031479901      29983644      30912069
+Fa0/12      233817196922     867262915      29984375      30922089
+Fa0/13     4723454998834    7410676119      27180708      28269375
+
+Port           OutOctets  OutUcastPkts  OutMcastPkts  OutBcastPkts
+Fa0/14     3623218726553    4971350097      28685555      29375918
+Fa0/15      113927300309     356873845      11112762      16969115
+Fa0/16    44239007226956   44566316209      29979292      30727856
+Fa0/17      108413408330     277915584       5714898      13809813
+Fa0/18       24028112089      29678877        423184         98235
+Fa0/19      778949661871    1431822025       4716298      13693644
+Fa0/20      183999500752     207737816       3321828       9477604
+Fa0/21     6677881295074   35188153632      42517648      46074090
+Fa0/22                 0             0             0             0
+Fa0/23    43918173114274   44206559406      26657266     127495496
+Fa0/24       20349553322      27745549      26176335     171664823
+Gi0/1      4986490430392   21696238723       5500840      20555280
+Gi0/2     14824142846314   28724855823      27944285      25274493
+
+			</screen>
+		</section>
+		<section>
+			<title>show ip interface brief</title>
+			<screen>
+#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+Vlan1                  172.16.0.254    YES NVRAM  up                    up
+Vlan2                  unassigned      YES NVRAM  up                    up
+Vlan3                  192.168.3.1     YES NVRAM  up                    up
+GigabitEthernet1/0/1   unassigned      YES unset  up                    up
+GigabitEthernet1/0/2   unassigned      YES unset  up                    up
+GigabitEthernet1/0/3   unassigned      YES unset  down                  down
+GigabitEthernet1/0/4   unassigned      YES unset  down                  down
+GigabitEthernet1/0/5   unassigned      YES unset  down                  down
+GigabitEthernet1/0/6   unassigned      YES unset  down                  down
+GigabitEthernet1/0/7   unassigned      YES unset  up                    up
+GigabitEthernet1/0/8   unassigned      YES unset  up                    up
+GigabitEthernet1/0/9   unassigned      YES unset  up                    up
+GigabitEthernet1/0/10  unassigned      YES unset  up                    up
+GigabitEthernet1/0/11  unassigned      YES unset  up                    up
+GigabitEthernet1/0/12  unassigned      YES unset  up                    up
+GigabitEthernet1/0/13  unassigned      YES unset  up                    up
+GigabitEthernet1/0/14  unassigned      YES unset  down                  down
+GigabitEthernet1/0/15  unassigned      YES unset  up                    up
+GigabitEthernet1/0/16  unassigned      YES unset  up                    up
+GigabitEthernet1/0/17  unassigned      YES unset  up                    up
+GigabitEthernet1/0/18  unassigned      YES unset  up                    up
+GigabitEthernet1/0/19  unassigned      YES unset  down                  down
+GigabitEthernet1/0/20  unassigned      YES unset  down                  down
+GigabitEthernet1/0/21  unassigned      YES unset  up                    up
+GigabitEthernet1/0/22  unassigned      YES unset  up                    up
+GigabitEthernet1/0/23  unassigned      YES unset  up                    up
+GigabitEthernet1/0/24  unassigned      YES unset  down                  down
+GigabitEthernet1/0/25  unassigned      YES unset  down                  down
+GigabitEthernet1/0/26  unassigned      YES unset  down                  down
+GigabitEthernet1/0/27  unassigned      YES unset  down                  down
+GigabitEthernet1/0/28  unassigned      YES unset  down                  down
+GigabitEthernet2/0/1   unassigned      YES unset  up                    up
+GigabitEthernet2/0/2   unassigned      YES unset  down                  down
+GigabitEthernet2/0/3   unassigned      YES unset  down                  down
+GigabitEthernet2/0/4   unassigned      YES unset  up                    up
+GigabitEthernet2/0/5   unassigned      YES unset  up                    up
+GigabitEthernet2/0/6   unassigned      YES unset  down                  down
+GigabitEthernet2/0/7   unassigned      YES unset  up                    up
+GigabitEthernet2/0/8   unassigned      YES unset  down                  down
+GigabitEthernet2/0/9   unassigned      YES unset  down                  down
+GigabitEthernet2/0/10  unassigned      YES unset  down                  down
+GigabitEthernet2/0/11  unassigned      YES unset  down                  down
+GigabitEthernet2/0/12  unassigned      YES unset  down                  down
+GigabitEthernet2/0/13  unassigned      YES unset  up                    up
+GigabitEthernet2/0/14  unassigned      YES unset  down                  down
+GigabitEthernet2/0/15  unassigned      YES unset  up                    up
+GigabitEthernet2/0/16  unassigned      YES unset  down                  down
+GigabitEthernet2/0/17  unassigned      YES unset  up                    up
+GigabitEthernet2/0/18  unassigned      YES unset  down                  down
+GigabitEthernet2/0/19  unassigned      YES unset  up                    up
+GigabitEthernet2/0/20  unassigned      YES unset  down                  down
+GigabitEthernet2/0/21  unassigned      YES unset  up                    up
+GigabitEthernet2/0/22  unassigned      YES unset  down                  down
+GigabitEthernet2/0/23  unassigned      YES unset  up                    up
+GigabitEthernet2/0/24  unassigned      YES unset  up                    up
+GigabitEthernet2/0/25  unassigned      YES unset  down                  down
+GigabitEthernet2/0/26  unassigned      YES unset  down                  down
+GigabitEthernet2/0/27  unassigned      YES unset  down                  down
+GigabitEthernet2/0/28  unassigned      YES unset  down                  down
+Port-channel1          unassigned      YES unset  up                    up
+Port-channel2          unassigned      YES unset  up                    up
+Port-channel3          unassigned      YES unset  up                    up
+Port-channel4          unassigned      YES unset  down                  down
+Port-channel5          unassigned      YES unset  down                  down
+Port-channel17         unassigned      YES unset  up                    up
+Port-channel19         unassigned      YES unset  down                  down
+			</screen>
+		</section>
+		<section>
+			<title>show interface status</title>
+			<screen>
+#show interface status
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Gi1/0/1                      connected    100        a-full a-1000 10/100/1000BaseTX
+Gi1/0/2                      connected    100        a-full a-1000 10/100/1000BaseTX
+Gi1/0/3                      notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/4                      notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/5                      notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/6                      notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/7                      connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/8                      connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/9                      connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/10                     connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/11                     connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/12                     connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/13                     connected    10         a-half   a-10 10/100/1000BaseTX
+Gi1/0/14                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/15                     connected    11         a-full a-1000 10/100/1000BaseTX
+Gi1/0/16                     connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/17                     connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/18                     connected    1          a-full a-1000 10/100/1000BaseTX
+Gi1/0/19                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/20                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/21                     connected    2          a-full  a-100 10/100/1000BaseTX
+Gi1/0/22                     connected    2          a-full a-1000 10/100/1000BaseTX
+Gi1/0/23                     connected    2          a-full a-1000 10/100/1000BaseTX
+Gi1/0/24                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/25                     notconnect   1            auto   auto Not Present
+Gi1/0/26                     err-disabled 1            auto   auto Not Present
+Gi1/0/27                     notconnect   1            auto   auto Not Present
+Gi1/0/28                     err-disabled 1            auto   auto Not Present
+Gi2/0/1                      connected    70         a-full  a-100 10/100/1000BaseTX
+Gi2/0/2                      notconnect   70           auto   auto 10/100/1000BaseTX
+Gi2/0/3                      notconnect   80           auto   auto 10/100/1000BaseTX
+Gi2/0/4                      connected    80         a-full  a-100 10/100/1000BaseTX
+Gi2/0/5                      connected    1          a-full  a-100 10/100/1000BaseTX
+Gi2/0/6                      notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/7                      connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi2/0/8                      notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/9                      notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/10                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/11                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/12                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/13                     connected    trunk      a-full a-1000 10/100/1000BaseTX
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Gi2/0/14                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/15                     connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi2/0/16                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/17                     connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi2/0/18                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/19                     connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi2/0/20                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/21                     connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi2/0/22                     notconnect   1            auto   auto 10/100/1000BaseTX
+Gi2/0/23                     connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi2/0/24                     connected    1          a-full a-1000 10/100/1000BaseTX
+Gi2/0/25                     notconnect   1            auto   auto Not Present
+Gi2/0/26                     notconnect   1            auto   auto Not Present
+Gi2/0/27                     notconnect   1            auto   auto Not Present
+Gi2/0/28                     notconnect   1            auto   auto Not Present
+Po1                          connected    1          a-full a-1000
+Po2                          connected    1          a-full a-1000
+Po3                          connected    1          a-full a-1000
+Po4                          notconnect   1            auto   auto
+Po5                          notconnect   1            auto   auto
+Po17                         connected    1          a-full a-1000
+Po19                         notconnect   1            auto   auto
+
+			</screen>
+		</section>
+	</section>
+	<section id="show.ip.arp">
+		<title>show ip arp</title>
+		<screen>
+Router#show ip arp
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  192.168.3.123          21   001c.23f9.d931  ARPA   FastEthernet0/0
+Internet  192.168.3.75            7   0025.648f.c6be  ARPA   FastEthernet0/0
+Internet  192.168.3.39            -   001e.7ae0.4740  ARPA   FastEthernet0/0
+Internet  192.168.3.10           24   0025.64a3.59bf  ARPA   FastEthernet0/0
+Internet  192.168.3.1             0   001f.1255.a902  ARPA   FastEthernet0/0
+Internet  192.168.6.5            10   0025.648f.c6be  ARPA   FastEthernet0/1
+Internet  192.168.6.1             -   001e.7ae0.4741  ARPA   FastEthernet0/1
+
+#show arp | in 172.16.1.2
+
+#show mac-address-table dynamic interface Fa0/3
+		</screen>
+	</section>
+	<section id="show.mac-address-table">
+		<title>show mac-address-table</title>
+		<screen>
+#show mac-address-table
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+ All    0100.0ccc.cccc    STATIC      CPU
+ All    0100.0ccc.cccd    STATIC      CPU
+ All    0180.c200.0000    STATIC      CPU
+ All    0180.c200.0001    STATIC      CPU
+ All    0180.c200.0002    STATIC      CPU
+ All    0180.c200.0003    STATIC      CPU
+ All    0180.c200.0004    STATIC      CPU
+ All    0180.c200.0005    STATIC      CPU
+ All    0180.c200.0006    STATIC      CPU
+ All    0180.c200.0007    STATIC      CPU
+ All    0180.c200.0008    STATIC      CPU
+ All    0180.c200.0009    STATIC      CPU
+ All    0180.c200.000a    STATIC      CPU
+ All    0180.c200.000b    STATIC      CPU
+ All    0180.c200.000c    STATIC      CPU
+ All    0180.c200.000d    STATIC      CPU
+ All    0180.c200.000e    STATIC      CPU
+ All    0180.c200.000f    STATIC      CPU
+ All    0180.c200.0010    STATIC      CPU
+ All    ffff.ffff.ffff    STATIC      CPU
+   1    000d.482c.183e    DYNAMIC     Gi1/0/24
+   1    000f.e207.f2e0    DYNAMIC     Gi1/0/16
+   1    000f.e285.0b10    DYNAMIC     Gi1/0/16
+   1    0024.e834.29ea    DYNAMIC     Gi1/0/24
+...
+...
+ 100    f04d.a2d9.9b30    DYNAMIC     Gi1/0/22
+ 200    04fe.7f45.c31a    DYNAMIC     Gi1/0/22
+Total Mac Addresses for this criterion: 501
+		</screen>
+		<section>
+			<title>通过mac查找端口</title>
+			<screen>
+Switch-2960-WAN-0#show mac-address-table dynamic add 001c.58b5.6e81
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+   1    001c.58b5.6e81    DYNAMIC     Fa0/16
+Total Mac Addresses for this criterion: 1
+			</screen>
+		</section>
+	</section>
+		<section id="show.mac">
+			<title>show mac address dy</title>
+			<screen>
+Switch-2960-WAN-0#show mac address dy
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+   1    001b.789e.0fd8    DYNAMIC     Gi0/1
+   1    001b.789e.0fda    DYNAMIC     Fa0/9
+   1    001c.58b5.6e81    DYNAMIC     Fa0/16
+   1    001c.c45e.5f68    DYNAMIC     Fa0/10
+   1    001d.0922.7438    DYNAMIC     Fa0/8
+   1    001d.0922.743a    DYNAMIC     Gi0/1
+   1    001d.0926.1cce    DYNAMIC     Fa0/3
+   1    001d.0926.1cd0    DYNAMIC     Gi0/1
+   1    001d.0926.e5e7    DYNAMIC     Fa0/4
+   1    001d.0926.e5eb    DYNAMIC     Fa0/4
+   1    001d.0926.fa35    DYNAMIC     Fa0/5
+   1    001d.0926.fac6    DYNAMIC     Gi0/2
+   1    001d.09f0.ac07    DYNAMIC     Fa0/2
+   1    001d.09f0.ad12    DYNAMIC     Fa0/1
+   1    001d.09f0.ad13    DYNAMIC     Gi0/1
+   1    001e.0bd9.f4c2    DYNAMIC     Fa0/12
+   1    001e.c9b4.62cc    DYNAMIC     Gi0/2
+   1    001e.c9b4.62ce    DYNAMIC     Gi0/1
+   1    001e.c9b8.9124    DYNAMIC     Gi0/2
+   1    001e.c9df.4843    DYNAMIC     Gi0/2
+   1    001e.c9df.4fde    DYNAMIC     Gi0/2
+   1    001e.c9df.50f5    DYNAMIC     Fa0/6
+   1    001e.c9df.5104    DYNAMIC     Fa0/7
+   1    001e.c9df.5106    DYNAMIC     Gi0/1
+   1    001e.c9df.5113    DYNAMIC     Gi0/2
+
+			</screen>
+		</section>
+	<section id="show.ip.route">
+		<title>show ip route</title>
+		<screen>
+		<![CDATA[
+Router#show ip route
+Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route
+
+Gateway of last resort is 192.168.3.1 to network 0.0.0.0
+
+C    192.168.6.0/24 is directly connected, FastEthernet0/1
+C    192.168.3.0/24 is directly connected, FastEthernet0/0
+S*   0.0.0.0/0 [1/0] via 192.168.3.1
+		]]>
+		</screen>
+	</section>
+	<section id="show.ip.proto">
+		<title>show ip protocols</title>
+
+	</section>
+	<section id="show.access-lists">
+		<title>show access-lists</title>
+		<screen>
+Router#show access-lists
+		</screen>
+		<screen>
+asa5550# sh access-list | include udp
+asa5550# sh access-list | exclude 172.16.1.254
+		</screen>
+	</section>
+	<section id="show.vlan">
+		<title>show vlans</title>
+		<screen>
+Router# show vlans
+
+No Virtual LANs configured.
+		</screen>
+	</section>
+	<section id="show.log">
+		<title>show log</title>
+		<screen>
+Router#show log
+Syslog logging: enabled (1 messages dropped, 3 messages rate-limited,
+                0 flushes, 0 overruns, xml disabled, filtering disabled)
+    Console logging: level debugging, 22 messages logged, xml disabled,
+                     filtering disabled
+    Monitor logging: level debugging, 0 messages logged, xml disabled,
+                     filtering disabled
+    Buffer logging: disabled, xml disabled,
+                    filtering disabled
+    Logging Exception size (4096 bytes)
+    Count and timestamp logging messages: disabled
+    Trap logging: level informational, 26 message lines logged
+
+		</screen>
+	</section>
+	<section id="show.flash">
+		<title>show flash</title>
+		<screen>
+Router#show flash
+-#- --length-- -----date/time------ path
+1     15679252 Dec 27 2007 01:37:22 +00:00 c2800nm-ipbase-mz.124-3i.bin
+2         1823 Dec 27 2007 01:45:46 +00:00 sdmconfig-2811.cfg
+3      6036480 Dec 27 2007 01:46:24 +00:00 sdm.tar
+4       861696 Dec 27 2007 01:46:46 +00:00 es.tar
+5      1164288 Dec 27 2007 01:47:04 +00:00 common.tar
+6         1038 Dec 27 2007 01:47:20 +00:00 home.shtml
+7       113152 Dec 27 2007 01:47:36 +00:00 home.tar
+8      1697952 Dec 27 2007 01:48:04 +00:00 securedesktop-ios-3.1.1.45-k9.pkg
+9       416354 Dec 27 2007 01:48:24 +00:00 sslclient-win-1.1.3.173.pkg
+
+38027264 bytes available (25989120 bytes used)
+
+		</screen>
+	</section>
+	<section id="show.cdp">
+		<title>show cdp nei</title>
+		<screen>
+show cdp nei
+show cdp ne de
+		</screen>
+	</section>
+	<section id="control-plane">
+		<title>control-plane</title>
+		<screen>
+2911#show control-plane host open-ports
+Active internet connections (servers and established)
+Prot               Local Address             Foreign Address                  Service    State
+ tcp                        *:22                         *:0               SSH-Server   LISTEN
+ tcp                        *:23                         *:0                   Telnet   LISTEN
+ tcp                        *:22          192.168.6.20:59831               SSH-Server ESTABLIS
+ tcp                        *:22          60.11.255.77:37264               SSH-Server ESTABLIS
+ tcp                       *:443                         *:0                HTTP CORE   LISTEN
+ tcp                       *:443                         *:0                HTTP CORE   LISTEN
+ udp                     *:61934                         *:0                  IP SNMP   LISTEN
+ udp                        *:67                         *:0            DHCPD Receive   LISTEN
+ udp                       *:161                         *:0                  IP SNMP   LISTEN
+ udp                       *:162                         *:0                  IP SNMP   LISTEN
+ udp                      *:1975                         *:0                      IPC   LISTEN		
+
+
+		</screen>
+	</section>
+	<section id="show.ip.nat">
+		<title>show ip nat translations</title>
+		<screen>
+2911#show ip nat translations udp | include 6.6
+udp 202.130.101.34:60653  192.168.6.2:60653     8.8.8.8:53            8.8.8.8:53
+udp 202.130.101.34:50000  192.168.6.6:50000     ---                   ---
+udp 202.130.101.34:50004  192.168.6.6:50004     ---                   ---
+udp 202.130.101.34:50008  192.168.6.6:50008     ---                   ---
+udp 202.130.101.34:55000  192.168.6.6:55000     ---                   ---
+
+2911#show ip nat translations tcp | include 6.6
+tcp 202.130.101.34:36662  192.168.6.1:36662     198.20.8.246:443      198.20.8.246:443
+tcp 202.130.101.34:50000  192.168.6.6:50000     ---                   ---
+tcp 202.130.101.34:64694  192.168.6.20:64694    108.168.151.6:80      108.168.151.6:80
+tcp 202.130.101.34:50626  192.168.6.53:50626    122.224.118.210:80    122.224.118.210:80
+tcp 202.130.101.34:36568  192.168.6.210:36568   203.205.148.41:80     203.205.148.41:80
+tcp 202.130.101.34:42686  192.168.6.210:42686   173.194.127.162:80    173.194.127.162:80
+tcp 202.130.101.34:49606  192.168.6.210:49606   223.197.17.98:443     223.197.17.98:443
+tcp 202.130.101.34:49616  192.168.6.210:49616   121.201.5.47:80       121.201.5.47:80
+tcp 202.130.101.34:49676  192.168.6.210:49676   125.78.240.189:80     125.78.240.189:80
+tcp 202.130.101.34:55656  192.168.6.210:55656   106.120.160.84:80     106.120.160.84:80
+tcp 202.130.101.34:56260  192.168.6.210:56260   211.152.122.46:80     211.152.122.46:80
+tcp 202.130.101.34:56262  192.168.6.210:56262   211.152.123.38:80     211.152.123.38:80
+tcp 202.130.101.34:56264  192.168.6.210:56264   211.152.123.41:80     211.152.123.41:80
+tcp 202.130.101.34:60622  192.168.6.210:60622   173.194.127.227:80    173.194.127.227:80
+tcp 202.130.101.34:60623  192.168.6.210:60623   106.120.168.89:80     106.120.168.89:80
+tcp 202.130.101.34:60637  192.168.6.210:60637   117.25.146.143:80     117.25.146.143:80
+tcp 202.130.101.34:60638  192.168.6.210:60638   117.25.146.143:80     117.25.146.143:80
+tcp 202.130.101.34:62692  192.168.6.210:62692   202.55.10.141:8080    202.55.10.141:8080		
+		</screen>
+	</section>
+	<section id="show.config">
+		<title>config</title>
+		<screen>
+Router#show running-config
+Router#show startup-config
+		</screen>
+	</section>
+</chapter>

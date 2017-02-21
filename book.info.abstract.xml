@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<abstract id="abstract">
+	<title>我的系列文档</title>
+	<para>网络设备及其他</para>
+	<simplelist type='horiz' columns='6'>
+		<member>
+			<ulink url="../network/index.html">Netkiller Network 手札</ulink>
+		</member>
+		<member>
+			<ulink url="../cisco/index.html">Netkiller Cisco IOS 手札</ulink>
+		</member>
+		<member>
+			<ulink url="../h3c/index.html">Netkiller H3C 手札</ulink>
+		</member>
+		<member>
+			<ulink url="../radio/index.html">Netkiller Amateur Radio 手札</ulink>
+		</member>
+	</simplelist>
+
+	<para>
+		您可以使用
+		<ulink url="ibook.epub">iBook</ulink>
+		阅读当前文档
+	</para>
+
+</abstract>

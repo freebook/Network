@@ -1,0 +1,1278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: chapter.h3c.switch.xml 421 2012-05-31 08:21:13Z netkiller $ -->
+<chapter id="index"><?dbhtml dir="switch" ?>
+	<title>H3C Switch</title>
+	<subtitle>S3600 S5500 Series</subtitle>
+	<section id="config">
+		<title>配置文件</title>
+		<screen>
+		<![CDATA[
+<H3C>reset saved-configuration
+The saved configuration will be erased.
+Are you sure?[Y/N]y
+Configuration in flash memory is being cleared.
+Please wait ...
+		]]>
+		</screen>
+	</section>
+	<section id="dhcp">
+		<title>DHCP</title>
+		
+		<section id="dhcp.server">
+			<title>DHCP Server</title>
+			<para>S3600 SI 没有DHCP Server，只有EI版本提供，狗日的H3C(fuck h3c)</para>
+			<screen>
+			<![CDATA[
+dhcp enable
+dhcp server ip-pool 0
+static-bind ip-address 172.16.0.2
+static-bind mac-address 000f-e200-0002
+dns-list 172.16.0.254
+gateway-list 172.16.0.254
+quit
+			]]>
+			</screen>
+			<screen>
+			<![CDATA[
+dhcp server ip-pool 0
+network 10.1.1.0 mask 255.255.255.0
+domain-name aabbcc.com
+dns-list 10.1.1.2
+nbns-list 10.1.1.4
+expired day 10 hour 12
+quit
+			]]>
+			</screen>
+
+			<screen>
+			<![CDATA[
+3. 配置步骤
+
+(1)        配置端口属于VLAN及对应VLAN接口的IP地址（略）
+
+(2)        配置DHCP服务
+
+# 使能DHCP服务。
+
+<H3C> system-view
+
+[H3C] dhcp enable
+
+# 配置不参与自动分配的IP地址（DNS服务器、WINS服务器和出口网关地址）。
+
+[H3C] dhcp server forbidden-ip 10.1.1.2
+
+[H3C] dhcp server forbidden-ip 10.1.1.4
+
+[H3C] dhcp server forbidden-ip 10.1.1.126
+
+[H3C] dhcp server forbidden-ip 10.1.1.254
+
+# 配置DHCP地址池0的共有属性（地址池范围、DNS服务器地址）。
+
+[H3C] dhcp server ip-pool 0
+
+[H3C-dhcp-pool-0] network 10.1.1.0 mask 255.255.255.0
+
+[H3C-dhcp-pool-0] domain-name aabbcc.com
+
+[H3C-dhcp-pool-0] dns-list 10.1.1.2
+
+[H3C-dhcp-pool-0] quit
+
+# 配置DHCP地址池1的属性（地址池范围、出口网关、地址租用期限）。
+
+[H3C] dhcp server ip-pool 1
+
+[H3C-dhcp-pool-1] network 10.1.1.0 mask 255.255.255.128
+
+[H3C-dhcp-pool-1] gateway-list 10.1.1.126
+
+[H3C-dhcp-pool-1] expired day 10 hour 12
+
+[H3C-dhcp-pool-1] quit
+
+# 配置DHCP地址池2的属性（地址池范围、出口网关、WINS服务器地址、地址租用期限）。
+
+[H3C] dhcp server ip-pool 2
+
+[H3C-dhcp-pool-2] network 10.1.1.128 mask 255.255.255.128
+
+[H3C-dhcp-pool-2] expired day 5
+
+[H3C-dhcp-pool-2] nbns-list 10.1.1.4
+
+[H3C-dhcp-pool-2] gateway-list 10.1.1.254
+			]]>
+			</screen>
+			<section>
+				<title>排除IP地址</title>
+				<para>排除单个IP地址</para>
+				<screen>
+dhcp server forbidden-ip 10.1.1.2
+dhcp server forbidden-ip 10.1.1.4
+dhcp server forbidden-ip 10.1.1.126
+dhcp server forbidden-ip 10.1.1.254				
+				</screen>
+				<para>排除一段IP地址</para>
+				<screen>
+#
+ dhcp server forbidden-ip 192.168.2.200 192.168.2.254
+ dhcp server forbidden-ip 192.168.3.200 192.168.3.254
+ dhcp server forbidden-ip 192.168.4.1 192.168.4.10
+ dhcp server forbidden-ip 192.168.4.200 192.168.4.254
+ dhcp server forbidden-ip 192.168.3.1 192.168.3.10
+ dhcp server forbidden-ip 192.168.5.1 192.168.5.10
+ dhcp server forbidden-ip 192.168.5.200 192.168.5.254
+ dhcp server forbidden-ip 192.168.6.200 192.168.6.254
+ dhcp server forbidden-ip 192.168.7.1 192.168.7.10
+ dhcp server forbidden-ip 192.168.7.200 192.168.7.254
+ dhcp server forbidden-ip 192.168.8.1 192.168.8.10
+ dhcp server forbidden-ip 192.168.8.200 192.168.8.254
+ dhcp server forbidden-ip 192.168.9.1 192.168.9.10
+ dhcp server forbidden-ip 192.168.9.200 192.168.9.254
+ dhcp server forbidden-ip 192.168.2.1 192.168.2.30
+ dhcp server forbidden-ip 192.168.6.1 192.168.6.30
+#
+				</screen>
+			</section>
+		</section>
+		<section id="dhcp.relay">
+			<title>DHCP中继配置</title>
+			<screen>
+			<![CDATA[
+# 进入系统视图。
+
+<H3C> system-view
+
+# 使能DHCP服务。
+
+[H3C] dhcp enable
+
+# 配置DHCP Server的组号为1，IP地址为202.38.1.2。
+
+[H3C] dhcp-server 1 ip 202.38.1.2
+
+# 配置VLAN接口2对应DHCP Server组1。
+
+[H3C] interface Vlan-interface 2
+
+[H3C-Vlan-interface2] dhcp-server 1
+
+# 配置VLAN接口2的IP地址，需与DHCP Client属于同一网段。
+
+[H3C-Vlan-interface2] ip address 10.110.1.1 255.255.0.0
+			]]>
+			</screen>
+		</section>
+		<section id="dhcp.snooping">
+			<title>DHCP Snooping</title>
+			<screen>
+			<![CDATA[
+# 进入系统视图。
+
+<H3C> system-view
+
+# 开启交换机DHCP-Snooping功能。
+
+[H3C] dhcp-snooping
+
+# 进入Ethernet1/0/1端口视图。
+
+[H3C] interface Ethernet1/0/1
+
+# 设置端口为信任端口。
+
+[H3C-Ethernet1/0/1] dhcp-snooping trust
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>查看地址池配置</title>
+			<section>
+				<title>查看地址池配置</title>
+				<screen>
+				<![CDATA[
+<H3C>display dhcp server tree all
+Global pool:
+
+Pool name: vlan2
+ network 192.168.2.0 mask 255.255.255.0
+ Sibling node:vlan3
+ gateway-list 192.168.2.254 
+ dns-list 211.162.78.2 8.8.8.8 
+ expired 7 0 0
+
+Pool name: vlan3
+ network 192.168.3.0 mask 255.255.255.0
+ PrevSibling node:vlan2
+ Sibling node:vlan4
+ gateway-list 192.168.3.254 
+ dns-list 211.162.78.2 8.8.8.8 
+ expired 1 0 0
+
+Pool name: vlan4
+ network 192.168.4.0 mask 255.255.255.0
+ PrevSibling node:vlan3
+ Sibling node:vlan5
+ gateway-list 192.168.4.254 
+ dns-list 202.96.134.133 202.96.128.68 208.67.222.222 208.67.220.220 
+ expired 1 0 0
+                
+Pool name: vlan5
+ network 192.168.5.0 mask 255.255.255.0
+ PrevSibling node:vlan4
+ Sibling node:vlan6
+ gateway-list 192.168.5.254 
+ dns-list 211.162.78.2 8.8.8.8 
+ expired 1 0 0
+
+Pool name: vlan6
+ network 192.168.6.0 mask 255.255.255.0
+ PrevSibling node:vlan5
+ Sibling node:vlan7
+ gateway-list 192.168.6.254 
+ dns-list 202.45.84.58 203.80.96.10 8.8.8.8 
+ expired 1 0 0
+
+Pool name: vlan7
+ network 192.168.7.0 mask 255.255.255.0
+ PrevSibling node:vlan6
+ Sibling node:vlan8
+ gateway-list 192.168.7.254 
+ dns-list 208.67.222.222 208.67.220.220 8.8.8.8 4.4.4.4 
+ expired 1 0 0  
+
+Pool name: vlan8
+ network 192.168.8.0 mask 255.255.255.0
+ PrevSibling node:vlan7
+ Sibling node:vlan9
+ gateway-list 192.168.8.254 
+ dns-list 208.67.222.222 208.67.220.220 8.8.8.8 4.4.4.4 
+ expired 1 0 0
+
+Pool name: vlan9
+ network 192.168.9.0 mask 255.255.255.0
+ PrevSibling node:vlan8
+ gateway-list 192.168.9.254 
+ dns-list 208.67.222.222 208.67.220.220 8.8.8.8 4.4.4.4 
+ expired 1 0 0
+<H3C>			
+				]]>
+				</screen>
+			</section>
+			<section>
+				<title>查看地址租约</title>
+				<screen>
+				<![CDATA[
+<H3C>display dhcp server ip-in-use all
+Global pool: 
+ IP address       Client-identifier/    Lease expiration          Type
+                  Hardware address                                
+ 192.168.2.39     201a-065b-c488        Jun  3 2000 15:42:50      Auto:COMMITTED
+ 192.168.2.51     78e3-b590-bed0        Jun  3 2000 07:37:22      Auto:COMMITTED
+ 192.168.2.71     001b-3899-e518        Jun  4 2000 11:32:43      Auto:COMMITTED
+ 192.168.3.35     6c62-6da6-8aa3        May 30 2000 06:44:22      Auto:COMMITTED
+ 192.168.3.33     902b-340b-5b38        May 30 2000 07:45:48      Auto:COMMITTED
+ 192.168.2.31     001e-ec64-9b46        Jun  3 2000 11:17:01      Auto:COMMITTED
+ 192.168.2.72     78e3-b5ab-2891        Jun  5 2000 06:57:37      Auto:COMMITTED
+ 192.168.2.63     50e5-4919-15a9        Jun  3 2000 07:45:42      Auto:COMMITTED
+ 192.168.6.42     80c1-6edf-b997        May 30 2000 10:49:35      Auto:COMMITTED
+ 192.168.3.41     5254-0054-dd26        May 29 2000 14:41:22      Auto:COMMITTED
+ 192.168.2.46     6c62-6dbf-1ea8        Jun  5 2000 11:30:58      Auto:COMMITTED
+ 192.168.2.53     902b-340b-669f        Jun  3 2000 07:39:01      Auto:COMMITTED
+ 192.168.2.32     78e3-b590-cc1a        Jun  5 2000 06:44:34      Auto:COMMITTED
+ 192.168.3.23     80c1-6edf-b844        May 30 2000 10:48:46      Auto:COMMITTED
+ 192.168.3.30     6c62-6dd2-f8ea        May 30 2000 06:45:07      Auto:COMMITTED
+ 192.168.3.42     902b-340b-66ab        May 30 2000 08:45:11      Auto:COMMITTED
+ 192.168.3.40     5254-0032-6e05        May 29 2000 12:03:14      Auto:COMMITTED
+ 192.168.2.77     78e3-b5ab-5cdf        Jun  5 2000 07:48:11      Auto:COMMITTED
+ 192.168.2.50     78e3-b596-c42c        Jun  5 2000 06:42:09      Auto:COMMITTED
+ 192.168.2.73     74d4-3585-ae8a        Jun  5 2000 06:50:13      Auto:COMMITTED
+ 192.168.2.34     78e3-b5ab-2ab9        Jun  5 2000 06:54:54      Auto:COMMITTED
+ 192.168.2.35     78e3-b5ab-59ed        Jun  3 2000 06:45:34      Auto:COMMITTED
+ 192.168.3.16     78e3-b59b-99c5        May 30 2000 09:13:29      Auto:COMMITTED
+ 192.168.2.49     6c62-6db1-aab5        Jun  5 2000 06:44:27      Auto:COMMITTED
+ 192.168.3.25     78e3-b5ab-2ac7        May 30 2000 07:07:10      Auto:COMMITTED
+ 192.168.2.62     78e3-b590-beb0        Jun  5 2000 06:48:40      Auto:COMMITTED
+ 192.168.3.36     74d4-3585-a743        May 30 2000 10:50:28      Auto:COMMITTED
+ 192.168.3.39     5254-001a-2f7d        May 29 2000 12:02:49      Auto:COMMITTED
+ 192.168.2.40     001d-92f0-3200        Jun  5 2000 06:40:34      Auto:COMMITTED
+ 192.168.2.70     78e3-b59b-818c        Jun  5 2000 06:53:36      Auto:COMMITTED
+ 192.168.3.29     60a4-4cad-b643        May 30 2000 10:35:06      Auto:COMMITTED
+ 192.168.6.41     78e3-b590-d14c        May 30 2000 06:56:14      Auto:COMMITTED
+ 192.168.2.58     78e3-b596-ddfc        Jun  5 2000 06:48:25      Auto:COMMITTED
+ 192.168.3.38     0025-90af-9e3c        May 30 2000 00:00:50      Auto:COMMITTED
+ 192.168.2.76     0025-90af-9e3c        Jun  4 2000 11:32:34      Auto:COMMITTED
+ 192.168.6.39     5254-006a-616e        May 30 2000 06:42:31      Auto:COMMITTED
+ 192.168.3.32     902b-3440-c54e        May 30 2000 07:46:29      Auto:COMMITTED
+
+ --- total 37 entry ---		
+ 				]]>		
+				</screen>
+			</section>	
+			<section>
+				<title>查看可分配的地址</title>
+				<screen>
+				<![CDATA[
+<H3C> display dhcp server free-ip
+IP Range from 192.168.2.78         to  192.168.2.199       
+IP Range from 192.168.3.43         to  192.168.3.199       
+IP Range from 192.168.4.11         to  192.168.4.199       
+IP Range from 192.168.5.12         to  192.168.5.199       
+IP Range from 192.168.6.43         to  192.168.6.199       
+IP Range from 192.168.7.11         to  192.168.7.199       
+IP Range from 192.168.8.12         to  192.168.8.199       
+IP Range from 192.168.9.11         to  192.168.9.199  				
+				]]>
+				</screen>
+			</section>
+			<section>
+				<title>查看租约过期地址</title>
+				<screen>
+				<![CDATA[
+<H3C>display dhcp server expired all
+Global pool: 
+ IP address       Client-identifier/    Lease expiration          Type
+                  Hardware address                                
+ 192.168.2.67     f4ec-383f-7bf9        May 17 2000 14:08:22      Release
+ 192.168.2.36     78e3-b590-c26a        May 29 2000 10:52:22      Release
+ 192.168.3.12     201a-065b-c488        May  1 2000 12:12:56      Release
+ 192.168.3.37     001b-3899-e518        May 29 2000 11:40:08      Release
+ 192.168.8.11     001e-ec64-9b46        May  2 2000 14:07:08      Release
+ 192.168.3.11     001e-ec64-9b46        May 18 2000 13:50:54      Release
+ 192.168.2.65     3c97-0ea7-e1a9        May  8 2000 12:05:43      Release
+ 192.168.3.24     6c62-6dbf-1f38        May  7 2000 06:51:49      Release
+ 192.168.6.31     5254-00f0-fb87        May 14 2000 13:24:45      Release
+ 192.168.2.38     78e3-b590-c7d5        May 16 2000 14:43:26      Release
+ 192.168.2.54     1cfa-68ee-9a15        Apr 30 2000 08:08:54      Release
+ 192.168.3.14     80c1-6edf-b997        Apr 28 2000 16:06:51      Release
+ 192.168.2.68     000c-29a4-38eb        May 16 2000 12:18:02      Release
+ 192.168.2.47     78e3-b59b-989f        May 13 2000 12:56:44      Release
+ 192.168.6.35     5254-009f-afd1        May 14 2000 14:21:53      Release
+ 192.168.2.45     78e3-b5ab-3ef4        May  2 2000 13:04:38      Release
+ 192.168.3.18     78e3-b598-f057        May 17 2000 06:45:23      Release
+ 192.168.6.37     5254-00e5-c31e        May 14 2000 14:25:33      Release
+ 192.168.3.20     78e3-b590-c82b        May 16 2000 11:22:44      Release
+ 192.168.3.17     d067-e527-be93        May  9 2000 10:38:25      Release
+ 192.168.2.56     000c-29c9-b264        Apr 30 2000 13:09:15      Release
+ 192.168.2.44     78e3-b596-dddd        May 24 2000 13:37:01      Release
+ 192.168.2.69     78e3-b596-de80        May 17 2000 12:22:29      Release
+ 192.168.3.34     984b-e1a9-7167        May  3 2000 07:14:17      Release
+                
+ --- total 54 entry ---				
+				]]>
+				</screen>
+			</section>
+			<section>
+				<title>查看冲突IP地址</title>
+				<screen>
+				<![CDATA[
+<H3C>display dhcp server conflict all
+    Address             Discover time                 
+    192.168.2.57        Apr 30 2000 15:12:40          
+    192.168.2.75        May 20 2000 14:39:46          
+ --- total 2 entry ---				
+				]]>
+				</screen>
+			</section>
+		</section>
+	</section>
+	<section id="vlan">
+		<title>VLAN</title>
+		<section>
+			<title>GVRP</title>
+			<screen>
+			<![CDATA[
+l              配置Switch A：
+
+# 开启全局GVRP。
+
+<H3C> system-view
+
+[H3C] gvrp
+
+GVRP is enabled globally.
+
+# 将以太网端口Ethernet1/0/1配置为Trunk端口，并允许所有VLAN通过。
+
+[H3C] interface Ethernet 1/0/1
+
+[H3C-Ethernet1/0/1] port link-type trunk
+
+[H3C-Ethernet1/0/1] port trunk permit vlan all
+
+# 在Trunk端口上开启GVRP。
+
+[H3C-Ethernet1/0/1] gvrp
+
+GVRP is enabled on port Ethernet1/0/1.
+
+l              配置Switch B：
+
+# 开启全局GVRP。
+
+<H3C> system-view
+
+[H3C] gvrp
+
+GVRP is enabled globally.
+
+# 将以太网端口Ethernet1/0/2配置为Trunk端口，并允许所有VLAN通过。
+
+[H3C] interface Ethernet 1/0/2
+
+[H3C-Ethernet1/0/2] port link-type trunk
+
+[H3C-Ethernet1/0/2] port trunk permit vlan all
+
+# 在Trunk端口上开启GVRP。
+
+[H3C-Ethernet1/0/2] gvrp
+
+GVRP is enabled on port Ethernet1/0/2.
+			]]>
+			</screen>
+		</section>
+	</section>
+	<section id="arp">
+		<title>ARP</title>
+		<screen>
+		<![CDATA[
+[H3C]display arp 192.168.3.14
+            Type: S-Static   D-Dynamic
+IP Address       MAC Address     VLAN ID  Port Name / AL ID      Aging     Type
+192.168.3.14     0022-1969-c981  1        Ethernet1/0/1          20        D
+		]]>
+		</screen>
+	</section>
+
+	<section id="limit">
+		<title>流量控制</title>
+		<section>
+			<title>基于接口</title>
+			<para>cir 它必须是64的倍数</para>
+			<para>qos lr outbound cir 64  64Kbps</para>
+			<para>qos lr outbound cir 1024 1Mbps</para>
+			<screen>
+[H3C-GigabitEthernet1/0/18]di this
+#
+interface GigabitEthernet1/0/18
+ port access vlan 9
+ qos lr outbound cir 64 cbs 4000
+ qos apply policy 20 inbound
+ dhcp-snooping trust
+#
+return
+			</screen>
+			<para>察看状态</para>
+			<screen>
+display qos lr interface GigabitEthernet 1/0/18
+			</screen>
+		</section>
+		<section>
+			<title>基于 ACL</title>
+			<screen>
+acl number 3009
+rule 0 permit ip source 192.168.9.0 0.0.0.255
+
+traffic classifier traffic-limit
+if-match acl 3009
+
+traffic behavior traffic-limit
+car cir 1024
+
+qos policy traffic-limit
+classifier traffic-limit behavior traffic-limit
+
+interface GigabitEthernet1/0/18
+qos apply policy traffic-limit inbound
+			</screen>
+			<screen>
+[H3C]acl number 3009
+[H3C-acl-adv-3009]rule 0 permit ip source 192.168.9.0 0.0.0.255
+[H3C-acl-adv-3009]
+[H3C-acl-adv-3009]traffic classifier traffic-limit
+[H3C-classifier-traffic-limit]if-match acl 3009
+[H3C-classifier-traffic-limit]
+[H3C-classifier-traffic-limit]traffic behavior traffic-limit
+[H3C-behavior-traffic-limit]car cir 1024
+Warning: CBS is smaller than (100/16)CIR, and this maybe effect network traffic burst.
+[H3C-behavior-traffic-limit]
+[H3C-behavior-traffic-limit]qos policy traffic-limit
+[H3C-qospolicy-traffic-limit]classifier traffic-limit behavior traffic-limit
+[H3C-qospolicy-traffic-limit]
+[H3C-qospolicy-traffic-limit]interface GigabitEthernet1/0/18
+[H3C-GigabitEthernet1/0/18]qos apply policy traffic-limit inbound
+
+			</screen>
+			<screen>
+display traffic behavior user-defined traffic-limit
+
+[H3C-GigabitEthernet1/0/18]display traffic behavior user-defined traffic-limit
+  User Defined Behavior Information:
+    Behavior: traffic-limit
+      Committed Access Rate:
+        CIR 1024 (kbps), CBS 4000 (byte), EBS 4000 (byte)
+        Green Action: pass
+        Red Action: discard
+        Yellow Action: pass
+
+
+[H3C-GigabitEthernet1/0/18]display traffic behavior user-defined
+  User Defined Behavior Information:
+    Behavior: traffic-limit
+      Committed Access Rate:
+        CIR 1024 (kbps), CBS 4000 (byte), EBS 4000 (byte)
+        Green Action: pass
+        Red Action: discard
+        Yellow Action: pass
+    Behavior: 3
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.30.254
+    Behavior: 2
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.20.1
+    Behavior: 1
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.40.254
+			</screen>
+			<screen>
+[H3C-GigabitEthernet1/0/18]display qos policy user-defined
+
+  User Defined QoS Policy Information:
+
+  Policy: 20
+   Classifier: 20
+     Behavior: 2
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.20.1
+
+  Policy: traffic-limit
+   Classifier: traffic-limit
+     Behavior: traffic-limit
+      Committed Access Rate:
+        CIR 1024 (kbps), CBS 4000 (byte), EBS 4000 (byte)
+        Green Action: pass
+        Red Action: discard
+        Yellow Action: pass
+
+  Policy: 2
+   Classifier: 2
+     Behavior: 1
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.40.254
+
+  Policy: 1
+   Classifier: 1
+     Behavior: 1
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.40.254
+
+[H3C-GigabitEthernet1/0/18]display qos policy user-defined traffic-limit
+
+  User Defined QoS Policy Information:
+
+  Policy: traffic-limit
+   Classifier: traffic-limit
+     Behavior: traffic-limit
+      Committed Access Rate:
+        CIR 1024 (kbps), CBS 4000 (byte), EBS 4000 (byte)
+        Green Action: pass
+        Red Action: discard
+        Yellow Action: pass
+			</screen>
+			<screen>
+[H3C-GigabitEthernet1/0/18]display qos policy interface
+
+  Interface: GigabitEthernet1/0/3
+
+  Direction: Inbound
+
+  Policy: 2
+   Classifier: 2
+     Operator: OR
+     Rule(s) : If-match acl 3000
+     Behavior: 1
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.40.254
+
+  Interface: GigabitEthernet1/0/12
+
+  Direction: Inbound
+
+  Policy: 1
+   Classifier: 1
+     Operator: AND
+     Rule(s) : If-match acl 3001
+     Behavior: 1
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.40.254
+
+  Interface: GigabitEthernet1/0/17
+
+  Direction: Inbound
+
+  Policy: 20
+   Classifier: 20
+     Operator: OR
+     Rule(s) : If-match acl 3020
+     Behavior: 2
+      Redirect enable:
+        Redirect type: next-hop
+        Redirect destination:
+          192.168.20.1
+
+  Interface: GigabitEthernet1/0/18
+
+  Direction: Inbound
+
+  Policy: traffic-limit
+   Classifier: traffic-limit
+     Operator: AND
+     Rule(s) : If-match acl 3009
+     Behavior: traffic-limit
+      Committed Access Rate:
+        CIR 1024 (kbps), CBS 4000 (byte), EBS 4000 (byte)
+        Green Action: pass
+        Red Action: discard
+        Yellow Action: pass
+        Green : 230(Packets)
+[H3C-GigabitEthernet1/0/18]display qos policy interface GigabitEthernet1/0/18
+
+  Interface: GigabitEthernet1/0/18
+
+  Direction: Inbound
+
+  Policy: traffic-limit
+   Classifier: traffic-limit
+     Operator: AND
+     Rule(s) : If-match acl 3009
+     Behavior: traffic-limit
+      Committed Access Rate:
+        CIR 1024 (kbps), CBS 4000 (byte), EBS 4000 (byte)
+        Green Action: pass
+        Red Action: discard
+        Yellow Action: pass
+        Green : 236(Packets)
+			</screen>
+		</section>
+	</section>
+
+	<section id="routing">
+		<title>Routing</title>
+		<section>
+			<title>RIP</title>
+			<screen>
+rip 1
+ version 2
+ network 192.168.20.0
+ network 192.168.2.0
+			</screen>
+		</section>
+		<section>
+			<title>OSPF</title>
+			<screen>
+#
+ospf 1
+ area 0.0.0.1
+  network 192.168.40.240 0.0.0.15
+  network 192.168.2.0 0.0.0.255
+  network 192.168.3.0 0.0.0.255
+  network 192.168.4.0 0.0.0.255
+  network 192.168.5.0 0.0.0.255
+  network 192.168.6.0 0.0.0.255
+  network 192.168.7.0 0.0.0.255
+  network 192.168.8.0 0.0.0.255
+  network 192.168.9.0 0.0.0.255
+  network 172.16.0.0 0.0.0.255
+  network 192.168.30.0 0.0.0.255
+  network 172.16.100.0 0.0.0.255
+#
+			</screen>
+		</section>
+		<section>
+			<title>Static</title>
+			<screen>
+#
+ ip route-static 0.0.0.0 0.0.0.0 192.168.1.1 preference 10 description TC
+ ip route-static 0.0.0.0 0.0.0.0 192.168.20.1 preference 20 description UC
+ ip route-static 4.4.4.4 255.255.255.255 192.168.40.254 description google dns
+ ip route-static 8.8.8.8 255.255.255.255 192.168.40.254 description google dns
+ ip route-static 64.4.61.215 255.255.255.255 192.168.40.254
+ ip route-static 74.125.71.94 255.255.255.255 192.168.40.254
+ ip route-static 192.168.20.0 255.255.255.0 192.168.20.1 description UC
+ ip route-static 192.168.30.112 255.255.255.255 192.168.30.254
+ ip route-static 203.208.46.146 255.255.255.255 192.168.40.254
+#
+			</screen>
+			<para>浮动路由</para>
+			<screen>
+ ip route-static 0.0.0.0 0.0.0.0 192.168.1.1 preference 10 description TC
+ ip route-static 0.0.0.0 0.0.0.0 192.168.20.1 preference 20 description UC
+			</screen>
+		</section>
+		<section>
+			<title>策略路由</title>
+			<para>案例一</para>
+			<screen>
+acl number 3000
+ rule 0 permit ip source 192.168.2.1 0
+acl number 3001
+ rule 0 permit ip source 192.168.6.0 0.0.0.255
+#
+traffic classifier 2 operator or
+ if-match acl 3000
+traffic classifier 1 operator and
+ if-match acl 3001
+#
+traffic behavior 1
+ redirect next-hop 192.168.40.254
+#
+qos policy 2
+ classifier 2 behavior 1
+qos policy 1
+ classifier 1 behavior 1
+#
+interface GigabitEthernet1/0/11
+ qos apply policy 1 inbound
+#
+interface GigabitEthernet1/0/12
+ qos apply policy 2 inbound
+			</screen>
+			<para>取消策略路由</para>
+			<screen>
+interface GigabitEthernet1/0/11
+un qos apply policy inbound
+#
+interface GigabitEthernet1/0/12
+un qos apply policy inbound
+
+quit
+un qos policy 1
+un traffic behavior 1
+un traffic classifier 1
+
+un acl number 3001
+			</screen>
+			<para>这个案例是基于源的策略路由</para>
+			<para>案例二</para>
+			<screen>
+acl number 3010
+ rule 0 permit ip source any destination 192.168.0.0 0.0.255.255
+
+acl number 3020
+ rule 0 permit ip source 192.168.6.0 0.0.0.255
+
+traffic classifier classifier1 operator or
+ if-match acl 3010
+traffic classifier classifier2 operator or
+ if-match acl 3020
+
+traffic behavior behavior1
+ redirect next-hop 192.168.1.1
+
+traffic behavior behavior2
+ redirect next-hop 192.168.40.254
+
+qos policy policy1
+ classifier classifier1 behavior behavior1
+ classifier classifier2 behavior behavior2
+
+interface GigabitEthernet1/0/11
+ qos apply policy policy1 inbound
+			</screen>
+			<para>案例二是一个基于目的的测略路由</para>
+		</section>
+		<section>
+			<title>Debug</title>
+			<section id="routing-table">
+				<title>routing-table</title>
+				<screen>
+				<![CDATA[
+[H3C]display ip routing-table
+ Routing Table: public net
+Destination/Mask   Protocol Pre  Cost        Nexthop         Interface
+0.0.0.0/0          STATIC   60   0           192.168.3.1     Vlan-interface1
+127.0.0.0/8        DIRECT   0    0           127.0.0.1       InLoopBack0
+127.0.0.1/32       DIRECT   0    0           127.0.0.1       InLoopBack0
+192.168.3.0/24     DIRECT   0    0           192.168.3.12    Vlan-interface1
+192.168.3.12/32    DIRECT   0    0           127.0.0.1       InLoopBack0
+192.168.5.0/24     STATIC   60   0           192.168.3.252   Vlan-interface1
+192.168.6.0/24     DIRECT   0    0           192.168.6.254   Vlan-interface6
+192.168.6.254/32   DIRECT   0    0           127.0.0.1       InLoopBack0
+192.168.7.0/24     DIRECT   0    0           192.168.7.254   Vlan-interface7
+192.168.7.254/32   DIRECT   0    0           127.0.0.1       InLoopBack0
+192.168.8.0/24     DIRECT   0    0           192.168.8.254   Vlan-interface8
+192.168.8.254/32   DIRECT   0    0           127.0.0.1       InLoopBack0
+192.168.9.0/24     DIRECT   0    0           192.168.9.254   Vlan-interface9
+192.168.9.254/32   DIRECT   0    0           127.0.0.1       InLoopBack0
+				]]>
+				</screen>
+				<screen>
+[H3C-rip-1]display ip routing-table
+Routing Tables: Public
+	Destinations : 36	Routes : 36
+
+Destination/Mask    Proto  Pre  Cost         NextHop         Interface
+
+0.0.0.0/0           Static 60   0            192.168.1.1     Vlan1
+1.1.1.1/32          Direct 0    0            127.0.0.1       InLoop0
+4.4.4.4/32          Static 60   0            192.168.40.254  Vlan40
+8.8.8.8/32          Static 60   0            192.168.40.254  Vlan40
+64.4.61.215/32      Static 60   0            192.168.40.254  Vlan40
+74.125.71.94/32     Static 60   0            192.168.40.254  Vlan40
+127.0.0.0/8         Direct 0    0            127.0.0.1       InLoop0
+127.0.0.1/32        Direct 0    0            127.0.0.1       InLoop0
+172.16.0.0/24       OSPF   10   2            192.168.40.254  Vlan40
+192.168.1.0/24      Direct 0    0            192.168.1.254   Vlan1
+192.168.1.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.2.0/24      Direct 0    0            192.168.2.254   Vlan2
+192.168.2.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.3.0/24      Direct 0    0            192.168.3.254   Vlan3
+192.168.3.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.4.0/24      Direct 0    0            192.168.4.254   Vlan4
+192.168.4.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.5.0/24      Direct 0    0            192.168.5.254   Vlan5
+192.168.5.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.6.0/24      Direct 0    0            192.168.6.254   Vlan6
+192.168.6.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.7.0/24      Direct 0    0            192.168.7.254   Vlan7
+192.168.7.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.8.0/24      Direct 0    0            192.168.8.254   Vlan8
+192.168.8.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.9.0/24      Direct 0    0            192.168.9.254   Vlan9
+192.168.9.254/32    Direct 0    0            127.0.0.1       InLoop0
+192.168.20.0/24     Direct 0    0            192.168.20.254  Vlan20
+192.168.20.254/32   Direct 0    0            127.0.0.1       InLoop0
+192.168.30.0/24     Direct 0    0            192.168.30.1    Vlan30
+192.168.30.1/32     Direct 0    0            127.0.0.1       InLoop0
+192.168.30.112/32   Static 60   0            192.168.30.254  Vlan30
+192.168.40.240/28   Direct 0    0            192.168.40.253  Vlan40
+192.168.40.253/32   Direct 0    0            127.0.0.1       InLoop0
+192.168.50.128/25   OSPF   10   2            192.168.40.254  Vlan40
+203.208.46.146/32   Static 60   0            192.168.40.254  Vlan40
+				</screen>
+			</section>
+		</section>
+	</section>
+
+	<section id="snmp">
+		<title>SNMP</title>
+		<screen>
+		<![CDATA[
+<H3C>system-view
+System View: return to User View with Ctrl+Z.
+[H3C]snmp-agent
+[H3C]snmp-agent sys-info version all
+[H3C]snmp-agent community write public
+[H3C]snmp-agent mib-view include internet 1.3.6.1
+		]]>
+		</screen>
+		<para></para>
+		<screen>
+[root@nis ~]# snmpwalk -c public -v 1 172.16.0.253|more
+SNMPv2-MIB::sysDescr.0 = STRING: H3C Comware Platform Software
+Comware software, Version 3.10, Release 1702P13
+H3C S3600-28P-SI Product Version S3600-SI-1702P13
+
+Copyright(c) 2004-2010 Hangzhou H3C Tech. Co.,Ltd. All rights reserved.
+
+SNMPv2-MIB::sysObjectID.0 = OID: SNMPv2-SMI::enterprises.25506.1.32
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (18165571) 2 days, 2:27:35.71
+SNMPv2-MIB::sysContact.0 = STRING: Hangzhou H3C Technologies Co., Ltd.
+SNMPv2-MIB::sysName.0 = STRING: H3C
+SNMPv2-MIB::sysLocation.0 = STRING: Hangzhou China
+SNMPv2-MIB::sysServices.0 = INTEGER: 78
+IF-MIB::ifNumber.0 = INTEGER: 36
+IF-MIB::ifIndex.14 = INTEGER: 14
+IF-MIB::ifIndex.16 = INTEGER: 16
+IF-MIB::ifIndex.31 = INTEGER: 31
+IF-MIB::ifIndex.71 = INTEGER: 71
+IF-MIB::ifIndex.79 = INTEGER: 79
+IF-MIB::ifIndex.87 = INTEGER: 87
+IF-MIB::ifIndex.95 = INTEGER: 95
+IF-MIB::ifIndex.4227614 = INTEGER: 4227614
+IF-MIB::ifIndex.4227626 = INTEGER: 4227626
+IF-MIB::ifIndex.4227634 = INTEGER: 4227634
+		</screen>
+	</section>
+
+	<section id="login">
+		<title>Login</title>
+		<section id="telnet">
+			<title>Telnet</title>
+			<para>Telnet</para>
+			<screen>
+			<![CDATA[
+local-user h3c
+ password cipher OUM!K%F<+$[Q=^Q`MAF4<1!!
+ service-type telnet
+
+user-interface vty 0 4
+ authentication-mode scheme
+ user privilege level 3
+ protocol inbound telnet
+			]]>
+			</screen>
+		</section>
+		<section id="ssh">
+			<title>SSH</title>
+			<para>SSH</para>
+			<screen>
+public-key local create rsa
+ssh server enable
+
+local-user admin
+password cipher your_password
+service-type ssh
+authorization-attribute level 3
+
+
+user-interface vty 0 4
+authentication-mode scheme
+protocol inbound ssh
+
+ssh user admin service-type stelnet authentication-type password
+user privilege level 3
+ssh client source interface loopback0
+			</screen>
+		</section>
+	</section>
+
+	<section id="example">
+		<title>Example</title>
+		<example>
+			<title>dhcp vlan rip</title>
+			<screen>
+			<![CDATA[
+[H3C]display current-configuration
+#
+ sysname H3C
+#
+ super password level 3 cipher D8Za-\BIMY/Q=^Q`MAF4<1!!
+#
+radius scheme system
+#
+domain system
+#
+local-user lfc
+ password cipher D8Za-\BIMY/Q=^Q`MAF4<1!!
+ service-type telnet terminal
+local-user neo
+ password cipher LM,[26IJZUGQ=^Q`MAF4<1!!
+ service-type telnet terminal
+#
+dhcp server ip-pool vlan6
+ network 192.168.6.0 mask 255.255.255.0
+ gateway-list 192.168.6.254
+ dns-list 208.67.222.222 208.67.220.220 202.96.134.133 202.96.128.68
+ expired day 7
+#
+dhcp server ip-pool vlan7
+ network 192.168.7.0 mask 255.255.255.0
+ gateway-list 192.168.7.254
+ dns-list 208.67.222.222 208.67.220.220 202.96.134.133 202.96.128.68
+ expired day 7 hour 1
+#
+vlan 1 to 8
+#
+interface Vlan-interface1
+ ip address 192.168.3.17 255.255.255.0
+#
+interface Vlan-interface6
+ ip address 192.168.6.254 255.255.255.0
+#
+interface Vlan-interface7
+ ip address 192.168.7.254 255.255.255.0
+#
+interface Aux1/0/0
+#
+interface Ethernet1/0/1
+ port link-type trunk
+ port trunk permit vlan 1 to 8
+#
+interface Ethernet1/0/2
+#
+interface Ethernet1/0/3
+#
+interface Ethernet1/0/4
+#
+interface Ethernet1/0/5
+#
+interface Ethernet1/0/6
+#
+interface Ethernet1/0/7
+#
+interface Ethernet1/0/8
+#
+interface Ethernet1/0/9
+#
+interface Ethernet1/0/10
+#
+interface Ethernet1/0/11
+#
+interface Ethernet1/0/12
+#
+interface Ethernet1/0/13
+#
+interface Ethernet1/0/14
+#
+interface Ethernet1/0/15
+#
+interface Ethernet1/0/16
+#
+interface Ethernet1/0/17
+#
+interface Ethernet1/0/18
+#
+interface Ethernet1/0/19
+#
+interface Ethernet1/0/20
+#
+interface Ethernet1/0/21
+#
+interface Ethernet1/0/22
+#
+interface Ethernet1/0/23
+ port access vlan 6
+ dhcp-snooping trust
+#
+interface Ethernet1/0/24
+ port access vlan 7
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/1/1
+#
+interface GigabitEthernet1/1/2
+#
+interface GigabitEthernet1/1/3
+#
+interface GigabitEthernet1/1/4
+#
+ undo irf-fabric authentication-mode
+#
+interface NULL0
+#
+rip
+ network 192.168.3.0
+ network 192.168.6.0
+ network 192.168.7.0
+#
+ dhcp-snooping
+#
+ voice vlan mac-address 0001-e300-0000 mask ffff-ff00-0000
+#
+ dhcp server forbidden-ip 192.168.6.1 192.168.6.10
+ dhcp server forbidden-ip 192.168.7.1 192.168.7.10
+#
+ ip route-static 0.0.0.0 0.0.0.0 192.168.3.1 preference 60
+#
+user-interface aux 0 7
+user-interface vty 0 4
+ authentication-mode scheme
+#
+return
+[H3C]
+			]]>
+			</screen>
+		</example>
+	</section>
+
+</chapter>
+
+<!--
+
+H3C交换机常用命令解释
+
+
+H3C交换机常用命令注释
+H3C交换机#######################################################################3
+1、system-view   进入系统视图模式
+2、sysname   为设备命名
+3、display current-configuration 当前配置情况
+4、 language-mode Chinese|English 中英文切换
+5、interface Ethernet 1/0/1 进入以太网端口视图
+6、 port link-type Access|Trunk|Hybrid      设置端口访问模式
+7、 undo shutdown   打开以太网端口
+8、 shutdown   关闭以太网端口
+9、 quit     退出当前视图模式
+10、 vlan 10    创建VLAN 10并进入VLAN 10的视图模式
+11、 port access vlan 10   在端口模式下将当前端口加入到vlan 10中
+12、port E1/0/2 to E1/0/5    在VLAN模式下将指定端口加入到当前vlan中
+13、port trunk permit vlan all    允许所有的vlan通过
+
+H3C路由器######################################################################################
+1、system-view   进入系统视图模式
+2、sysname R1   为设备命名为R1
+3、display ip routing-table 显示当前路由表
+4、 language-mode Chinese|English 中英文切换
+5、interface Ethernet 0/0 进入以太网端口视图
+6、 ip address 192.168.1.1 255.255.255.0   配置IP地址和子网掩码
+7、 undo shutdown   打开以太网端口
+8、 shutdown   关闭以太网端口
+9、 quit     退出当前视图模式
+10、 ip route-static 192.168.2.0 255.255.255.0 192.168.12.2 description To.R2 配置静态路由
+11、 ip route-static 0.0.0.0 0.0.0.0 192.168.12.2 description To.R2 配置默认的路由
+H3C S3100 Switch
+H3C S3600 Switch
+H3C MSR 20-20 Router
+##########################################################################################
+1、调整超级终端的显示字号；
+2、捕获超级终端操作命令行，以备日后查对；
+3、 language-mode Chinese|English 中英文切换 ；
+4、复制命令到超级终端命令行， 粘贴到主机；
+5、交换机清除配置 :reset save ；reboot ；
+6、路由器、交换机配置时不能掉电，连通测试前一定要
+     检查网络的连通性，不要犯最低级的错误。
+7、192.168.1.1/24    等同   192.168.1.1 255.255.255.0；在配置交换机和路由器时， 192.168.1.1 255.255.255.0 可以写成：
+192.168.1.1 24
+8、设备命名规则：地名-设备名-系列号 例：PingGu-R-S3600
+
+#################################################################################################################
+H3C华为交换机端口绑定基本配置2008-01-22 13:40
+1，端口+MAC
+a)AM命令
+使用特殊的AM User-bind命令，来完成MAC地址与端口之间的绑定。例如：
+[SwitchA]am user-bind mac-address 00e0-fc22-f8d3 interface Ethernet 0/1
+配置说明：由于使用了端口参数，则会以端口为参照物，即此时端口E0/1只允许PC1上网，而使用其他未绑定的MAC地址的PC机则无法上网。但
+是PC1使用该MAC地址可以在其他端口上网。
+
+b)mac-address命令
+使用mac-address static命令，来完成MAC地址与端口之间的绑定。例如：
+[SwitchA]mac-address static 00e0-fc22-f8d3 interface Ethernet 0/1 vlan 1
+[SwitchA]mac-address max-mac-_count0
+配置说明：由于使用了端口学习功能，故静态绑定mac后，需再设置该端口mac学习数为0，使其他PC接入此端口后其mac地址无法被学习。
+
+2，IP+MAC
+a)AM命令
+使用特殊的AM User-bind命令，来完成IP地址与MAC地址之间的绑定。例如：
+[SwitchA]am user-bind ip-address 10.1.1.2 mac-address 00e0-fc22-f8d3
+配置说明：以上配置完成对PC机的IP地址和MAC地址的全局绑定，即与绑定的IP地址或者MAC地址不同的PC机，在任何端口都无法上网。
+支持型号：S3026E/EF/C/G/T、S3026C-PWR、E026/E026T、S3050C、E050、S3526E/C/EF、S5012T/G、S5024G
+b)arp命令
+使用特殊的arp static命令，来完成IP地址与MAC地址之间的绑定。例如：
+[SwitchA]arp static 10.1.1.2 00e0-fc22-f8d3
+配置说明：以上配置完成对PC机的IP地址和MAC地址的全局绑定。
+
+3，端口+IP+MAC
+使用特殊的AM User-bind命令，来完成IP、MAC地址与端口之间的绑定。例如：
+[SwitchA]am user-bind ip-address 10.1.1.2 mac-address 00e0-fc22-f8d3 interface Ethernet 0/1
+配置说明：可以完成将PC1的IP地址、MAC地址与端口E0/1之间的绑定功能。由于使用了端口参数，则会以端口为参照物，即此时端口E0/1只允
+许 PC1上网，而使用其他未绑定的IP地址、MAC地址的PC机则无法上网。但是PC1使用该IP地址和MAC地址可以在其他端口上网。
+
+###############################################################################################
+[S2016-E1-Ethernet0/1]mac-address max-mac-_count0;
+    进入到端口，用命令mac max-mac-_count0(端口mac学习数设为0)
+    [S2016-E1]mac static 0000-9999-8888 int e0/1 vlan 10;
+    将0000-9999-8888绑定到e0/1端口上，此时只有绑定mac的pc可以通过此口上网,同时E0/1属于vlan 10
+    就这样，ok了，不过上面两个命令顺序不能弄反，除非端口下没有接pc
+
+########################################################################################
+dis vlan 显示vlan
+name text 指定当前vlan的名称
+undo name 取消
+[h3c] vlan 2
+[h3c-vlan2]name test vlan
+dis users 显示用户
+dis startup 显示启动配置文件的信息
+dis user-interface 显示用户界面的相关信息
+dis web users 显示web用户的相关信息。
+header login 配置登陆验证是显示信息
+header shell
+undo header
+lock 锁住当前用户界面
+acl 访问控制列表 acl number inbound/outbound
+[h3c]user-interface vty 0 4
+[h3c-vty0-4] acl 2000 inbound
+shutdown:关闭vlan接口
+undo shutdown 打开vlan接口
+关闭vlan1 接口
+[h3c] interface vlan-interface 1
+[h3c-vlan-interface] shutdown
+vlan vlan-id 定义vlan
+undo valn vlan-id
+display ip routing-table
+display ip routing-table protocol static
+display ip routing-table statistics
+display ip routing-table verbose 查看路由表的全部详细信息
+interface vlan-interface vlan-id 进入valn
+management-vlan vlan-id 定义管理vlan号
+reset ip routing-table statistics protocol all 清除所有路由协议的路由信息.
+display garp statistics interface GigabitEthernet 1/0/1 显示以太网端口上的garp统计信息
+display voice vlan status 查看语音vlan状态
+[h3c-GigabitEthernet1/0/1] broad_cast-suppression 20 允许接受的最大广播流量为该端口传输能力的20%.超出部分丢弃.
+[h3c-GigabitEthernet1/0/1] broad_cast-suppression pps 1000 每秒允许接受的最大广播数据包为1000传输能力的20%.超出部分丢弃.
+display interface GigabitEthernet1/0/1 查看端口信息
+display brief interface GigabitEthernet1/0/1 查看端口简要配置信息
+display loopback-detection 用来测试环路测试是否开启
+display transceiver-information interface GigabitEthernet1/0/50 显示光口相关信息
+duplex auto/full/half
+[h3c]interface GigabitEthernet1/0/1
+[h3c-GigabitEthernet1/0/1]duplux auto 设置端口双工属性为自协商
+port link-type access/hybrid/trunk 默认为access
+port trunk permit vlan all 将trunk扣加入所有vlan中
+reset counters interface GigabitEthernet1/0/1 清楚端口的统计信息
+speed auto 10/100/1000
+display port-security 查看端口安全配置信息
+am user-bind mac-addr 00e0-fc00-5101 ip-addr 10.153.1.2 interface GigabitEthernet1/0/1 端口ip绑定
+display arp 显示arp
+display am user-bind 显示端口绑定的配置信息
+display mac-address 显示交换机学习到的mac地址
+display stp 显示生成树状态与统计信息
+[h3c-GigabitEthernet1/0/1]stp instance 0 cost 200 设置生成树实例0上路径开销为200
+stp cost 设置当前端口在指定生成树实例上路径开销。instance-id 为0-16 0表cist 取值范围1-200000
+display system-guard ip-record 显示防攻击记录信息.
+system-guard enable 启用系统防攻击功能
+display icmp statistics icmp流量统计
+display ip socket
+display ip statistics
+display acl all
+acl number acl-number match-order auto/config
+acl-number (2000-2999 是基本acl 3000-3999是高级acl为管理员预留的编号)
+rule deny/permit protocal
+访问控制
+[h3c] acl number 3000
+[h3c-acl-adv-3000]rule permit tcp source 129.9.0.0 0.0.255.255 destination 202.38.160.0 0.0.255.255 destination-port eq 80 (
+定义高级acl 3000,允许129.0.0/16网段的主机向202.38.160/24网段主机访问端口80)
+rule permit source 211.100.255.0 0.255.255.255
+rule deny cos 3 souce 00de-bbef-adse ffff-ffff-fff dest 0011-4301-9912 ffff-ffff-ffff
+(禁止mac地址00de-bbef-adse发送到mac地址0011-4301-9912且802.1p优先级为3的报文通过)
+display qos-interface GigabitEthernet1/0/1 traffic-limit 查看端口上流量
+端口速率限制
+line-rate inbound/outbound target-rate
+inbound:对端口接收报文进行速率限制
+outbound: 对端口发送报文进行速率限制
+target-rate 对报文限制速率,单位kbps 千兆口 inbound范围1-1000000 outbound范围20-1000000
+undo line-rate取消限速.
+[h3c]interface GigabitEthernet1/0/1
+[h3c-GigabitEthernet1/0/1]line-rate outbound 128 限制出去速率为128kbps
+display arp | include 77
+display arp _count计算arp表的记录数
+display ndp 显示交换机端口的详细配置信息。
+display ntdp device-list verbose 收集设备详细信息
+display lock
+display users
+display cpu
+display memory
+display fan
+display device
+display power
+
+ -->

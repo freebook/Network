@@ -1,0 +1,204 @@
+2911#sh run
+Building configuration...
+
+Current configuration : 4945 bytes
+!
+! Last configuration change at 07:40:27 UTC Mon Apr 16 2012 by cisco
+! NVRAM config last updated at 07:44:10 UTC Mon Apr 16 2012 by cisco
+! NVRAM config last updated at 07:44:10 UTC Mon Apr 16 2012 by cisco
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname 2911
+!
+boot-start-marker
+boot-end-marker
+!
+!
+logging buffered 51200 warnings
+!
+no aaa new-model
+!
+!
+no ipv6 cef
+ip source-route
+ip cef
+!
+!
+!
+ip dhcp excluded-address 192.168.40.250 192.168.40.254
+ip dhcp excluded-address 192.168.50.250 192.168.50.254
+!
+ip dhcp pool Office-0
+ network 192.168.40.240 255.255.255.240
+ default-router 192.168.40.254
+ dns-server 208.67.222.222 208.67.220.220
+ lease 7
+!
+ip dhcp pool Office-1
+ network 192.168.50.128 255.255.255.128
+ default-router 192.168.50.254
+ dns-server 208.67.222.222 208.67.220.220
+ lease 7
+!
+!
+ip domain name cisco.com
+!
+multilink bundle-name authenticated
+!
+!
+crypto pki token default removal timeout 0
+!
+crypto pki trustpoint TP-self-signed-433792230
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-433792230
+ revocation-check none
+ rsakeypair TP-self-signed-433792230
+!
+!
+crypto pki certificate chain TP-self-signed-433792230
+ certificate self-signed 01
+  30820229 30820192 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 34333337 39323233 30301E17 0D313230 32313630 32303430
+  335A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3433 33373932
+  32333030 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100
+  E227E899 E664CFEA 3E43A483 DD44A491 1B3C6C44 1D3C61B4 BC0F5E20 E6C19746
+  A4558A00 4FBEB2D9 CC13A63C C97581DA 3F84AFFA 8FF22356 08E48D25 AFC42034
+  B1690136 2871D7B9 69C69F78 6F6E766A 7DB95B73 E99B3613 AAF708C5 182BE89C
+  798E02C8 BB016A10 81C5AE6A 4A2D38E2 D866D5E9 070C87AF 7D323594 EE8A2883
+  02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 0603551D
+  23041830 168014FB 5B2A0956 C7F0A82B 3AFC39E5 7B3E270D 17129F30 1D060355
+  1D0E0416 0414FB5B 2A0956C7 F0A82B3A FC39E57B 3E270D17 129F300D 06092A86
+  4886F70D 01010505 00038181 00B10707 EEF7114E 68A39A24 D7365669 F9D8FE81
+  ED70AD0C BDAEF025 87FD4757 9F9CBD56 9D5EF743 CDD8F84C 2AD8682C B347D84C
+  C514A4BD E4FD17CB 93C02A68 E8BF35C7 2690CBDF D798EFC0 D68EF7CF A8FD94F8
+  4EBDA7E7 06E4BD80 6A427477 33D9250D E98CBECD D8A0EA15 87997D69 24813DE6
+  CF0935FF B09CD7AB 78DF8902 12
+        quit
+license udi pid CISCO2911/K9 sn FGL1607125L
+!
+!
+username cisco privilege 15 secret 5 $1$IipA$D.TdO9EidLWj26PfaqIOf.
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ description $ETH-LAN$$ETH-SW-LAUNCH$$INTF-INFO-GE 0/0$
+ ip address 10.10.10.1 255.255.255.248
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ description Office-0
+ ip address 192.168.40.254 255.255.255.240
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ description Office-1
+ ip address 192.168.50.254 255.255.255.128
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/0/0
+ description Default-Shenzhen-WAN
+ ip address 192.168.1.254 255.255.255.0
+ ip flow ingress
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/0/1
+ description Shenzhen-Server
+ ip address 172.16.0.254 255.255.255.0
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+router ospf 1
+ network 192.168.40.240 0.0.0.15 area 1
+ network 192.168.50.128 0.0.0.127 area 1
+!
+ip forward-protocol nd
+!
+ip http server
+ip http access-class 23
+ip http authentication local
+ip http secure-server
+ip http timeout-policy idle 60 life 86400 requests 10000
+ip flow-export source FastEthernet0/0/0
+ip flow-export version 9
+ip flow-export destination 192.168.1.246 2055
+!
+ip nat inside source list nat interface FastEthernet0/0/0 overload
+ip route 0.0.0.0 0.0.0.0 192.168.1.1
+!
+ip access-list standard login
+ permit 192.168.50.0 0.0.0.128
+ permit 172.16.0.0 0.0.0.255
+ permit 192.168.40.0 0.0.0.255
+!
+ip access-list extended nat
+ permit ip any any
+!
+!
+!
+!
+!
+!
+snmp-server community public RO
+snmp-server location Shenzhen
+snmp-server contact 324@68xx.org
+snmp-server host 172.16.0.5 ro
+snmp-server host 192.168.1.246 ro
+!
+control-plane
+!
+!
+!
+line con 0
+ login local
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport input all
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ access-class login in
+ privilege level 15
+ login local
+ transport input telnet ssh
+line vty 5 15
+ access-class 23 in
+ privilege level 15
+ login local
+ transport input telnet ssh
+!
+scheduler allocate 20000 1000
+end

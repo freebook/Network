@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="index"><?dbhtml dir="icg" ?>
+	<title>H3C ICG（Information Communication Gateway）</title>
+	<para></para>
+	<section id="version">
+		<title>version</title>
+		<screen>
+[Netkiller]display version
+H3C Comware Platform Software
+Comware Software, Version 5.20, ESS 1710
+Copyright (c) 2004-2008 Hangzhou H3C Tech. Co., Ltd. All rights reserved.
+H3C ICG2000 uptime is 0 week, 0 day, 22 hours, 27 minutes
+Last reboot 2007/01/01 00:00:09
+System returned to ROM By Power-up.
+
+CPU type: FREESCALE MPC8323E 333MHz
+256M bytes DDR SDRAM Memory
+32M bytes Flash Memory
+Pcb               Version:  3.0
+Logic             Version:  1.0
+Basic    BootROM  Version:  2.03
+Extended BootROM  Version:  2.03
+[SLOT  0]AUX            (Hardware)3.0,	(Driver)1.0,	(Cpld)1.0
+[SLOT  0]ETH0/0         (Hardware)3.0,	(Driver)1.0,	(Cpld)1.0
+[SLOT  0]ETH0/1         (Hardware)3.0,	(Driver)1.0,	(Cpld)1.0
+[SLOT  0]ETH0/2         (Hardware)3.0,	(Driver)1.0,	(Cpld)1.0
+[SLOT  0]ETH0/3         (Hardware)3.0,	(Driver)1.0,	(Cpld)1.0
+[SLOT  0]ETH0/4         (Hardware)3.0,	(Driver)1.0,	(Cpld)1.0
+[SLOT  2]WLAN           (Hardware)2.0,	(Driver)1.0,	(Cpld)0.0
+		</screen>
+	</section>
+	<section id="login">
+		<title>基础操作</title>
+		<section>
+			<title>登陆</title>
+			<screen>
+			<![CDATA[
+[root@localhost ~]# telnet 192.168.4.4
+Trying 192.168.4.4...
+Connected to 192.168.4.4.
+Escape character is '^]'.
+
+******************************************************************************
+* Copyright (c) 2004-2008 Hangzhou H3C Tech. Co., Ltd. All rights reserved.  *
+* Without the owner's prior written consent,                                 *
+* no decompiling or reverse-engineering shall be allowed.                    *
+******************************************************************************
+
+
+Login authentication
+
+
+Username:neo
+Password:
+<Netkiller>
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>创建用户</title>
+			<screen>
+
+			</screen>
+			<para>创建用户neo密码chen，并允许telnet登陆</para>
+			<screen>
+			<![CDATA[
+local-user neo
+ password simple chen
+ authorization-attribute level 3
+ service-type ssh telnet terminal
+ service-type ftp
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>开启SSH服务</title>
+			<screen>
+[Netkiller]ssh server enable
+Info: Enable SSH server.
+			</screen>
+			<para>测试登陆</para>
+			<screen>
+			<![CDATA[
+[devops@master ~]$ ssh neo@192.168.4.4
+neo@192.168.4.4's password:
+
+******************************************************************************
+* Copyright (c) 2004-2008 Hangzhou H3C Tech. Co., Ltd. All rights reserved.  *
+* Without the owner's prior written consent,                                 *
+* no decompiling or reverse-engineering shall be allowed.                    *
+******************************************************************************
+
+<Netkiller>
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>开启FTP服务</title>
+			<screen>
+[Netkiller]ftp server enable
+			</screen>
+		</section>
+		<section>
+			<title>保存配置</title>
+			<screen>
+[Netkiller]save
+The current configuration will be written to the device. Are you sure? [Y/N]:y
+Please input the file name(*.cfg)[flash:/startup.cfg]
+(To leave the existing filename unchanged, press the enter key):
+flash:/startup.cfg exists, overwrite? [Y/N]:y
+ Validating file. Please wait........................
+ Configuration is saved to device successfully.
+[Netkiller]
+			</screen>
+			<para>使用curl命令链接ftp列出目录</para>
+			<screen>
+[root@localhost ~]# curl -l ftp://neo:password@192.168.4.4
+main.bin
+2003_ca.cer
+2003_server.pfx
+navigator_ca.cer
+navigator_local.cer
+config.cwmp
+system.xml
+startup.cfg
+
+			</screen>
+			<para>使用curl查看配置文件</para>
+			<screen>
+[root@localhost ~]# curl ftp://neo:chen@192.168.4.4/startup.cfg
+
+#
+ version 5.20, ESS 1710
+#
+ sysname Netkiller
+#
+ tcp syn-cookie enable
+ tcp anti-naptha enable
+ tcp state closing connection-number 500
+ tcp state established connection-number 500
+ tcp state fin-wait-1 connection-number 500
+ tcp state fin-wait-2 connection-number 500
+ tcp state last-ack connection-number 500
+ tcp state syn-received connection-number 500
+#
+ ipsec cpu-backup enable
+#
+ domain default enable system
+#
+ dns resolve
+ dns proxy enable
+ dns server 202.96.134.133
+#
+ telnet server enable
+#
+ port-security enable
+#
+ mac-authentication domain system
+#
+vlan 1
+#
+domain system
+ authentication lan-access local
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+#
+pki domain navigator
+  crl check disable
+#
+ike proposal 1
+ encryption-algorithm 3des-cbc
+ dh group5
+#
+ike peer navigator
+ pre-shared-key cipher uqWUC2uW1wbDFIn0NObiHg==
+#
+ipsec proposal navigator
+ encapsulation-mode transport
+ esp authentication-algorithm sha1
+ esp encryption-algorithm 3des
+#
+ipsec proposal navigator1
+ esp authentication-algorithm sha1
+ esp encryption-algorithm 3des
+#
+ipsec policy-template gateway 1
+ ike-peer navigator
+ proposal navigator navigator1
+#
+ipsec policy navigator 1 isakmp template gateway
+#
+dhcp server ip-pool vlan1 extended
+ network ip range 172.16.1.30 192.168.1.200
+ network mask 255.255.255.0
+ gateway-list 172.16.1.254
+ dns-list 114.114.114.114 114.114.115.115
+ domain-name netkiller.github.io
+#
+user-group system
+#
+local-user neo
+ password simple chen
+ authorization-attribute level 3
+ service-type ssh telnet terminal
+ service-type ftp
+#
+wlan rrm
+ dot11b mandatory-rate 1 2
+ dot11b supported-rate 5.5 11
+ dot11g mandatory-rate 1 2 5.5 11
+ dot11g supported-rate 6 9 12 18 24 36 48 54
+#
+wlan service-template 1 crypto
+ ssid http://netkiller.github.io
+ cipher-suite tkip
+ security-ie rsn
+ service-template enable
+#
+wlan service-template 2 crypto
+ ssid http://netkiller.sf.net
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+#
+ssl server-policy chinanet
+ pki-domain navigator
+#
+cwmp
+ cwmp acs username netkiller password netkiller
+ cwmp cpe inform interval enable
+ cwmp cpe inform interval 43200
+ cwmp cpe username neo password neo
+#
+interface Aux0
+ async mode flow
+ link-protocol ppp
+#
+interface Ethernet0/0
+ port link-mode route
+ nat outbound
+ ip address 192.168.4.4 255.255.255.0
+#
+interface NULL0
+#
+interface Vlan-interface1
+ ip address 172.16.1.254 255.255.255.0
+ dhcp server apply ip-pool vlan1
+#
+interface Ethernet0/1
+ port link-mode bridge
+#
+interface Ethernet0/2
+ port link-mode bridge
+#
+interface Ethernet0/3
+ port link-mode bridge
+#
+interface Ethernet0/4
+ port link-mode bridge
+#
+interface WLAN-BSS0
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase 13113668890
+#
+interface WLAN-BSS1
+#
+interface WLAN-Radio2/0
+ service-template 1 interface wlan-bss 0
+#
+policy-based-route Ethernet0/0 permit node 0
+   if-match acl 2000
+   apply output-interface Ethernet0/0
+#
+ ip route-static 0.0.0.0 0.0.0.0 Ethernet0/0 192.168.4.254
+#
+ dhcp enable
+#
+ ip https ssl-server-policy chinanet
+ ip https enable
+#
+ nms primary monitor-interface Ethernet0/0
+#
+ load xml-configuration
+#
+user-interface aux 0
+user-interface vty 0 4
+ authentication-mode scheme
+#
+
+			</screen>
+			<para>保存配置文件到startup.cfg文件</para>
+			<screen>
+# curl ftp://neo:chen@192.168.4.4/startup.cfg > startup.cfg
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3450    0  3450    0     0   2852      0 --:--:--  0:00:01 --:--:--  2853
+			</screen>
+		</section>
+	</section>
+	<section id="wan">
+		<title>Ethernet0/0 - Wan口配置</title>
+		<section>
+			<title>DHCP 动态IP地址</title>
+			<screen>
+			<![CDATA[
+<Netkiller>system-view
+System View: return to User View with Ctrl+Z.
+
+interface Ethernet0/0
+ port link-mode route
+ nat outbound
+ ip address dhcp-alloc
+ ipsec policy navigator
+#
+
+[Netkiller]display dhcp client
+Ethernet0/0 DHCP client information:
+ Current machine state: BOUND
+ Allocated IP: 172.16.0.17 255.255.255.0
+ Allocated lease: 172800 seconds, T1: 86400 seconds, T2: 151200 seconds
+ DHCP server: 172.16.0.254
+
+
+[Netkiller]display dhcp client verbose
+Ethernet0/0 DHCP client information:
+ Current machine state: BOUND
+ Allocated IP: 172.16.0.17 255.255.255.0
+ Allocated lease: 172800 seconds, T1: 86400 seconds, T2: 151200 seconds
+ Lease from 2007.01.01 00:36:08   to   2007.01.03 00:36:08
+ DHCP server: 172.16.0.254
+ Transaction ID: 0x5d84030b
+ Default router: 172.16.0.254
+ DNS server: 114.114.114.114
+ DNS server: 114.114.115.115
+ Client ID: 3030-3066-2e65-3263-
+            642e-3733-6430-2d45-
+            7468-6572-6e65-7430-
+            2f30
+ T1 will timeout in 0 day 23 hours 55 minutes 11 seconds.
+ 			]]>
+			</screen>
+		</section>
+		<section>
+			<title>固定IP地址</title>
+			<screen>
+interface Ethernet0/0
+ port link-mode route
+ nat outbound
+ ip address 192.168.4.4 255.255.255.0
+			</screen>
+		</section>
+	</section>
+	<section id="wlan">
+		<title>WLAN - 无线局域网配置</title>
+		<screen>
+wlan service-template 1 crypto
+ ssid http://netkiller.github.io
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+#
+interface WLAN-BSS0
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase 13113668890
+#
+interface WLAN-Radio2/0
+ service-template 1 interface wlan-bss 0
+#
+		</screen>
+		<para>最主要的两项：</para>
+		<para>ssid http://netkiller.github.io 配置SSID</para>
+		<para>port-security preshared-key pass-phrase 13113668890 配置密码</para>
+		<section>
+			<title>修改配置</title>
+			<screen>
+[Netkiller]wlan service-template 1
+[Netkiller-wlan-st-1]di this
+#
+wlan service-template 1 crypto
+ ssid ChinaNet-73C0
+ cipher-suite tkip
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+#
+return
+
+[Netkiller-wlan-st-1]service-template disable
+[Netkiller-wlan-st-1]ssid http://netkiller.github.io
+[Netkiller-wlan-st-1]service-template enable
+			</screen>
+			<para>注意：首先要禁用模板</para>
+		</section>
+		<section>
+			<title>WLAN 状态查看</title>
+			<screen>
+[Netkiller]display wlan client
+ Total Number of Clients           : 1
+ Total Number of Clients Connected : 1
+		              Client Information
+-------------------------------------------------------------------------------
+ MAC Address        BSSID              AID    State           PS Mode  QoS Mode
+-------------------------------------------------------------------------------
+ b809-8a69-27ab     000f-e2cd-73c0     1      Running         Sleep    WMM
+-------------------------------------------------------------------------------
+
+[Netkiller]display wlan client
+ Total Number of Clients           : 2
+ Total Number of Clients Connected : 2
+		              Client Information
+-------------------------------------------------------------------------------
+ MAC Address        BSSID              AID    State           PS Mode  QoS Mode
+-------------------------------------------------------------------------------
+ b809-8a69-27ab     000f-e2cd-73c0     1      Running         Sleep    WMM
+ e0c9-7ab1-3d69     000f-e2cd-73c0     2      Running         Sleep    WMM
+-------------------------------------------------------------------------------
+			</screen>
+		</section>
+		<section>
+			<title>IDS（Intrusion detection system） 状态</title>
+			<screen>
+[Netkiller]display wlan ids statistics
+ Current attack tracking since: 2007-01-01/22:54:41
+-------------------------------------------------------------------------------
+ Type                                            Current       Total
+-------------------------------------------------------------------------------
+ Probe Request Frame Flood Attack                0             0
+ Authentication Request Frame Flood Attack       0             0
+ Deauthentication Frame Flood Attack             0             0
+ Association Request Frame Flood Attack          0             0
+ Disassociation Request Frame Flood Attack       0             0
+ Reassociation Request Frame Flood Attack        0             0
+ Action Frame Flood Attack                       0             0
+ Null Data Frame Flood Attack                    0             0
+ Weak IVs Detected                               0             0
+ Spoofed Deauthentication Frame Attack           0             0
+ Spoofed Disassociation Frame Attack             0             0
+-------------------------------------------------------------------------------
+
+			</screen>
+		</section>
+		<section>
+			<title>Radio resource management</title>
+			<screen>
+[Netkiller]display wlan rrm
+                                 RRM Configuration
+-------------------------------------------------------------------------------
+ 11b Configured Rates (Mbps)
+   Mandatory                   : 1, 2
+   Supported                   : 5.5, 11
+   Disabled                    : -NA-
+ 11g Configured Rates (Mbps)
+   Mandatory                   : 1, 2, 5.5, 11
+   Supported                   : 6, 9, 12, 18, 24, 36, 48, 54
+   Disabled                    : -NA-
+   11g Protection              : Disabled
+ 11h Configuration
+   Spectrum Management         : Disabled
+   Power Constraint (dBm)      : 0
+   Channel Set                 : All
+-------------------------------------------------------------------------------
+			</screen>
+		</section>
+		<section>
+			<title>Service Template Parameters</title>
+			<screen>
+[Netkiller]display wlan service-template
+			  Service Template Parameters
+-------------------------------------------------------------------------------
+ Service Template Number      : 1
+ SSID                         : http://netkiller.github.io
+ Service Template Type        : Crypto
+ Security IE                  : RSN
+ Authentication Method        : Open System
+ SSID-hide                    : Disabled
+ Cipher Suite                 : TKIP
+ TKIP Countermeasure Time(s)  : 60
+ PTK Life Time(s)             : 43200
+ GTK Rekey                    : Enabled
+ GTK Rekey Method             : Time-based
+ GTK Rekey Time(s)            : 86400
+ Service Template Status      : Enabled
+ Maximum clients per BSS      : 32
+-------------------------------------------------------------------------------
+
+			  Service Template Parameters
+-------------------------------------------------------------------------------
+ Service Template Number      : 2
+ SSID                         : http://netkiller.sf.net
+ Service Template Type        : Crypto
+ Security IE                  : RSN
+ Authentication Method        : Open System
+ SSID-hide                    : Disabled
+ Cipher Suite                 : CCMP
+ TKIP Countermeasure Time(s)  : 60
+ PTK Life Time(s)             : 43200
+ GTK Rekey                    : Enabled
+ GTK Rekey Method             : Time-based
+ GTK Rekey Time(s)            : 86400
+ Service Template Status      : Enabled
+ Maximum clients per BSS      : 32
+-------------------------------------------------------------------------------
+
+			</screen>
+		</section>
+		<section>
+			<title>Client Statistics</title>
+			<screen>
+[Netkiller]display wlan statistics client all
+		               Client Statistics
+-------------------------------------------------------------------------------
+ AP Name                           : Netkiller
+ Radio Id                          : 1
+ SSID                              : http://netkiller.github.io
+ BSSID                             : 000f-e2cd-73c0
+ MAC Address                       : b809-8a69-27ab
+ RSSI                              : 50
+-------------------------------------------------------------------------------
+ Transmitted Frames:
+ Back Ground (Frames/Bytes)        : 0/0
+ Best Effort (Frames/Bytes)        : 7156/2257549
+ Video (Frames/Bytes)              : 4/700
+ Voice (Frames/Bytes)              : 4/204
+ Received Frames:
+ Back Ground (Frames/Bytes)        : 396/77443
+ Best Effort (Frames/Bytes)        : 15714/1103448
+ Video (Frames/Bytes)              : 21/3937
+ Voice (Frames/Bytes)              : 737/76615
+ Discarded Frames:
+ Back Ground (Frames/Bytes)        : 0/0
+ Best Effort (Frames/Bytes)        : 0/0
+ Video (Frames/Bytes)              : 0/0
+ Voice (Frames/Bytes)              : 0/0
+-------------------------------------------------------------------------------
+
+		               Client Statistics
+-------------------------------------------------------------------------------
+ AP Name                           : Netkiller
+ Radio Id                          : 1
+ SSID                              : http://netkiller.github.io
+ BSSID                             : 000f-e2cd-73c0
+ MAC Address                       : e0c9-7ab1-3d69
+ RSSI                              : 50
+-------------------------------------------------------------------------------
+ Transmitted Frames:
+ Back Ground (Frames/Bytes)        : 0/0
+ Best Effort (Frames/Bytes)        : 113/47039
+ Video (Frames/Bytes)              : 2/350
+ Voice (Frames/Bytes)              : 2/102
+ Received Frames:
+ Back Ground (Frames/Bytes)        : 0/0
+ Best Effort (Frames/Bytes)        : 355/41601
+ Video (Frames/Bytes)              : 0/0
+ Voice (Frames/Bytes)              : 27/2733
+ Discarded Frames:
+ Back Ground (Frames/Bytes)        : 0/0
+ Best Effort (Frames/Bytes)        : 0/0
+ Video (Frames/Bytes)              : 0/0
+ Voice (Frames/Bytes)              : 0/0
+-------------------------------------------------------------------------------
+			</screen>
+		</section>
+		<section>
+			<title>Wi-Fi multimedia</title>
+			<para>Wireless client</para>
+			<screen>
+[Netkiller]display wlan wmm client all
+--------------------------------------------------------------------------------
+ MAC address : b809-8a69-27ab       SSID : http://netkiller.github.io
+ QoS Mode        : WMM
+ APSD information :
+  Max SP Length : all
+  L: Legacy	T: Trigger	D: Delivery
+  AC		AC-BK	AC-BE	AC-VI	AC-VO
+  State		L	L	L	L
+  Assoc State	L	L	L	L
+ CAC information :
+  Uplink CAC packets   : 0           Downlink CAC packets   : 7171
+  Uplink CAC bytes     : 0           Downlink CAC bytes     : 2203734
+  Downgrade packets    : 0           Discard packets        : 0
+  Downgrade bytes      : 0           Discard bytes          : 0
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+ MAC address : e0c9-7ab1-3d69       SSID : http://netkiller.github.io
+ QoS Mode        : WMM
+ APSD information :
+  Max SP Length : all
+  L: Legacy	T: Trigger	D: Delivery
+  AC		AC-BK	AC-BE	AC-VI	AC-VO
+  State         L	L	L	L
+  Assoc State	L	L	L	L
+ CAC information :
+  Uplink CAC packets   : 0           Downlink CAC packets   : 138
+  Uplink CAC bytes     : 0           Downlink CAC bytes     : 51663
+  Downgrade packets    : 0           Discard packets        : 0
+  Downgrade bytes      : 0           Discard bytes          : 0
+--------------------------------------------------------------------------------
+
+			</screen>
+			<para>WLAN radio</para>
+			<screen>
+[Netkiller]display wlan wmm radio
+--------------------------------------------------------------------------------
+ Radio interface : WLAN-Radio1/0/1
+ ------------------------------------------------------------------------------
+ Client EDCA update count : 65481828
+ QoS Mode                 : WMM        Radio chip QoS mode      : WMM
+ Radio chip max AIFSN     : 255        Radio chip max ECWmin    : 10
+ Radio chip max TXOPLimit : 32767      Radio chip max ECWmax    : 10
+ CAC Information
+  Client accepted                : 0
+   Voice                         : 0
+   Video                         : 0
+  Total request mediumtime(us)   : 0
+   Voice(us)                     : 0
+   Video(us)                     : 0
+  Calls rejected due to insufficient resource   : 0
+  Calls rejected due to invalid parameters      : 0
+  Calls rejected due to invalid mediumtime      : 0
+  Calls rejected due to invalid delaybound      : 0
+ QoS Mode                        : WMM
+ Admission Control Policy        : Users
+ Threshold users count           : 20
+ CAC-Free's AC Request Policy    : Response Success
+ CAC Unauthed Frame Policy       : Downgrade
+ CAC Medium Time Limitation(us)  : 100000
+ CAC AC-VO's Max Delay(us)       : 50000
+ CAC AC-VI's Max Delay(us)       : 300000
+ SVP packet mapped AC number     : Disabled
+ Radio's WMM Parameters:
+                          AC-BK    AC-BE    AC-VI    AC-VO
+       ECWmin                 4        4        3        2
+       ECWmax                10        6        4        3
+       AIFSN                  7        3        1        1
+       TXOPLimit              0        0       94       47
+       AckPolicy         Normal   Normal   Normal   Normal
+ Client's WMM Parameters:
+                          AC-BK    AC-BE    AC-VI    AC-VO
+       ECWmin                 4        4        3        2
+       ECWmax                10       10        4        3
+       AIFSN                  7        3        2        2
+       TXOPLimit              0        0       94       47
+       CAC              Disable  Disable  Disable  Disable
+-------------------------------------------------------------------------------
+
+			</screen>
+		</section>
+	</section>
+	<section id="lan">
+		<title>LAN 配置</title>
+		<section id="dhcp.server">
+			<title>DHCP Server</title>
+			<screen>
+dhcp server ip-pool vlan1 extended
+ network ip range 172.16.1.30 192.168.1.200
+ network mask 255.255.255.0
+ gateway-list 172.16.1.254
+ dns-list 114.114.114.114 114.114.115.115
+ domain-name netkiller.github.io
+#
+			</screen>
+			<para>OpenDNS</para>
+			<screen>
+[Netkiller-dhcp-pool-vlan1]di th
+#
+dhcp server ip-pool vlan1 extended
+ network ip range 172.16.0.20 172.16.0.200
+ network mask 255.255.255.0
+ gateway-list 172.16.0.254
+ dns-list 208.67.222.222 208.67.220.220 208.67.222.220 208.67.220.222
+ domain-name netkiller.github.io
+#
+return
+			</screen>
+		</section>
+		<section id="vlan">
+			<title>VLAN</title>
+			<screen>
+interface Vlan-interface1
+ ip address 172.16.1.254 255.255.255.0
+ dhcp server apply ip-pool vlan1
+#
+			</screen>
+		</section>
+	</section>
+	<section id="route">
+		<title>路由配置</title>
+		<section>
+			<title>默认路由</title>
+			<screen>
+ip route-static 0.0.0.0 0.0.0.0 Ethernet0/0 192.168.4.254
+			</screen>
+		</section>
+	</section>
+	<section id="vpn">
+		<title>VPN 配置</title>
+		<section>
+			<title>l2tp vpn</title>
+			<screen>
+[Netkiller]l2tp enable
+[Netkiller]domain system
+[Netkiller-isp-system]ip pool 1 172.16.1.10 172.16.1.250
+[Netkiller-isp-system]quit
+
+[Netkiller]local-user vpn
+New local user added.
+[Netkiller-luser-vpn]password simple netkiller
+[Netkiller-luser-vpn]service-type ppp
+[Netkiller-luser-vpn]quit
+
+[Netkiller]interface Virtual-Template 0
+[Netkiller-Virtual-Template0]ppp authentication-mode pap
+[Netkiller-Virtual-Template0]ip address 172.16.1.254 255.255.255.0
+[Netkiller-Virtual-Template0]remote address pool 1
+[Netkiller-Virtual-Template0]quit
+
+[Netkiller]l2tp-group 1
+[Netkiller-l2tp1]allow l2tp virtual-template 0
+[Netkiller-l2tp1]undo tunnel authentication
+[Netkiller-l2tp1]mandatory-lcp
+[Netkiller-l2tp1]quit
+
+			</screen>
+			<para>
+			
+			</para>
+			<screen>
+[Netkiller-l2tp1]display l2tp session
+ Total session = 1
+
+ LocalSID  RemoteSID  LocalTID  
+  29030     1          1 			
+			</screen>
+			<screen>
+[Netkiller-l2tp1]display l2tp tunnel
+ Total tunnel = 1
+
+ LocalTID RemoteTID RemoteAddress    Port   Sessions RemoteName
+ 1        19        192.168.4.69     1701   1        DESKTOP-KLBD3DS 			
+			</screen>
+		</section>
+		<section>
+			<title>ipsec</title>
+			<screen>
+[Netkiller]dis ike proposal    
+ priority authentication authentication encryption Diffie-Hellman duration
+              method       algorithm    algorithm     group       (seconds)
+---------------------------------------------------------------------------
+  1        PRE_SHARED     SHA         AES_CBC_256     MODP_1536      86400    
+  default  PRE_SHARED     SHA         DES_CBC         MODP_768       86400  			
+			</screen>
+			<screen>
+[Netkiller]dis ipsec proposal 1
+
+  IPsec proposal name: 1
+    encapsulation mode: transport
+    transform: esp-new
+    ESP protocol: authentication sha1-hmac-96, encryption 128-bits aes
+			</screen>
+		</section>
+	</section>
+</chapter>

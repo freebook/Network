@@ -6,19 +6,13 @@
 -->
 <!DOCTYPE book SYSTEM "/usr/share/xml/docbook/schema/dtd/5.0/docbook.dtd" [
 
-	<!ENTITY book.info.author.xml		SYSTEM "../common/book.info.author.xml">
-	<!ENTITY book.info.legalnotice.xml	SYSTEM "../common/book.info.legalnotice.xml">
-	<!ENTITY book.info.abstract.xml		SYSTEM "../common/book.info.abstract.xml">
-	<!ENTITY book.preface.xml			SYSTEM "../common/book.preface.xml">
-	<!ENTITY preface.about.me.xml       SYSTEM "../common/about.me.xml">
-	<!ENTITY book.dedication.xml       	SYSTEM "../common/book.dedication.xml">
-
-	<!ENTITY chapter.terminal.xml 		SYSTEM "chapter.terminal.xml">
-	<!ENTITY chapter.route.xml			SYSTEM "chapter.route.xml">
-	<!ENTITY chapter.ap.xml				SYSTEM "chapter.ap.xml">
-	<!ENTITY chapter.switch.xml			SYSTEM "chapter.switch.xml">
-	<!ENTITY chapter.icg.xml			SYSTEM "chapter.icg.xml">
-	<!ENTITY chapter.reference.xml		SYSTEM "chapter.reference.xml">
+	<!ENTITY % common.doctype.entity.xml 		SYSTEM "../../common/doctype.entity.xml">
+	%common.doctype.entity.xml;
+	
+	<!ENTITY book.info.abstract.xml 	SYSTEM "../book.info.abstract.xml">
+	
+	<!ENTITY % doctype.entity.xml 		SYSTEM "doctype.entity.xml">
+	%doctype.entity.xml;
 
 ]>
 <book xml:base="http://netkiller.sourceforge.net/cisco/"
@@ -56,10 +50,6 @@
 	&book.dedication.xml;
 	&book.preface.xml;
 
-	&chapter.route.xml;
-	&chapter.switch.xml;
-	&chapter.ap.xml;
-	&chapter.icg.xml;
-	
+	&chapter.h3c.xml;
 
 </book>

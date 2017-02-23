@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	&chapter.terminal.xml;
+	&chapter.ios.show.xml;
+	&chapter.ios.debug.xml;
+	&chapter.ios.config.xml;
+	&chapter.router.xml;
+	&chapter.switch.xml;
+ 	&chapter.firewall.xml;
+ 	&chapter.netflow.xml;
+	&chapter.reference.xml;

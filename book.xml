@@ -11,12 +11,18 @@
 	
 	<!ENTITY book.info.abstract.xml 	SYSTEM "book.info.abstract.xml">
 
-	<!ENTITY chapter.cisco.xml		SYSTEM "chapter.cisco.xml">
+	<!ENTITY % cisco.doctype.entity.xml 			SYSTEM "Cisco/doctype.entity.xml">
+	%cisco.doctype.entity.xml;
+	<!ENTITY part.cisco.xml				SYSTEM "part.cisco.xml">
 	
 	<!ENTITY chapter.juniper.xml		SYSTEM "Juniper/chapter.juniper.xml">
 	<!ENTITY chapter.juniper.policy.xml	SYSTEM "Juniper/chapter.juniper.policy.xml">
 	<!ENTITY chapter.juniper.flow.xml	SYSTEM "Juniper/chapter.juniper.flow.xml">
 
+	<!ENTITY % h3c.doctype.entity.xml 			SYSTEM "H3C/doctype.entity.xml">
+	%h3c.doctype.entity.xml;
+	<!ENTITY part.h3c.xml						SYSTEM "part.h3c.xml">
+	
 	<!ENTITY % dell.doctype.entity.xml 			SYSTEM "DELL/doctype.entity.xml">
 	%dell.doctype.entity.xml;
 
@@ -99,7 +105,7 @@
 	&chapter.idc.xml;
 	&part.office.xml;
 
-	&chapter.cisco.xml;
+	&part.cisco.xml;
 	&chapter.juniper.xml;
 	&part.h3c.xml;
 	&chapter.dell.xml;

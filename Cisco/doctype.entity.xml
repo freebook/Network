@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ENTITY chapter.cisco.xml			SYSTEM "chapter.cisco.xml">
+<!ENTITY chapter.terminal.xml 		SYSTEM "chapter.terminal.xml">
+<!ENTITY chapter.ios.show.xml		SYSTEM "chapter.ios.show.xml">
+<!ENTITY chapter.ios.debug.xml		SYSTEM "chapter.ios.debug.xml">
+<!ENTITY chapter.ios.config.xml		SYSTEM "chapter.ios.config.xml">
+<!ENTITY chapter.router.xml			SYSTEM "chapter.router.xml">
+<!ENTITY chapter.router.acl.xml		SYSTEM "chapter.router.acl.xml">
+<!ENTITY chapter.switch.xml			SYSTEM "chapter.switch.xml">
+<!ENTITY chapter.switch.example.xml	SYSTEM "chapter.switch.example.xml">
+<!ENTITY chapter.firewall.xml		SYSTEM "chapter.firewall.xml">
+<!ENTITY chapter.firewall.pix.xml	SYSTEM "chapter.firewall.pix.xml">
+<!ENTITY chapter.firewall.asa.xml	SYSTEM "chapter.firewall.asa.xml">
+<!ENTITY chapter.netflow.xml		SYSTEM "chapter.netflow.xml">
+<!ENTITY chapter.pbx.xml	 		SYSTEM "chapter.pbx.xml">
+<!ENTITY chapter.vpn.xml			SYSTEM "chapter.vpn.xml">
+<!ENTITY chapter.reference.xml		SYSTEM "chapter.reference.xml">

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ENTITY chapter.h3c.xml 				SYSTEM "chapter.h3c.xml">
+<!ENTITY chapter.h3c.terminal.xml 		SYSTEM "chapter.h3c.terminal.xml">
+<!ENTITY chapter.h3c.route.xml			SYSTEM "chapter.h3c.route.xml">
+<!ENTITY chapter.h3c.ap.xml				SYSTEM "chapter.h3c.ap.xml">
+<!ENTITY chapter.h3c.switch.xml			SYSTEM "chapter.h3c.switch.xml">
+<!ENTITY chapter.h3c.icg.xml			SYSTEM "chapter.h3c.icg.xml">
+<!ENTITY chapter.h3c.reference.xml		SYSTEM "chapter.h3c.reference.xml">

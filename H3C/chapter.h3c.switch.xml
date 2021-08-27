@@ -873,7 +873,7 @@ Destination/Mask    Proto  Pre  Cost         NextHop         Interface
 		</section>
 	</section>
 
-	<section id="snmp">
+	<section id="h3c.switch.snmp">
 		<title>SNMP</title>
 		<screen>
 		<![CDATA[
@@ -934,6 +934,7 @@ System View: return to User View with Ctrl+Z.
 [S5024PV2-EI-1]snmp-agent sys-info version all
 [S5024PV2-EI-1]snmp-agent community read public
 [S5024PV2-EI-1]snmp-agent mib-view include internet 1.3.6.1	
+[S5024PV2-EI-1]snmp-agent target-host trap address udp-domain 192.168.30.11 params securityname public
 			]]>
 			</screen>
 			<para>配置参考</para>
@@ -1067,11 +1068,11 @@ interface GigabitEthernet1/0/28
  undo info-center logfile enable
 #
  snmp-agent
- snmp-agent local-engineid 383030303633413236353133343842443344383434323630
+ snmp-agent local-engineid 383030303633413236353133343842443344383433463230
  snmp-agent community read public
  snmp-agent sys-info version all
+ snmp-agent target-host trap address udp-domain 192.168.30.11 params securityname public
  snmp-agent mib-view included internet internet
- snmp-agent trap enable default-route
 #
  ssh server enable
  sftp server enable
@@ -1132,7 +1133,7 @@ ssh client source interface loopback0
 			]]></screen>
 		</section>
 	</section>
-	<section>
+	<section id="h3c.switch.ntp">
 		<title>NTP 时间同步</title>
 		<para>配置 NTP</para>
 		<screen>

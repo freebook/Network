@@ -5,4 +5,4 @@
 <!ENTITY chapter.h3c.ap.xml				SYSTEM "chapter.h3c.ap.xml">
 <!ENTITY chapter.h3c.switch.xml			SYSTEM "chapter.h3c.switch.xml">
 <!ENTITY chapter.h3c.icg.xml			SYSTEM "chapter.h3c.icg.xml">
-<!ENTITY chapter.h3c.reference.xml		SYSTEM "chapter.h3c.reference.xml">
+<!ENTITY section.h3c.example.xml		SYSTEM "section.h3c.example.xml">

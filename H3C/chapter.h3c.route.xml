@@ -219,7 +219,7 @@ display ntdp device-list verbose 收集设备详细信息
 			]]></screen>
 		</section>
 	</section>
-	<section>
+	<section id="h3c.route.snmp">
 		<title>SNMP</title>
 		<para>MSR2610</para>
 		<screen>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section>
+	<title>案例</title>
+	<section>
+		<title>交换机</title>
+		<screen>
+		<![CDATA[
+[S5024PV2-EI-1-GigabitEthernet1/0/24]di cu
+#
+ version 5.20.99, Release 1111
+#
+ sysname S5024PV2-EI-1
+#
+ clock timezone Beijing add 08:00:00
+#
+ domain default enable system
+#
+ ipv6
+#
+ telnet server enable
+#
+ port-group-vlan 1
+#
+ password-recovery enable
+#
+vlan 1
+#
+vlan 2 to 10
+#
+domain system
+ access-limit disable
+ state active   
+ idle-cut disable
+ self-service-url disable
+#
+user-group system
+ group-attribute allow-guest
+#
+local-user admin
+ password cipher $c$3$EkhzOhFEh59+WPOOlD32QaWsr0DwDZyU
+ authorization-attribute level 3
+ service-type ssh telnet
+ service-type web
+#
+interface NULL0
+#
+interface Vlan-interface1
+ ip address 192.168.0.233 255.255.255.0
+#
+interface Vlan-interface10
+ ip address 172.16.254.253 255.255.255.0
+#
+interface GigabitEthernet1/0/1
+ port access vlan 3
+#               
+interface GigabitEthernet1/0/2
+#
+interface GigabitEthernet1/0/3
+#
+interface GigabitEthernet1/0/4
+ port access vlan 3
+#
+interface GigabitEthernet1/0/5
+ port access vlan 3
+#
+interface GigabitEthernet1/0/6
+ port access vlan 3
+#
+interface GigabitEthernet1/0/7
+ port access vlan 3
+#
+interface GigabitEthernet1/0/8
+ port access vlan 3
+#
+interface GigabitEthernet1/0/9
+ port access vlan 3
+#
+interface GigabitEthernet1/0/10
+ port access vlan 3
+#
+interface GigabitEthernet1/0/11
+ port access vlan 3
+#
+interface GigabitEthernet1/0/12
+ port access vlan 3
+#
+interface GigabitEthernet1/0/13
+ port access vlan 3
+#
+interface GigabitEthernet1/0/14
+ port access vlan 3
+#
+interface GigabitEthernet1/0/15
+ port access vlan 3
+#
+interface GigabitEthernet1/0/16
+ port access vlan 3
+#
+interface GigabitEthernet1/0/17
+ port access vlan 3
+#               
+interface GigabitEthernet1/0/18
+ port access vlan 3
+#
+interface GigabitEthernet1/0/19
+ port access vlan 3
+#
+interface GigabitEthernet1/0/20
+ port access vlan 3
+#
+interface GigabitEthernet1/0/21
+ port access vlan 3
+#
+interface GigabitEthernet1/0/22
+ port access vlan 8
+#
+interface GigabitEthernet1/0/23
+ description Wi-Fi Network
+ port access vlan 3
+#
+interface GigabitEthernet1/0/24
+ port link-type trunk
+ port trunk permit vlan all
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/25
+#
+interface GigabitEthernet1/0/26
+#
+interface GigabitEthernet1/0/27
+#
+interface GigabitEthernet1/0/28
+#
+ dhcp-snooping
+#
+ ip route-static 0.0.0.0 0.0.0.0 172.16.254.254
+#
+ undo info-center logfile enable
+#
+ snmp-agent
+ snmp-agent local-engineid 383030303633413236353133343842443344383434323630
+ snmp-agent community read public
+ snmp-agent sys-info version all
+ snmp-agent target-host trap address udp-domain 192.168.30.11 params securityname public
+ snmp-agent mib-view included internet internet
+ snmp-agent trap enable default-route
+#               
+ ntp-service source-interface Vlan-interface10
+ ntp-service unicast-server 223.65.211.46
+ ntp-service unicast-server 162.159.200.1
+#
+ ssh server enable
+ sftp server enable
+#
+ load xml-configuration
+#
+user-interface aux 0
+user-interface vty 0 4
+ authentication-mode scheme
+ user privilege level 3
+user-interface vty 5 15
+ authentication-mode scheme
+#
+return		
+		]]>
+		</screen>
+	</section>
+</section>

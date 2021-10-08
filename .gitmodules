@@ -4,3 +4,9 @@
 [submodule "H3C"]
 	path = H3C
 	url = https://github.com/freebook/H3C.git
+[submodule "common"]
+	path = common
+	url = https://github.com/freebook/common.git
+[submodule "docbook-xsl"]
+	path = docbook-xsl
+	url = https://github.com/freebook/docbook-xsl.git

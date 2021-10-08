@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id: chapter.network.xml 358 2012-03-01 12:11:22Z netkiller $ -->
-<chapter id="wan.network">
-	<title>Internet Network</title>
-	<section id="dns">
-		<title>全国各省市最新DNS服务器IP地址表</title>
-		<screen>
+<chapter id="network">
+	<title>Networking</title>
+	<section id="wan.network">
+		<title>Internet Network</title>
+		<section id="dns">
+			<title>全国各省市最新DNS服务器IP地址表</title>
+			<screen><![CDATA[
 各位网友也可以选取对自身更快的DNS服务器地址使用，这样可以加快网址的解析速度。如何判断那些DNS服务器地址是自己访问速度最好的？大家只要在dos命令提示符里面用ping DNS服务器的地址就可以知道我们得到的time值是多少了，值约少越快。
 
 广东：
@@ -624,11 +626,11 @@
 甘肃省武威市（中国电信）
 首选DNS：202.100.64.68
 备用DNS：60.178.0.93
-		</screen>
-	</section>
-	<section>
-		<title>全国各地ISP IP表</title>
-		<screen>
+		]]></screen>
+		</section>
+		<section>
+			<title>全国各地ISP IP表</title>
+			<screen><![CDATA[
 特区
 香港有线宽频i-Cable（61.10.0.130)
 香港和记环球电讯（202.45.84.58)
@@ -724,27 +726,73 @@
 新西兰（202.27.184.3)
 印度（202.138.103.100)
 印度（202.138.96.2)
+		]]></screen>
+		</section>
+	</section>
+	<section id="office.arp">
+		<title>ARP</title>
+		<para>win7 之前的版本</para>
+		<screen>
+		<![CDATA[
+arp -s 192.168.30.5 00-e0-70-85-12-2c
+		]]>
+		</screen>
+		<para>win10 设置 ARP，首先使用管理员打开 Windows Terminal 运行下面命令查看网络链接</para>
+		<screen>
+		<![CDATA[
+PS C:\Users\neoch_sdgyi07> netsh -c i i show in
+
+Idx     Met         MTU          状态                名称
+---  ----------  ----------  ------------  ---------------------------
+  1          75  4294967295  connected     Loopback Pseudo-Interface 1
+ 14          25        1500  disconnected  WLAN
+  6          35        1500  connected     以太网
+ 13          25        1500  disconnected  本地连接* 1
+ 18          65        1500  disconnected  蓝牙网络连接
+ 10          25        1500  disconnected  本地连接* 2
+ 44        5000        1500  connected     vEthernet (WSL)		
+		]]>
+		</screen>
+		<para>添加 ARP 地址</para>
+		<screen>
+		<![CDATA[
+PS C:\Users\neoch_sdgyi07>  netsh -c i i add neighbors "以太网" 192.168.30.5 00-e0-70-85-12-2c
+		]]>
+		</screen>
+		<para>查看 ARP 地址</para>
+		<screen>
+		<![CDATA[
+PS C:\Users\neoch_sdgyi07> arp -a 192.168.30.5
+
+接口: 192.168.30.179 --- 0x6
+  Internet 地址         物理地址              类型
+  192.168.30.5          00-e0-70-85-12-2c     静态	
+		]]>
+		</screen>
+		<para>删除 ARP 地址</para>
+		<screen>
+		<![CDATA[
+PS C:\Users\neoch_sdgyi07>  netsh -c i i delete neighbors "以太网" 192.168.30.5 00-e0-70-85-12-2c
+确定。		
+		]]>
 		</screen>
 	</section>
-</chapter>
 
-<chapter id="network">
-	<title>Networking</title>
 	<section id="tools">
 		<title>工具</title>
 		<para>弱电寻线器</para>
-		<graphic  format="png" fileref="images/office/network/scanline.jpg" srccredit="neo" width=""/>
+		<graphic format="png" fileref="images/office/network/scanline.jpg" srccredit="neo" width="" />
 		<para>标签打印机</para>
-		<graphic  format="png" fileref="images/office/network/print-tag.jpg" srccredit="neo" width=""/>
+		<graphic format="png" fileref="images/office/network/print-tag.jpg" srccredit="neo" width="" />
 	</section>
 	<section id="interface">
 		<title>接口</title>
 		<section id="interface">
 			<title>电口</title>
 			<para>RJ45</para>
-			<graphic  format="png" fileref="images/office/network/rj45.jpg" srccredit="neo" width=""/>
+			<graphic format="png" fileref="images/office/network/rj45.jpg" srccredit="neo" width="" />
 			<para>RJ11</para>
-			<graphic  format="png" fileref="images/office/network/rj11.jpg" srccredit="neo" width=""/>
+			<graphic format="png" fileref="images/office/network/rj11.jpg" srccredit="neo" width="" />
 		</section>
 		<section id="interface">
 			<title>光口</title>
@@ -752,21 +800,6 @@
 			<para>LC</para>
 			<para>SC</para>
 		</section>
-	</section>	
-	<section id="topology">
-		<title>Topology</title>
-		<para></para>
-		<screen>
-		<![CDATA[
-		
-		]]>
-		</screen>
-		<para></para>
-		<screen>
-		<![CDATA[
-		
-		]]>
-		</screen>		
 	</section>
 	<section id="wireless">
 		<title>Wireless Networking</title>
@@ -778,7 +811,7 @@
 				<para>例如机场，火车站 一个小时就足够了，还可一更短</para>
 				<para>对于公司，一天足够了</para>
 			</note>
-		</section>		
+		</section>
 	</section>
 	<section id="network.mgmt">
 		<title>Network Management</title>

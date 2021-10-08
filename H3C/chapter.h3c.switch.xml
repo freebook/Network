@@ -17,7 +17,7 @@ Please wait ...
 	</section>
 	<section id="dhcp">
 		<title>DHCP</title>
-		
+
 		<section id="dhcp.server">
 			<title>DHCP Server</title>
 			<para>S3600 SI 没有DHCP Server，只有EI版本提供，狗日的H3C(fuck h3c)</para>
@@ -188,6 +188,41 @@ dhcp server forbidden-ip 10.1.1.254
 			</screen>
 		</section>
 		<section>
+			<title>IP地址过期时间</title>
+			<screen>
+			<![CDATA[
+[MSR2610-dhcp-pool-5]expired day 5
+[MSR2610-dhcp-pool-5]di th
+#
+dhcp server ip-pool 5
+ network 192.168.50.0 mask 255.255.255.0
+ gateway-list 192.168.50.1
+ dns-list 202.96.134.133 114.114.114.114
+ expired day 5
+#
+return			
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title></title>
+			<screen>
+			<![CDATA[
+static-bind ip-address 192.168.50.2 mac-address 000d-85c7-4e20
+static-bind ip-address 192.168.50.5 mask 255.255.255.0
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>静态IP地址为不可分配地址</title>
+			<screen>
+			<![CDATA[
+[MSR2610]dhcp server forbidden-ip 192.168.30.5			
+			]]>
+			</screen>
+		</section>
+
+		<section>
 			<title>查看地址池配置</title>
 			<section>
 				<title>查看地址池配置</title>
@@ -308,9 +343,9 @@ Global pool:
  192.168.3.32     902b-3440-c54e        May 30 2000 07:46:29      Auto:COMMITTED
 
  --- total 37 entry ---		
- 				]]>		
+ 				]]>
 				</screen>
-			</section>	
+			</section>
 			<section>
 				<title>查看可分配的地址</title>
 				<screen>
@@ -445,6 +480,19 @@ IP Address       MAC Address     VLAN ID  Port Name / AL ID      Aging     Type
 192.168.3.14     0022-1969-c981  1        Ethernet1/0/1          20        D
 		]]>
 		</screen>
+		<section>
+			<title>添加静态映射</title>
+			<screen>
+			<![CDATA[
+[MSR2610]arp static 192.168.30.4 00e0-707f-29ec
+
+[MSR2610]display arp static 
+                Type: S-Static    D-Dynamic    A-Authorized
+IP Address       MAC Address     VLAN ID  Interface              Aging Type
+192.168.30.4     00e0-707f-29ec  3        GE0/4                  N/A   S
+			]]>
+			</screen>
+		</section>
 	</section>
 
 	<section id="limit">
@@ -452,7 +500,7 @@ IP Address       MAC Address     VLAN ID  Port Name / AL ID      Aging     Type
 		<section>
 			<title>基于接口</title>
 			<para>cir 它必须是64的倍数</para>
-			<para>qos lr outbound cir 64  64Kbps</para>
+			<para>qos lr outbound cir 64 64Kbps</para>
 			<para>qos lr outbound cir 1024 1Mbps</para>
 			<screen><![CDATA[
 [H3C-GigabitEthernet1/0/18]di this
@@ -1299,182 +1347,16 @@ return
 
 </chapter>
 
-<!--
-
-H3C交换机常用命令解释
-
-
-H3C交换机常用命令注释
-H3C交换机#######################################################################3
-1、system-view   进入系统视图模式
-2、sysname   为设备命名
-3、display current-configuration 当前配置情况
-4、 language-mode Chinese|English 中英文切换
-5、interface Ethernet 1/0/1 进入以太网端口视图
-6、 port link-type Access|Trunk|Hybrid      设置端口访问模式
-7、 undo shutdown   打开以太网端口
-8、 shutdown   关闭以太网端口
-9、 quit     退出当前视图模式
-10、 vlan 10    创建VLAN 10并进入VLAN 10的视图模式
-11、 port access vlan 10   在端口模式下将当前端口加入到vlan 10中
-12、port E1/0/2 to E1/0/5    在VLAN模式下将指定端口加入到当前vlan中
-13、port trunk permit vlan all    允许所有的vlan通过
-
-H3C路由器######################################################################################
-1、system-view   进入系统视图模式
-2、sysname R1   为设备命名为R1
-3、display ip routing-table 显示当前路由表
-4、 language-mode Chinese|English 中英文切换
-5、interface Ethernet 0/0 进入以太网端口视图
-6、 ip address 192.168.1.1 255.255.255.0   配置IP地址和子网掩码
-7、 undo shutdown   打开以太网端口
-8、 shutdown   关闭以太网端口
-9、 quit     退出当前视图模式
-10、 ip route-static 192.168.2.0 255.255.255.0 192.168.12.2 description To.R2 配置静态路由
-11、 ip route-static 0.0.0.0 0.0.0.0 192.168.12.2 description To.R2 配置默认的路由
-H3C S3100 Switch
-H3C S3600 Switch
-H3C MSR 20-20 Router
-##########################################################################################
-1、调整超级终端的显示字号；
-2、捕获超级终端操作命令行，以备日后查对；
-3、 language-mode Chinese|English 中英文切换 ；
-4、复制命令到超级终端命令行， 粘贴到主机；
-5、交换机清除配置 :reset save ；reboot ；
-6、路由器、交换机配置时不能掉电，连通测试前一定要
-     检查网络的连通性，不要犯最低级的错误。
-7、192.168.1.1/24    等同   192.168.1.1 255.255.255.0；在配置交换机和路由器时， 192.168.1.1 255.255.255.0 可以写成：
-192.168.1.1 24
-8、设备命名规则：地名-设备名-系列号 例：PingGu-R-S3600
-
-#################################################################################################################
-H3C华为交换机端口绑定基本配置2008-01-22 13:40
-1，端口+MAC
-a)AM命令
-使用特殊的AM User-bind命令，来完成MAC地址与端口之间的绑定。例如：
-[SwitchA]am user-bind mac-address 00e0-fc22-f8d3 interface Ethernet 0/1
-配置说明：由于使用了端口参数，则会以端口为参照物，即此时端口E0/1只允许PC1上网，而使用其他未绑定的MAC地址的PC机则无法上网。但
-是PC1使用该MAC地址可以在其他端口上网。
-
-b)mac-address命令
-使用mac-address static命令，来完成MAC地址与端口之间的绑定。例如：
-[SwitchA]mac-address static 00e0-fc22-f8d3 interface Ethernet 0/1 vlan 1
-[SwitchA]mac-address max-mac-_count0
-配置说明：由于使用了端口学习功能，故静态绑定mac后，需再设置该端口mac学习数为0，使其他PC接入此端口后其mac地址无法被学习。
-
-2，IP+MAC
-a)AM命令
-使用特殊的AM User-bind命令，来完成IP地址与MAC地址之间的绑定。例如：
-[SwitchA]am user-bind ip-address 10.1.1.2 mac-address 00e0-fc22-f8d3
-配置说明：以上配置完成对PC机的IP地址和MAC地址的全局绑定，即与绑定的IP地址或者MAC地址不同的PC机，在任何端口都无法上网。
-支持型号：S3026E/EF/C/G/T、S3026C-PWR、E026/E026T、S3050C、E050、S3526E/C/EF、S5012T/G、S5024G
-b)arp命令
-使用特殊的arp static命令，来完成IP地址与MAC地址之间的绑定。例如：
-[SwitchA]arp static 10.1.1.2 00e0-fc22-f8d3
-配置说明：以上配置完成对PC机的IP地址和MAC地址的全局绑定。
-
-3，端口+IP+MAC
-使用特殊的AM User-bind命令，来完成IP、MAC地址与端口之间的绑定。例如：
-[SwitchA]am user-bind ip-address 10.1.1.2 mac-address 00e0-fc22-f8d3 interface Ethernet 0/1
-配置说明：可以完成将PC1的IP地址、MAC地址与端口E0/1之间的绑定功能。由于使用了端口参数，则会以端口为参照物，即此时端口E0/1只允
-许 PC1上网，而使用其他未绑定的IP地址、MAC地址的PC机则无法上网。但是PC1使用该IP地址和MAC地址可以在其他端口上网。
-
-###############################################################################################
-[S2016-E1-Ethernet0/1]mac-address max-mac-_count0;
-    进入到端口，用命令mac max-mac-_count0(端口mac学习数设为0)
-    [S2016-E1]mac static 0000-9999-8888 int e0/1 vlan 10;
-    将0000-9999-8888绑定到e0/1端口上，此时只有绑定mac的pc可以通过此口上网,同时E0/1属于vlan 10
-    就这样，ok了，不过上面两个命令顺序不能弄反，除非端口下没有接pc
-
-########################################################################################
-dis vlan 显示vlan
-name text 指定当前vlan的名称
-undo name 取消
-[h3c] vlan 2
-[h3c-vlan2]name test vlan
-dis users 显示用户
-dis startup 显示启动配置文件的信息
-dis user-interface 显示用户界面的相关信息
-dis web users 显示web用户的相关信息。
-header login 配置登陆验证是显示信息
-header shell
-undo header
-lock 锁住当前用户界面
-acl 访问控制列表 acl number inbound/outbound
-[h3c]user-interface vty 0 4
-[h3c-vty0-4] acl 2000 inbound
-shutdown:关闭vlan接口
-undo shutdown 打开vlan接口
-关闭vlan1 接口
-[h3c] interface vlan-interface 1
-[h3c-vlan-interface] shutdown
-vlan vlan-id 定义vlan
-undo valn vlan-id
-display ip routing-table
-display ip routing-table protocol static
-display ip routing-table statistics
-display ip routing-table verbose 查看路由表的全部详细信息
-interface vlan-interface vlan-id 进入valn
-management-vlan vlan-id 定义管理vlan号
-reset ip routing-table statistics protocol all 清除所有路由协议的路由信息.
-display garp statistics interface GigabitEthernet 1/0/1 显示以太网端口上的garp统计信息
-display voice vlan status 查看语音vlan状态
-[h3c-GigabitEthernet1/0/1] broad_cast-suppression 20 允许接受的最大广播流量为该端口传输能力的20%.超出部分丢弃.
-[h3c-GigabitEthernet1/0/1] broad_cast-suppression pps 1000 每秒允许接受的最大广播数据包为1000传输能力的20%.超出部分丢弃.
-display interface GigabitEthernet1/0/1 查看端口信息
-display brief interface GigabitEthernet1/0/1 查看端口简要配置信息
-display loopback-detection 用来测试环路测试是否开启
-display transceiver-information interface GigabitEthernet1/0/50 显示光口相关信息
-duplex auto/full/half
-[h3c]interface GigabitEthernet1/0/1
-[h3c-GigabitEthernet1/0/1]duplux auto 设置端口双工属性为自协商
-port link-type access/hybrid/trunk 默认为access
-port trunk permit vlan all 将trunk扣加入所有vlan中
-reset counters interface GigabitEthernet1/0/1 清楚端口的统计信息
-speed auto 10/100/1000
-display port-security 查看端口安全配置信息
-am user-bind mac-addr 00e0-fc00-5101 ip-addr 10.153.1.2 interface GigabitEthernet1/0/1 端口ip绑定
-display arp 显示arp
-display am user-bind 显示端口绑定的配置信息
-display mac-address 显示交换机学习到的mac地址
-display stp 显示生成树状态与统计信息
-[h3c-GigabitEthernet1/0/1]stp instance 0 cost 200 设置生成树实例0上路径开销为200
-stp cost 设置当前端口在指定生成树实例上路径开销。instance-id 为0-16 0表cist 取值范围1-200000
-display system-guard ip-record 显示防攻击记录信息.
-system-guard enable 启用系统防攻击功能
-display icmp statistics icmp流量统计
-display ip socket
-display ip statistics
-display acl all
-acl number acl-number match-order auto/config
-acl-number (2000-2999 是基本acl 3000-3999是高级acl为管理员预留的编号)
-rule deny/permit protocal
-访问控制
-[h3c] acl number 3000
-[h3c-acl-adv-3000]rule permit tcp source 129.9.0.0 0.0.255.255 destination 202.38.160.0 0.0.255.255 destination-port eq 80 (
-定义高级acl 3000,允许129.0.0/16网段的主机向202.38.160/24网段主机访问端口80)
-rule permit source 211.100.255.0 0.255.255.255
-rule deny cos 3 souce 00de-bbef-adse ffff-ffff-fff dest 0011-4301-9912 ffff-ffff-ffff
-(禁止mac地址00de-bbef-adse发送到mac地址0011-4301-9912且802.1p优先级为3的报文通过)
-display qos-interface GigabitEthernet1/0/1 traffic-limit 查看端口上流量
-端口速率限制
-line-rate inbound/outbound target-rate
-inbound:对端口接收报文进行速率限制
-outbound: 对端口发送报文进行速率限制
-target-rate 对报文限制速率,单位kbps 千兆口 inbound范围1-1000000 outbound范围20-1000000
-undo line-rate取消限速.
-[h3c]interface GigabitEthernet1/0/1
-[h3c-GigabitEthernet1/0/1]line-rate outbound 128 限制出去速率为128kbps
-display arp | include 77
-display arp _count计算arp表的记录数
-display ndp 显示交换机端口的详细配置信息。
-display ntdp device-list verbose 收集设备详细信息
-display lock
-display users
-display cpu
-display memory
-display fan
-display device
-display power
-
- -->
+<!-- H3C交换机常用命令解释 H3C交换机常用命令注释 H3C交换机#######################################################################3 1、system-view 进入系统视图模式 2、sysname 为设备命名 3、display current-configuration 当前配置情况 4、 language-mode Chinese|English 中英文切换 5、interface Ethernet 1/0/1 进入以太网端口视图 6、 port link-type Access|Trunk|Hybrid 设置端口访问模式 7、 undo shutdown 打开以太网端口 8、 shutdown 关闭以太网端口 9、 quit 退出当前视图模式 10、 vlan 10 创建VLAN 10并进入VLAN 10的视图模式 11、 port access vlan 10 在端口模式下将当前端口加入到vlan 10中 12、port E1/0/2 to E1/0/5 在VLAN模式下将指定端口加入到当前vlan中 13、port 
+	trunk permit vlan all 允许所有的vlan通过 H3C路由器###################################################################################### 1、system-view 进入系统视图模式 2、sysname R1 为设备命名为R1 3、display ip routing-table 显示当前路由表 4、 language-mode Chinese|English 中英文切换 5、interface Ethernet 0/0 进入以太网端口视图 6、 ip address 192.168.1.1 255.255.255.0 配置IP地址和子网掩码 7、 undo shutdown 打开以太网端口 8、 shutdown 关闭以太网端口 9、 quit 退出当前视图模式 10、 ip route-static 192.168.2.0 255.255.255.0 192.168.12.2 description To.R2 配置静态路由 11、 ip route-static 0.0.0.0 0.0.0.0 
+	192.168.12.2 description To.R2 配置默认的路由 H3C S3100 Switch H3C S3600 Switch H3C MSR 20-20 Router ########################################################################################## 1、调整超级终端的显示字号； 2、捕获超级终端操作命令行，以备日后查对； 3、 language-mode Chinese|English 中英文切换 ； 4、复制命令到超级终端命令行， 粘贴到主机； 5、交换机清除配置 :reset save ；reboot ； 6、路由器、交换机配置时不能掉电，连通测试前一定要 检查网络的连通性，不要犯最低级的错误。 7、192.168.1.1/24 等同 192.168.1.1 255.255.255.0；在配置交换机和路由器时， 192.168.1.1 255.255.255.0 可以写成： 192.168.1.1 24 8、设备命名规则：地名-设备名-系列号 例：PingGu-R-S3600 ################################################################################################################# 
+	H3C华为交换机端口绑定基本配置2008-01-22 13:40 1，端口+MAC a)AM命令 使用特殊的AM User-bind命令，来完成MAC地址与端口之间的绑定。例如： [SwitchA]am user-bind mac-address 00e0-fc22-f8d3 interface Ethernet 0/1 配置说明：由于使用了端口参数，则会以端口为参照物，即此时端口E0/1只允许PC1上网，而使用其他未绑定的MAC地址的PC机则无法上网。但 是PC1使用该MAC地址可以在其他端口上网。 b)mac-address命令 使用mac-address static命令，来完成MAC地址与端口之间的绑定。例如： [SwitchA]mac-address static 00e0-fc22-f8d3 interface Ethernet 0/1 vlan 1 [SwitchA]mac-address max-mac-_count0 配置说明：由于使用了端口学习功能，故静态绑定mac后，需再设置该端口mac学习数为0，使其他PC接入此端口后其mac地址无法被学习。 2，IP+MAC a)AM命令 使用特殊的AM 
+	User-bind命令，来完成IP地址与MAC地址之间的绑定。例如： [SwitchA]am user-bind ip-address 10.1.1.2 mac-address 00e0-fc22-f8d3 配置说明：以上配置完成对PC机的IP地址和MAC地址的全局绑定，即与绑定的IP地址或者MAC地址不同的PC机，在任何端口都无法上网。 支持型号：S3026E/EF/C/G/T、S3026C-PWR、E026/E026T、S3050C、E050、S3526E/C/EF、S5012T/G、S5024G b)arp命令 使用特殊的arp static命令，来完成IP地址与MAC地址之间的绑定。例如： [SwitchA]arp static 10.1.1.2 00e0-fc22-f8d3 配置说明：以上配置完成对PC机的IP地址和MAC地址的全局绑定。 3，端口+IP+MAC 使用特殊的AM User-bind命令，来完成IP、MAC地址与端口之间的绑定。例如： [SwitchA]am user-bind ip-address 10.1.1.2 mac-address 00e0-fc22-f8d3 interface 
+	Ethernet 0/1 配置说明：可以完成将PC1的IP地址、MAC地址与端口E0/1之间的绑定功能。由于使用了端口参数，则会以端口为参照物，即此时端口E0/1只允 许 PC1上网，而使用其他未绑定的IP地址、MAC地址的PC机则无法上网。但是PC1使用该IP地址和MAC地址可以在其他端口上网。 ############################################################################################### [S2016-E1-Ethernet0/1]mac-address max-mac-_count0; 进入到端口，用命令mac max-mac-_count0(端口mac学习数设为0) [S2016-E1]mac static 0000-9999-8888 int e0/1 vlan 10; 将0000-9999-8888绑定到e0/1端口上，此时只有绑定mac的pc可以通过此口上网,同时E0/1属于vlan 10 就这样，ok了，不过上面两个命令顺序不能弄反，除非端口下没有接pc ######################################################################################## 
+	dis vlan 显示vlan name text 指定当前vlan的名称 undo name 取消 [h3c] vlan 2 [h3c-vlan2]name test vlan dis users 显示用户 dis startup 显示启动配置文件的信息 dis user-interface 显示用户界面的相关信息 dis web users 显示web用户的相关信息。 header login 配置登陆验证是显示信息 header shell undo header lock 锁住当前用户界面 acl 访问控制列表 acl number inbound/outbound [h3c]user-interface vty 0 4 [h3c-vty0-4] acl 2000 inbound shutdown:关闭vlan接口 undo shutdown 打开vlan接口 关闭vlan1 接口 [h3c] interface vlan-interface 1 [h3c-vlan-interface] shutdown vlan vlan-id 定义vlan undo valn vlan-id display ip 
+	routing-table display ip routing-table protocol static display ip routing-table statistics display ip routing-table verbose 查看路由表的全部详细信息 interface vlan-interface vlan-id 进入valn management-vlan vlan-id 定义管理vlan号 reset ip routing-table statistics protocol all 清除所有路由协议的路由信息. display garp statistics interface GigabitEthernet 1/0/1 显示以太网端口上的garp统计信息 display voice vlan status 查看语音vlan状态 [h3c-GigabitEthernet1/0/1] broad_cast-suppression 20 允许接受的最大广播流量为该端口传输能力的20%.超出部分丢弃. [h3c-GigabitEthernet1/0/1] broad_cast-suppression 
+	pps 1000 每秒允许接受的最大广播数据包为1000传输能力的20%.超出部分丢弃. display interface GigabitEthernet1/0/1 查看端口信息 display brief interface GigabitEthernet1/0/1 查看端口简要配置信息 display loopback-detection 用来测试环路测试是否开启 display transceiver-information interface GigabitEthernet1/0/50 显示光口相关信息 duplex auto/full/half [h3c]interface GigabitEthernet1/0/1 [h3c-GigabitEthernet1/0/1]duplux auto 设置端口双工属性为自协商 port link-type access/hybrid/trunk 默认为access port trunk permit vlan all 将trunk扣加入所有vlan中 reset counters interface GigabitEthernet1/0/1 清楚端口的统计信息 
+	speed auto 10/100/1000 display port-security 查看端口安全配置信息 am user-bind mac-addr 00e0-fc00-5101 ip-addr 10.153.1.2 interface GigabitEthernet1/0/1 端口ip绑定 display arp 显示arp display am user-bind 显示端口绑定的配置信息 display mac-address 显示交换机学习到的mac地址 display stp 显示生成树状态与统计信息 [h3c-GigabitEthernet1/0/1]stp instance 0 cost 200 设置生成树实例0上路径开销为200 stp cost 设置当前端口在指定生成树实例上路径开销。instance-id 为0-16 0表cist 取值范围1-200000 display system-guard ip-record 显示防攻击记录信息. system-guard enable 启用系统防攻击功能 display icmp statistics icmp流量统计 display ip socket 
+	display ip statistics display acl all acl number acl-number match-order auto/config acl-number (2000-2999 是基本acl 3000-3999是高级acl为管理员预留的编号) rule deny/permit protocal 访问控制 [h3c] acl number 3000 [h3c-acl-adv-3000]rule permit tcp source 129.9.0.0 0.0.255.255 destination 202.38.160.0 0.0.255.255 destination-port eq 80 ( 定义高级acl 3000,允许129.0.0/16网段的主机向202.38.160/24网段主机访问端口80) rule permit source 211.100.255.0 0.255.255.255 rule deny cos 3 souce 00de-bbef-adse ffff-ffff-fff dest 0011-4301-9912 ffff-ffff-ffff (禁止mac地址00de-bbef-adse发送到mac地址0011-4301-9912且802.1p优先级为3的报文通过) 
+	display qos-interface GigabitEthernet1/0/1 traffic-limit 查看端口上流量 端口速率限制 line-rate inbound/outbound target-rate inbound:对端口接收报文进行速率限制 outbound: 对端口发送报文进行速率限制 target-rate 对报文限制速率,单位kbps 千兆口 inbound范围1-1000000 outbound范围20-1000000 undo line-rate取消限速. [h3c]interface GigabitEthernet1/0/1 [h3c-GigabitEthernet1/0/1]line-rate outbound 128 限制出去速率为128kbps display arp | include 77 display arp _count计算arp表的记录数 display ndp 显示交换机端口的详细配置信息。 display ntdp device-list verbose 收集设备详细信息 display lock display users display cpu display 
+	memory display fan display device display power -->

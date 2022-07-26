@@ -15,6 +15,90 @@ Please wait ...
 		]]>
 		</screen>
 	</section>
+	<section id="h3c.switch.interface">
+		<title>接口管理</title>
+		<para>显示接口状态</para>
+		<screen>
+		<![CDATA[
+<H3C>display interface brief
+Brief information on interfaces in route mode:
+Link: ADM - administratively down; Stby - standby
+Protocol: (s) - spoofing
+Interface            Link Protocol Primary IP      Description                
+InLoop0              UP   UP(s)    --              
+NULL0                UP   UP(s)    --              
+Vlan1                UP   UP       169.254.253.48  
+Vlan10               UP   UP       172.18.1.254    
+Vlan20               UP   UP       172.18.2.254    
+Vlan30               UP   UP       172.18.3.254    
+Vlan40               UP   UP       172.18.4.254    
+Vlan50               UP   UP       172.18.5.254    
+Vlan100              UP   UP       172.18.100.254  
+Vlan101              UP   UP       172.18.101.254  
+Vlan200              UP   UP       172.18.200.254  
+
+Brief information on interfaces in bridge mode:
+Link: ADM - administratively down; Stby - standby
+Speed: (a) - auto
+Duplex: (a)/A - auto; H - half; F - full
+Type: A - access; T - trunk; H - hybrid
+Interface            Link Speed   Duplex Type PVID Description                
+BAGG1024             UP   2G(a)   F(a)   A    100  
+GE1/0/1              UP   1G(a)   F(a)   T    101  
+GE1/0/2              UP   100M(a) F(a)   T    101  
+GE1/0/3              UP   1G(a)   F(a)   T    101  
+GE1/0/4              UP   1G(a)   F(a)   T    101  
+GE1/0/5              UP   1G(a)   F(a)   T    101  
+GE1/0/6              UP   100M(a) F(a)   T    101  
+GE1/0/7              DOWN auto    A      T    101  
+GE1/0/8              UP   1G(a)   F(a)   T    101  
+GE1/0/9              UP   1G(a)   F(a)   T    101  
+GE1/0/10             UP   100M(a) F(a)   T    101  
+GE1/0/11             UP   100M(a) F(a)   T    101  
+GE1/0/12             DOWN auto    A      A    1    
+GE1/0/13             DOWN auto    A      A    100  
+GE1/0/14             DOWN auto    A      A    1    
+GE1/0/15             DOWN auto    A      A    1    
+GE1/0/16             DOWN auto    A      A    1    
+GE1/0/17             DOWN auto    A      A    10   meeting
+GE1/0/18             DOWN auto    A      A    1    
+GE1/0/19             DOWN auto    A      A    30   
+GE1/0/20             UP   100M(a) F(a)   A    30   
+GE1/0/21             UP   100M(a) F(a)   A    30   
+GE1/0/22             UP   100M(a) F(a)   A    30   
+GE1/0/23             UP   100M(a) F(a)   A    30   
+GE1/0/24             UP   100M(a) F(a)   A    30   
+GE1/0/25             UP   100M(a) F(a)   A    30   
+GE1/0/26             UP   100M(a) F(a)   A    30   
+GE1/0/27             UP   100M(a) F(a)   A    30   
+GE1/0/28             UP   100M(a) F(a)   A    30   
+GE1/0/29             UP   100M(a) F(a)   A    30   
+GE1/0/30             UP   100M(a) F(a)   A    30   
+GE1/0/31             UP   1G(a)   F(a)   A    200  server01
+GE1/0/32             UP   1G(a)   F(a)   A    200  server02
+GE1/0/33             DOWN auto    A      A    200  server03
+GE1/0/34             UP   1G(a)   F(a)   A    200  server04
+GE1/0/35             DOWN auto    A      A    200  server05
+GE1/0/36             UP   1G(a)   F(a)   A    200  server06
+GE1/0/37             UP   10M(a)  F(a)   A    20   Finance-1
+GE1/0/38             UP   100M(a) F(a)   A    20   Finance-2
+GE1/0/39             UP   100M(a) F(a)   A    10   print-1
+GE1/0/40             UP   100M(a) F(a)   A    10   print-2
+GE1/0/41             DOWN auto    A      A    1    
+GE1/0/42             DOWN auto    A      A    1    
+GE1/0/43             UP   1G(a)   F(a)   A    100  
+GE1/0/44             DOWN auto    A      A    1    
+GE1/0/45             DOWN auto    A      A    1    
+GE1/0/46             DOWN auto    A      A    1    
+GE1/0/47             UP   1G(a)   F(a)   A    100  
+GE1/0/48             UP   1G(a)   F(a)   A    100  
+XGE1/0/49            DOWN auto    A      A    1    
+XGE1/0/50            DOWN auto    A      A    1    
+XGE1/0/51            DOWN auto    A      A    1    
+XGE1/0/52            DOWN auto    A      A    1    		
+		]]>
+		</screen>
+	</section>
 	<section id="dhcp">
 		<title>DHCP</title>
 
@@ -416,6 +500,76 @@ Global pool:
 	<section id="vlan">
 		<title>VLAN</title>
 		<section>
+			<title>查看vlan接口对应ip地址</title>
+			<screen>
+			<![CDATA[
+<H3C>    dis ip int brief
+*down: administratively down
+(s): spoofing  (l): loopback
+Interface           Physical Protocol IP address      VPN instance Description  
+Vlan1               up       up       169.254.253.48  --           --
+Vlan10              up       up       172.18.1.254    --           --
+Vlan20              up       up       172.18.2.254    --           --
+Vlan30              up       up       172.18.3.254    --           --
+Vlan40              up       up       172.18.4.254    --           --
+Vlan50              up       up       172.18.5.254    --           --
+Vlan100             up       up       172.18.100.254  --           --
+Vlan101             up       up       172.18.101.254  --           --
+Vlan200             up       up       172.18.200.254  --           --			
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>查看vlan接口</title>
+
+			<para></para>
+			<screen>
+		<![CDATA[
+<H3C>dis cu int vlan
+#
+interface Vlan-interface1
+ ip address dhcp-alloc
+ dhcp client identifier ascii 5ca721d0fd30-VLAN0001
+#
+interface Vlan-interface10
+ ip address 172.18.1.254 255.255.254.0
+ packet-filter name vlan10 inbound
+ dhcp server apply ip-pool vlan10
+#
+interface Vlan-interface20
+ ip address 172.18.2.254 255.255.255.0
+ packet-filter name vlan20 inbound
+ dhcp server apply ip-pool vlan20
+#
+interface Vlan-interface30
+ ip address 172.18.3.254 255.255.255.0
+ packet-filter name vlan30 inbound
+ dhcp server apply ip-pool vlan30
+#
+interface Vlan-interface40
+ ip address 172.18.4.254 255.255.255.0
+ dhcp server apply ip-pool vlan40
+#              
+interface Vlan-interface50
+ ip address 172.18.5.254 255.255.255.0
+ packet-filter name vlan50 inbound
+ dhcp server apply ip-pool vlan50
+#
+interface Vlan-interface100
+ ip address 172.18.100.254 255.255.255.0
+#
+interface Vlan-interface101
+ ip address 172.18.101.254 255.255.255.0
+ dhcp server apply ip-pool vlan101
+#
+interface Vlan-interface200
+ ip address 172.18.200.254 255.255.255.0
+#
+return		
+		]]>
+			</screen>
+		</section>
+		<section>
 			<title>GVRP</title>
 			<screen>
 			<![CDATA[
@@ -481,6 +635,69 @@ IP Address       MAC Address     VLAN ID  Port Name / AL ID      Aging     Type
 		]]>
 		</screen>
 		<section>
+			<title>查看接口下的 ARP</title>
+			<para>通过这种方法可以找出那些IP地址在该端口下</para>
+			<screen>
+			<![CDATA[
+<H3C>dis arp int gi 1/0/1 
+  Type: S-Static   D-Dynamic   O-Openflow   R-Rule   M-Multiport  I-Invalid
+IP address      MAC address    VLAN/VSI name Interface                Aging Type
+172.18.5.93     023b-3818-1fdf 50            GE1/0/1                  757   D   
+172.18.5.111    22fb-4aa6-ccfe 50            GE1/0/1                  1177  D   
+172.18.5.214    70bb-e9a4-cf83 50            GE1/0/1                  1199  D   
+172.18.0.40     0c2c-542f-b75b 10            GE1/0/1                  664   D   
+172.18.0.55     422a-8dda-396e 10            GE1/0/1                  1016  D   
+172.18.0.81     fa81-9723-7748 10            GE1/0/1                  1146  D   
+172.18.0.156    5cc5-6317-4bcc 10            GE1/0/1                  1163  D   
+172.18.0.165    5cc5-6303-265c 10            GE1/0/1                  1189  D   
+172.18.0.179    847b-5749-c80c 10            GE1/0/1                  1083  D   
+172.18.1.156    32cb-df86-a865 10            GE1/0/1                  1040  D   
+172.18.1.160    2a05-c931-51d8 10            GE1/0/1                  1095  D   
+172.18.1.205    a412-324a-096d 10            GE1/0/1                  962   D   
+172.18.1.243    1847-3dd7-2455 10            GE1/0/1                  552   D   
+172.18.2.81     1418-c39e-14fc 20            GE1/0/1                  1148  D   
+172.18.101.1    3845-3b1b-3260 101           GE1/0/1                  1177  D 			
+			]]>
+			</screen>
+			<para>另一种写法</para>
+			<screen>
+			<![CDATA[
+<H3C>display arp interface GE1/0/32
+  Type: S-Static   D-Dynamic   O-Openflow   R-Rule   M-Multiport  I-Invalid
+IP address      MAC address    VLAN/VSI name Interface                Aging Type
+172.18.200.75   b07b-2523-5326 200           GE1/0/32                 501   D   		
+			]]>
+			</screen>
+			<para>另一种写法</para>
+			<screen>
+			<![CDATA[
+<H3C>display arp interface GigabitEthernet 1/0/32
+  Type: S-Static   D-Dynamic   O-Openflow   R-Rule   M-Multiport  I-Invalid
+IP address      MAC address    VLAN/VSI name Interface                Aging Type
+172.18.200.75   b07b-2523-5326 200           GE1/0/32                 484   D   				
+			]]>
+			</screen>
+		</section>
+
+		<section>
+			<title>查找指定 mac 地址</title>
+			<screen>
+			<![CDATA[
+<H3C>display arp all | include 6227-d242-269e
+172.18.0.68     6227-d242-269e 10            GE1/0/3                  1085  D 			
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>查找指定IP地址</title>
+			<screen>
+			<![CDATA[
+<H3C>display arp all | include 172.18.200.102
+172.18.200.102  001e-67fa-df92 200           GE1/0/36                 282   D  			
+			]]>
+			</screen>
+		</section>
+		<section>
 			<title>添加静态映射</title>
 			<screen>
 			<![CDATA[
@@ -492,7 +709,33 @@ IP Address       MAC Address     VLAN ID  Interface              Aging Type
 192.168.30.4     00e0-707f-29ec  3        GE0/4                  N/A   S
 			]]>
 			</screen>
+			<para></para>
 		</section>
+	</section>
+	<section>
+		<title>Mac 地址</title>
+		<screen>
+		<![CDATA[
+<H3C>dis mac-add
+MAC Address      VLAN ID    State            Port/Nickname            Aging
+0026-7350-7886   10         Learned          GE1/0/39                 Y
+00e0-7053-2e28   10         Learned          GE1/0/40                 Y
+021c-aafb-027d   10         Learned          GE1/0/10                 Y
+02bd-4d0d-d157   10         Learned          GE1/0/10                 Y
+04ea-5671-81a3   10         Learned          GE1/0/8                  Y
+04ea-5671-b416   10         Learned          GE1/0/11                 Y
+0641-7b27-c007   10         Learned          GE1/0/3                  Y
+0a8f-2015-4a7e   10         Learned          GE1/0/9                  Y
+0c25-768f-514b   10         Learned          GE1/0/4                  Y
+0c2c-542f-b75b   10         Learned          GE1/0/1                  Y
+0eb1-4860-0fce   10         Learned          GE1/0/8                  Y
+106f-d9c3-b993   10         Learned          GE1/0/8                  Y
+106f-d9c3-d58b   10         Learned          GE1/0/10                 Y
+106f-d9c5-1be7   10         Learned          GE1/0/8                  Y
+106f-d9c6-8b91   10         Learned          GE1/0/2                  Y
+106f-d9c7-6e1b   10         Learned          GE1/0/6                  Y		
+		]]>
+		</screen>
 	</section>
 
 	<section id="limit">

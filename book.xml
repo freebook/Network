@@ -38,25 +38,29 @@
 	<!ENTITY chapter.f5.bigpipe.system.xml		SYSTEM "F5/chapter.f5.bigpipe.system.xml">
 	<!ENTITY chapter.f5.icontrol.xml			SYSTEM "F5/chapter.f5.icontrol.xml">
 
-	<!ENTITY chapter.array.xml				SYSTEM "Array/chapter.array.xml">
-	<!ENTITY chapter.a10.xml				SYSTEM "chapter.a10.xml">
-	<!ENTITY chapter.banggoo.xml			SYSTEM "chapter.banggoo.xml">
+	<!ENTITY chapter.array.xml					SYSTEM "Array/chapter.array.xml">
+	<!ENTITY chapter.a10.xml					SYSTEM "chapter.a10.xml">
+	<!ENTITY chapter.banggoo.xml				SYSTEM "chapter.banggoo.xml">
 
-	<!ENTITY chapter.sonicwall.xml			SYSTEM "SonicWALL/chapter.sonicwall.xml">
+	<!ENTITY chapter.sonicwall.xml				SYSTEM "SonicWALL/chapter.sonicwall.xml">
 
-	<!ENTITY part.office.xml				SYSTEM "Office/part.office.xml">
-	<!ENTITY chapter.network.xml			SYSTEM "Office/chapter.network.xml">
-	<!ENTITY chapter.office.route.xml		SYSTEM "Office/chapter.office.route.xml">
-	<!ENTITY chapter.office.windows.xml		SYSTEM "Office/chapter.office.windows.xml">
-	<!ENTITY chapter.office.workstation.xml	SYSTEM "Office/chapter.office.workstation.xml">
+	<!ENTITY part.office.xml					SYSTEM "Office/part.office.xml">
+	<!ENTITY chapter.network.xml				SYSTEM "Office/chapter.network.xml">
+	<!ENTITY chapter.office.route.xml			SYSTEM "Office/chapter.office.route.xml">
+	<!ENTITY chapter.office.windows.xml			SYSTEM "Office/chapter.office.windows.xml">
+	<!ENTITY chapter.office.workstation.xml		SYSTEM "Office/chapter.office.workstation.xml">
 
-	<!ENTITY chapter.vmware.xml 			SYSTEM "VMware/chapter.vmware.xml">
+	<!ENTITY chapter.vmware.xml 				SYSTEM "VMware/chapter.vmware.xml">
 
-	<!ENTITY % idc.doctype.entity.xml 		SYSTEM "IDC/doctype.entity.xml">
+	<!ENTITY % idc.doctype.entity.xml 			SYSTEM "IDC/doctype.entity.xml">
 	%idc.doctype.entity.xml;
 	
 	<!ENTITY % ruckus.doctype.entity.xml 		SYSTEM "Ruckus/doctype.entity.xml">
 	%ruckus.doctype.entity.xml;
+	
+	<!ENTITY % fortigate.doctype.entity.xml 	SYSTEM "FortiGate/doctype.entity.xml">
+	%fortigate.doctype.entity.xml;
+	
 
 ]>
 <book xml:base="http://netkiller.github.net/intranet/"
@@ -116,7 +120,8 @@
 	&chapter.a10.xml;
 	&chapter.banggoo.xml;
 	&chapter.ruckus.xml;
-	&chapter.vmware.xml;
+	&chapter.fortigate.xml;
 	&chapter.sonicwall.xml;
+	&chapter.vmware.xml;
 
 </book>

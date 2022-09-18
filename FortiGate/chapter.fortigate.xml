@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="index"><?dbhtml dir="FortiGate"?>
+	<title>FortiGate 防火墙</title>
+	<para>进入防火墙需要给接口SSH权限，然后通过SSH命令链接即可</para>
+	<screen>
+	<![CDATA[
+neo@MacBook-Pro-Neo ~> ssh admin@172.18.100.253
+admin@172.18.100.253's password: 
+FortiGate-100E # 
+config      Configure object.
+get         Get dynamic and system information.
+show        Show configuration.
+diagnose    Diagnose facility.
+execute     Execute static commands.
+alias       Execute alias commands.
+exit        Exit the CLI.	
+	]]>
+	</screen>
+	<section>
+		<title>查看配置</title>
+		<section>
+			<title>本地用户</title>
+			<screen>
+			<![CDATA[
+FortiGate-100E # show user local 
+config user local
+    edit "guest"
+        set type password
+        set passwd ENC obOt8R3XaOR8CUZgEQd4Z5hR3R/GmmzSFv9t9IM+czf5xQxz1IqciZE05olqkel8h5sB2+BbHbqYa7tXfGC2wQdXMlelgHndOruLmjJw3MYAHCvKPw4CFD3AE+uzv5BtwFQ2Skvgnr3k9bUFZ9vLGqy/EtsjrKRyIIfiZ1NrujF13dQanielj6hhiCO9KskcocDKLQ==
+    next
+
+			]]>
+			</screen>
+		</section>
+		<section>
+			<title>查看用户组</title>
+			<screen>
+			<![CDATA[
+FortiGate-100E # show user group 
+config user group
+    edit "Development"
+    	set member "development" "dev1" "dev2" "dev4" "dev5" "dev6" "dev7" "dev8" "dev9" "dev3" "dev10"
+    next
+    edit "Guest-group"
+        set member "guest"
+    next
+    edit "SSL VPN"
+        set member "development"
+    next
+end			
+			]]>
+			</screen>
+		</section>
+	</section>
+</chapter>

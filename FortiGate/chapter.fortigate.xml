@@ -52,4 +52,78 @@ end
 			</screen>
 		</section>
 	</section>
+	<section>
+		<title>L2TP VPN</title>
+		<screen>
+		<![CDATA[
+# config user local
+    edit "test"
+        set type password
+        set passwd 123456
+        next
+end
+
+# config user group
+    edit " L2TP_Group"
+        set member "test"
+    next
+end
+
+# config vpn l2tp
+    set eip 10.10.10.100
+    set sip 10.10.10.1
+    set status enable
+    set usrgrp "L2TP_Group"
+end
+
+# config vpn ipsec phase1-interface
+    edit "L2TP"
+        set type dynamic
+        set interface "port9"
+        set proposal aes256-md5 3des-sha1 aes192-sha1
+        set dhgrp 2
+        set net-device enable
+        set psksecret <password>
+    next
+end
+
+# config vpn ipsec phase2-interface
+    edit "L2TP-p2"
+        set phase1name "L2TP"
+        set proposal aes256-md5 3des-sha1 aes192-sha1
+        set pfs disable
+        set encapsulation transport-mode
+        set l2tp enable
+    next
+end
+
+# config firewall policy
+    edit 0
+        set name "L2TP policy"
+        set srcintf "L2TP"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "L2TP"
+    next
+end
+
+# config firewall policy
+    edit 0
+        set name "IPsec policy"
+        set srcintf "L2TP"
+        set dstintf "LAN"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+    next
+end		
+		]]>
+		</screen>
+	</section>
+	
 </chapter>

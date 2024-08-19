@@ -1,12 +1,12 @@
 [submodule "Cisco"]
 	path = Cisco
-	url = https://github.com/freebook/Cisco.git
+	url = git@github.com:freebook/Cisco.git
 [submodule "H3C"]
 	path = H3C
-	url = https://github.com/freebook/H3C.git
+	url = git@github.com:freebook/H3C.git
 [submodule "common"]
 	path = common
-	url = https://github.com/freebook/common.git
+	url = git@github.com:freebook/common.git
 [submodule "docbook-xsl"]
 	path = docbook-xsl
-	url = https://github.com/freebook/docbook-xsl.git
+	url = git@github.com:freebook/docbook-xsl.git

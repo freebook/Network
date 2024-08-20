@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="../index.html" title="Netkiller Network 手札" /><link rel="prev" href="../ruckus.html" title="第 40 章 Ruckus" /><link rel="next" href="ch41s02.html" title="L2TP VPN" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">第 41 章 FortiGate 防火墙</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../ruckus.html">上一页</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch41s02.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="index"></a>第 41 章 FortiGate 防火墙</h1></div></div></div><div class="toc"><p><strong>目录</strong></p><dl class="toc"><dt><span class="section"><a href="index.html#id1055">查看配置</a></span></dt><dd><dl><dt><span class="section"><a href="index.html#id1053">本地用户</a></span></dt><dt><span class="section"><a href="index.html#id1054">查看用户组</a></span></dt></dl></dd><dt><span class="section"><a href="ch41s02.html">L2TP VPN</a></span></dt></dl></div><p>进入防火墙需要给接口SSH权限，然后通过SSH命令链接即可</p><pre class="screen">
+	
+neo@MacBook-Pro-Neo ~&gt; ssh admin@172.18.100.253
+admin@172.18.100.253's password: 
+FortiGate-100E # 
+config      Configure object.
+get         Get dynamic and system information.
+show        Show configuration.
+diagnose    Diagnose facility.
+execute     Execute static commands.
+alias       Execute alias commands.
+exit        Exit the CLI.	
+	
+	</pre><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id1055"></a>查看配置</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id1053"></a>本地用户</h3></div></div></div><pre class="screen">
+			
+FortiGate-100E # show user local 
+config user local
+    edit "guest"
+        set type password
+        set passwd ENC obOt8R3XaOR8CUZgEQd4Z5hR3R/GmmzSFv9t9IM+czf5xQxz1IqciZE05olqkel8h5sB2+BbHbqYa7tXfGC2wQdXMlelgHndOruLmjJw3MYAHCvKPw4CFD3AE+uzv5BtwFQ2Skvgnr3k9bUFZ9vLGqy/EtsjrKRyIIfiZ1NrujF13dQanielj6hhiCO9KskcocDKLQ==
+    next
+
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id1054"></a>查看用户组</h3></div></div></div><pre class="screen">
+			
+FortiGate-100E # show user group 
+config user group
+    edit "Development"
+    	set member "development" "dev1" "dev2" "dev4" "dev5" "dev6" "dev7" "dev8" "dev9" "dev3" "dev10"
+    next
+    edit "Guest-group"
+        set member "guest"
+    next
+    edit "SSL VPN"
+        set member "development"
+    next
+end			
+			
+			</pre></div></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="../ruckus.html">上一页</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch41s02.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">第 40 章 Ruckus </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> L2TP VPN</td></tr></table></div> user.footer.navigation </body></html>

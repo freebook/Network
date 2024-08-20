@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="index.html" title="部分 III. Juniper" /><link rel="prev" href="index.html" title="部分 III. Juniper" /><link rel="next" href="interface.html" title="interface" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">第 15 章 Firewall</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="index.html">上一页</a> </td><th width="60%" align="center">部分 III. Juniper</th><td width="20%" align="right"> <a accesskey="n" href="interface.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="juniper.firewall"></a>第 15 章 Firewall</h2></div></div></div><div class="toc"><p><strong>目录</strong></p><dl class="toc"><dt><span class="section"><a href="juniper.firewall.html#config">config</a></span></dt><dt><span class="section"><a href="interface.html">interface</a></span></dt><dd><dl><dt><span class="section"><a href="interface.html#pppoe">PPPoE</a></span></dt><dt><span class="section"><a href="interface.html#interface.mode">接口模式</a></span></dt><dt><span class="section"><a href="interface.html#interface.vlan">vlan</a></span></dt><dt><span class="section"><a href="interface.html#id874">MIP</a></span></dt><dt><span class="section"><a href="interface.html#id875">VIP</a></span></dt></dl></dd><dt><span class="section"><a href="juniper.arp.html">arp</a></span></dt><dt><span class="section"><a href="juniper.ntp-server.html">ntp-server</a></span></dt><dt><span class="section"><a href="juniper.dhcp.html">DHCP</a></span></dt><dt><span class="section"><a href="juniper.snmp.html">SNMP</a></span></dt><dt><span class="section"><a href="service.html">Service</a></span></dt><dt><span class="section"><a href="address.html">Address</a></span></dt><dt><span class="section"><a href="syslog.html">syslog</a></span></dt><dt><span class="section"><a href="ch15s10.html">PPTP</a></span></dt></dl></div><pre class="screen">
+	
+[root@dev1 ~]# ssh neo@192.168.1.1
+neo@192.168.3.1's password:
+Remote Management Console
+firewall-&gt;
+	
+	</pre><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="config"></a>config</h2></div></div></div><pre class="screen">
+		
+firewall-&gt; get config
+Total Config size 17376:
+set clock ntp
+set clock timezone 7
+set vrouter trust-vr sharable
+set vrouter "untrust-vr"
+exit
+set vrouter "trust-vr"
+unset auto-route-export
+exit
+...
+...
+...
+exit
+set vrouter "untrust-vr"
+exit
+set vrouter "trust-vr"
+exit
+firewall-&gt;
+		
+		</pre></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="index.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="interface.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">部分 III. Juniper </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> interface</td></tr></table></div> user.footer.navigation </body></html>

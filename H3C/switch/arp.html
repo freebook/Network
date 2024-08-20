@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../../index.html" title="Netkiller Network 手札" /><link rel="up" href="index.html" title="第 20 章 H3C Switch" /><link rel="prev" href="vlan.html" title="VLAN" /><link rel="next" href="ch20s06.html" title="Mac 地址" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">ARP</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="vlan.html">上一页</a> </td><th width="60%" align="center">第 20 章 H3C Switch</th><td width="20%" align="right"> <a accesskey="n" href="ch20s06.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="arp"></a>ARP</h3></div></div></div><pre class="screen">
+		
+[H3C]display arp 192.168.3.14
+            Type: S-Static   D-Dynamic
+IP Address       MAC Address     VLAN ID  Port Name / AL ID      Aging     Type
+192.168.3.14     0022-1969-c981  1        Ethernet1/0/1          20        D
+		
+		</pre><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id893"></a>查看接口下的 ARP</h4></div></div></div><p>通过这种方法可以找出那些IP地址在该端口下</p><pre class="screen">
+			
+&lt;H3C&gt;dis arp int gi 1/0/1 
+  Type: S-Static   D-Dynamic   O-Openflow   R-Rule   M-Multiport  I-Invalid
+IP address      MAC address    VLAN/VSI name Interface                Aging Type
+172.18.5.93     023b-3818-1fdf 50            GE1/0/1                  757   D   
+172.18.5.111    22fb-4aa6-ccfe 50            GE1/0/1                  1177  D   
+172.18.5.214    70bb-e9a4-cf83 50            GE1/0/1                  1199  D   
+172.18.0.40     0c2c-542f-b75b 10            GE1/0/1                  664   D   
+172.18.0.55     422a-8dda-396e 10            GE1/0/1                  1016  D   
+172.18.0.81     fa81-9723-7748 10            GE1/0/1                  1146  D   
+172.18.0.156    5cc5-6317-4bcc 10            GE1/0/1                  1163  D   
+172.18.0.165    5cc5-6303-265c 10            GE1/0/1                  1189  D   
+172.18.0.179    847b-5749-c80c 10            GE1/0/1                  1083  D   
+172.18.1.156    32cb-df86-a865 10            GE1/0/1                  1040  D   
+172.18.1.160    2a05-c931-51d8 10            GE1/0/1                  1095  D   
+172.18.1.205    a412-324a-096d 10            GE1/0/1                  962   D   
+172.18.1.243    1847-3dd7-2455 10            GE1/0/1                  552   D   
+172.18.2.81     1418-c39e-14fc 20            GE1/0/1                  1148  D   
+172.18.101.1    3845-3b1b-3260 101           GE1/0/1                  1177  D 			
+			
+			</pre><p>另一种写法</p><pre class="screen">
+			
+&lt;H3C&gt;display arp interface GE1/0/32
+  Type: S-Static   D-Dynamic   O-Openflow   R-Rule   M-Multiport  I-Invalid
+IP address      MAC address    VLAN/VSI name Interface                Aging Type
+172.18.200.75   b07b-2523-5326 200           GE1/0/32                 501   D   		
+			
+			</pre><p>另一种写法</p><pre class="screen">
+			
+&lt;H3C&gt;display arp interface GigabitEthernet 1/0/32
+  Type: S-Static   D-Dynamic   O-Openflow   R-Rule   M-Multiport  I-Invalid
+IP address      MAC address    VLAN/VSI name Interface                Aging Type
+172.18.200.75   b07b-2523-5326 200           GE1/0/32                 484   D   				
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id894"></a>查找指定 mac 地址</h4></div></div></div><pre class="screen">
+			
+&lt;H3C&gt;display arp all | include 6227-d242-269e
+172.18.0.68     6227-d242-269e 10            GE1/0/3                  1085  D 			
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id895"></a>查找指定IP地址</h4></div></div></div><pre class="screen">
+			
+&lt;H3C&gt;display arp all | include 172.18.200.102
+172.18.200.102  001e-67fa-df92 200           GE1/0/36                 282   D  			
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id896"></a>添加静态映射</h4></div></div></div><pre class="screen">
+			
+[MSR2610]arp static 192.168.30.4 00e0-707f-29ec
+
+[MSR2610]display arp static 
+                Type: S-Static    D-Dynamic    A-Authorized
+IP Address       MAC Address     VLAN ID  Interface              Aging Type
+192.168.30.4     00e0-707f-29ec  3        GE0/4                  N/A   S
+			
+			</pre><p></p></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="vlan.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="index.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="ch20s06.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">VLAN </td><td width="20%" align="center"><a accesskey="h" href="../../index.html">起始页</a></td><td width="40%" align="right" valign="top"> Mac 地址</td></tr></table></div> user.footer.navigation </body></html>

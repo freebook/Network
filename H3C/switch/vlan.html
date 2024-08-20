@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../../index.html" title="Netkiller Network 手札" /><link rel="up" href="index.html" title="第 20 章 H3C Switch" /><link rel="prev" href="dhcp.html" title="DHCP" /><link rel="next" href="arp.html" title="ARP" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">VLAN</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="dhcp.html">上一页</a> </td><th width="60%" align="center">第 20 章 H3C Switch</th><td width="20%" align="right"> <a accesskey="n" href="arp.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="vlan"></a>VLAN</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id890"></a>查看vlan接口对应ip地址</h4></div></div></div><pre class="screen">
+			
+&lt;H3C&gt;    dis ip int brief
+*down: administratively down
+(s): spoofing  (l): loopback
+Interface           Physical Protocol IP address      VPN instance Description  
+Vlan1               up       up       169.254.253.48  --           --
+Vlan10              up       up       172.18.1.254    --           --
+Vlan20              up       up       172.18.2.254    --           --
+Vlan30              up       up       172.18.3.254    --           --
+Vlan40              up       up       172.18.4.254    --           --
+Vlan50              up       up       172.18.5.254    --           --
+Vlan100             up       up       172.18.100.254  --           --
+Vlan101             up       up       172.18.101.254  --           --
+Vlan200             up       up       172.18.200.254  --           --			
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id891"></a>查看vlan接口</h4></div></div></div><p></p><pre class="screen">
+		
+&lt;H3C&gt;dis cu int vlan
+#
+interface Vlan-interface1
+ ip address dhcp-alloc
+ dhcp client identifier ascii 5ca721d0fd30-VLAN0001
+#
+interface Vlan-interface10
+ ip address 172.18.1.254 255.255.254.0
+ packet-filter name vlan10 inbound
+ dhcp server apply ip-pool vlan10
+#
+interface Vlan-interface20
+ ip address 172.18.2.254 255.255.255.0
+ packet-filter name vlan20 inbound
+ dhcp server apply ip-pool vlan20
+#
+interface Vlan-interface30
+ ip address 172.18.3.254 255.255.255.0
+ packet-filter name vlan30 inbound
+ dhcp server apply ip-pool vlan30
+#
+interface Vlan-interface40
+ ip address 172.18.4.254 255.255.255.0
+ dhcp server apply ip-pool vlan40
+#              
+interface Vlan-interface50
+ ip address 172.18.5.254 255.255.255.0
+ packet-filter name vlan50 inbound
+ dhcp server apply ip-pool vlan50
+#
+interface Vlan-interface100
+ ip address 172.18.100.254 255.255.255.0
+#
+interface Vlan-interface101
+ ip address 172.18.101.254 255.255.255.0
+ dhcp server apply ip-pool vlan101
+#
+interface Vlan-interface200
+ ip address 172.18.200.254 255.255.255.0
+#
+return		
+		
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id892"></a>GVRP</h4></div></div></div><pre class="screen">
+			
+l              配置Switch A：
+
+# 开启全局GVRP。
+
+&lt;H3C&gt; system-view
+
+[H3C] gvrp
+
+GVRP is enabled globally.
+
+# 将以太网端口Ethernet1/0/1配置为Trunk端口，并允许所有VLAN通过。
+
+[H3C] interface Ethernet 1/0/1
+
+[H3C-Ethernet1/0/1] port link-type trunk
+
+[H3C-Ethernet1/0/1] port trunk permit vlan all
+
+# 在Trunk端口上开启GVRP。
+
+[H3C-Ethernet1/0/1] gvrp
+
+GVRP is enabled on port Ethernet1/0/1.
+
+l              配置Switch B：
+
+# 开启全局GVRP。
+
+&lt;H3C&gt; system-view
+
+[H3C] gvrp
+
+GVRP is enabled globally.
+
+# 将以太网端口Ethernet1/0/2配置为Trunk端口，并允许所有VLAN通过。
+
+[H3C] interface Ethernet 1/0/2
+
+[H3C-Ethernet1/0/2] port link-type trunk
+
+[H3C-Ethernet1/0/2] port trunk permit vlan all
+
+# 在Trunk端口上开启GVRP。
+
+[H3C-Ethernet1/0/2] gvrp
+
+GVRP is enabled on port Ethernet1/0/2.
+			
+			</pre></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="dhcp.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="index.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="arp.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">DHCP </td><td width="20%" align="center"><a accesskey="h" href="../../index.html">起始页</a></td><td width="40%" align="right" valign="top"> ARP</td></tr></table></div> user.footer.navigation </body></html>

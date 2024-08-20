@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="show.html" title="第 7 章 show" /><link rel="prev" href="show.ip.arp.html" title="show ip arp" /><link rel="next" href="show.mac.html" title="show mac address dy" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">show mac-address-table</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="show.ip.arp.html">上一页</a> </td><th width="60%" align="center">第 7 章 show</th><td width="20%" align="right"> <a accesskey="n" href="show.mac.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="show.mac-address-table"></a>show mac-address-table</h2></div></div></div><pre class="screen">
+#show mac-address-table
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+ All    0100.0ccc.cccc    STATIC      CPU
+ All    0100.0ccc.cccd    STATIC      CPU
+ All    0180.c200.0000    STATIC      CPU
+ All    0180.c200.0001    STATIC      CPU
+ All    0180.c200.0002    STATIC      CPU
+ All    0180.c200.0003    STATIC      CPU
+ All    0180.c200.0004    STATIC      CPU
+ All    0180.c200.0005    STATIC      CPU
+ All    0180.c200.0006    STATIC      CPU
+ All    0180.c200.0007    STATIC      CPU
+ All    0180.c200.0008    STATIC      CPU
+ All    0180.c200.0009    STATIC      CPU
+ All    0180.c200.000a    STATIC      CPU
+ All    0180.c200.000b    STATIC      CPU
+ All    0180.c200.000c    STATIC      CPU
+ All    0180.c200.000d    STATIC      CPU
+ All    0180.c200.000e    STATIC      CPU
+ All    0180.c200.000f    STATIC      CPU
+ All    0180.c200.0010    STATIC      CPU
+ All    ffff.ffff.ffff    STATIC      CPU
+   1    000d.482c.183e    DYNAMIC     Gi1/0/24
+   1    000f.e207.f2e0    DYNAMIC     Gi1/0/16
+   1    000f.e285.0b10    DYNAMIC     Gi1/0/16
+   1    0024.e834.29ea    DYNAMIC     Gi1/0/24
+...
+...
+ 100    f04d.a2d9.9b30    DYNAMIC     Gi1/0/22
+ 200    04fe.7f45.c31a    DYNAMIC     Gi1/0/22
+Total Mac Addresses for this criterion: 501
+		</pre><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id793"></a>通过mac查找端口</h3></div></div></div><pre class="screen">
+Switch-2960-WAN-0#show mac-address-table dynamic add 001c.58b5.6e81
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+   1    001c.58b5.6e81    DYNAMIC     Fa0/16
+Total Mac Addresses for this criterion: 1
+			</pre></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="show.ip.arp.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="show.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="show.mac.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">show ip arp </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> show mac address dy</td></tr></table></div> user.footer.navigation </body></html>

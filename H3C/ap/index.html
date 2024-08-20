@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../../index.html" title="Netkiller Network 手札" /><link rel="up" href="../index.html" title="部分 IV. H3C" /><link rel="prev" href="../switch/example.html" title="Example" /><link rel="next" href="ap.local-user.html" title="用户认证" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">第 21 章 H3C WA2220E-AG</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../switch/example.html">上一页</a> </td><th width="60%" align="center">部分 IV. H3C</th><td width="20%" align="right"> <a accesskey="n" href="ap.local-user.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="index"></a>第 21 章 H3C WA2220E-AG</h2></div></div></div><div class="toc"><p><strong>目录</strong></p><dl class="toc"><dt><span class="section"><a href="index.html#user-interface">用户界面</a></span></dt><dd><dl><dt><span class="section"><a href="index.html#ap.console">Console</a></span></dt><dt><span class="section"><a href="index.html#ap.webui">启用HTTP</a></span></dt><dt><span class="section"><a href="index.html#id904">Telnet</a></span></dt></dl></dd><dt><span class="section"><a href="ap.local-user.html">用户认证</a></span></dt><dt><span class="section"><a href="ap.mode.html">FAT/FIT AP </a></span></dt><dd><dl><dt><span class="section"><a href="ap.mode.html#id905">异常处理</a></span></dt></dl></dd><dt><span class="section"><a href="ap.ipaddress.html">IP Address</a></span></dt><dt><span class="section"><a href="ap.ssid.html">SSID</a></span></dt><dt><span class="section"><a href="ap.login.html">用户验证</a></span></dt><dd><dl><dt><span class="section"><a href="ap.login.html#id906">Telnet</a></span></dt><dt><span class="section"><a href="ap.login.html#id907">WEP</a></span></dt><dt><span class="section"><a href="ap.login.html#id908">WAP2</a></span></dt><dt><span class="section"><a href="ap.login.html#id909">WAP2 cipher</a></span></dt><dt><span class="section"><a href="ap.login.html#id910">Mac</a></span></dt></dl></dd><dt><span class="section"><a href="ap.wlan.html">WLAN</a></span></dt><dd><dl><dt><span class="section"><a href="ap.wlan.html#id911">用户互通与隔离</a></span></dt></dl></dd><dt><span class="section"><a href="ap.dhcp.html">DHCP</a></span></dt></dl></div><p>默认参数</p><pre class="screen">
+IP：192.168.0.50
+User: admin
+Password: h3capadmin
+SSID: H3C
+HTTP：enable
+	</pre><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="user-interface"></a>用户界面</h3></div></div></div><pre class="screen">
+		
+[WA2220E-AG]display user-interface
+  Idx  Type     Tx/Rx      Modem Privi Auth  Int
++ 0    CON 0    9600       -     3     N     -
+  1    VTY 0               -     0     A     -
+  2    VTY 1               -     0     A     -
+  3    VTY 2               -     0     A     -
+  4    VTY 3               -     0     A     -
+  5    VTY 4               -     0     A     -
+  +    : Current UI is active.
+  F    : Current UI is active and work in async mode.
+  Idx  : Absolute index of UIs.
+  Type : Type and relative index of UIs.
+  Privi: The privilege of UIs.
+  Auth : The authentication mode of UIs.
+  Int  : The physical location of UIs.
+  A    : Authentication use AAA.
+  L    : Authentication use local database.
+  N    : Current UI need not authentication.
+  P    : Authentication use current UI's password.
+		
+		</pre><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="ap.console"></a>Console</h4></div></div></div><pre class="screen">
+			
+system-view
+user-interface aux 0
+authentication-mode password
+set authentication password simple chen
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="ap.webui"></a>启用HTTP</h4></div></div></div><p>status</p><pre class="screen">
+			
+[WA2220E-AG]display ip http
+HTTP port: 80
+WLAN ACL: 0
+Basic ACL: 0
+Current connection: 0
+Operation status: Running
+			
+			</pre><p>enable</p><pre class="screen">
+			
+&lt;WA2220E-AG&gt;system-view
+[WA2220E-AG]ip http enable
+Info: HTTP server has been started!
+			
+			</pre><p>disable</p><pre class="screen">
+			
+[WA2220E-AG]undo ip http enable
+[WA2220E-AG]
+%Apr 26 12:28:31:522 2000 WA2220E-AG HTTPD/4/Log:Stop HTTP server.
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id904"></a>Telnet</h4></div></div></div><p>启动</p><pre class="screen">
+			
+&lt;WA2220E-AG&gt;system-view
+System View: return to User View with Ctrl+Z.
+[WA2220E-AG]telnet server enable
+% Start Telnet server
+
+[WA2220E-AG]telnet server enable
+% Telnet server has been started
+			
+			</pre><p>关闭</p><pre class="screen">
+			
+[WA2220E-AG]telnet server enable
+% Start Telnet server
+			
+			</pre><p>设置密码</p><pre class="screen">
+			
+[WA2220E-AG]user-interface vty 0 4
+[WA2220E-AG-ui-vty0-4]authentication-mode password
+[WA2220E-AG-ui-vty0-4]set authentication password cipher your_password
+[WA2220E-AG-ui-vty0-4]user privilege level 2
+[WA2220E-AG-ui-vty0-4]quit
+			
+			</pre></div></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="../switch/example.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="../index.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="ap.local-user.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">Example </td><td width="20%" align="center"><a accesskey="h" href="../../index.html">起始页</a></td><td width="40%" align="right" valign="top"> 用户认证</td></tr></table></div> user.footer.navigation </body></html>

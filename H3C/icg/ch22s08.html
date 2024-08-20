@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../../index.html" title="Netkiller Network 手札" /><link rel="up" href="index.html" title="第 22 章 H3C ICG（Information Communication Gateway）" /><link rel="prev" href="vpn.html" title="VPN 配置" /><link rel="next" href="../../dell/index.html" title="部分 V. Dell" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Example 案例参考</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="vpn.html">上一页</a> </td><th width="60%" align="center">第 22 章 H3C ICG（Information Communication Gateway）</th><td width="20%" align="right"> <a accesskey="n" href="../../dell/index.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id1135"></a>Example 案例参考</h3></div></div></div><pre class="screen">
+		
+[Netkiller]di cu
+#
+ version 5.20, ESS 1710
+#
+ sysname Netkiller
+#
+ ftp server enable
+#
+ l2tp enable
+#
+ tcp syn-cookie enable
+ tcp anti-naptha enable
+ tcp state closing connection-number 500
+ tcp state established connection-number 500
+ tcp state fin-wait-1 connection-number 500
+ tcp state fin-wait-2 connection-number 500
+ tcp state last-ack connection-number 500
+ tcp state syn-received connection-number 500
+#
+ ike local-name center
+#
+ ipsec cpu-backup enable
+#
+ domain default enable system
+#               
+ dns resolve    
+ dns proxy enable
+ dns server 202.96.134.133
+#
+ telnet server enable
+#
+ port-security enable
+#
+ mac-authentication domain system
+#
+vlan 1
+#
+domain system
+ authentication ppp local
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+ ip pool 1 172.16.2.10 172.16.2.250
+#
+pki domain navigator
+  crl check disable
+#
+ike proposal 1  
+ encryption-algorithm aes-cbc 256
+ dh group5
+#
+ike peer navigator
+ pre-shared-key cipher GG5IrHcC/NwyDr/VnmIkZA==
+#
+ipsec proposal 1
+ encapsulation-mode transport
+ esp authentication-algorithm sha1
+ esp encryption-algorithm aes 128
+#
+ipsec proposal navigator
+ encapsulation-mode transport
+ esp authentication-algorithm sha1
+ esp encryption-algorithm 3des
+#
+ipsec proposal navigator1
+ esp authentication-algorithm sha1
+ esp encryption-algorithm 3des
+#
+ipsec policy-template gateway 1
+ ike-peer navigator
+ proposal navigator navigator1
+#
+ipsec policy navigator 1 isakmp template gateway
+#
+dhcp server ip-pool vlan1 extended
+ network ip range 172.16.0.20 172.16.0.200
+ network mask 255.255.255.0
+ gateway-list 172.16.0.254
+ dns-list 208.67.222.222 208.67.220.220 208.67.222.220 208.67.220.222
+ domain-name netkiller.cn
+#
+user-group system
+#
+local-user neo
+ password simple chen
+ authorization-attribute level 3
+ service-type ssh telnet terminal
+ service-type ftp
+local-user vpdnuser
+ password simple hello
+ service-type ppp
+local-user vpn
+ password simple netkiller
+ service-type ppp
+#
+wlan rrm
+ dot11b mandatory-rate 1 2
+ dot11b supported-rate 5.5 11
+ dot11g mandatory-rate 1 2 5.5 11
+ dot11g supported-rate 6 9 12 18 24 36 48 54
+#
+wlan service-template 1 crypto
+ ssid http://www.netkiller.cn
+ cipher-suite tkip
+ security-ie rsn
+ service-template enable
+#
+wlan service-template 2 crypto
+ ssid Brooky Hills
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+#
+wlan service-template 3 crypto
+ ssid WX-http://www.netkiller.cn
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+#
+ssl server-policy chinanet
+ pki-domain navigator
+#
+cwmp
+ cwmp acs username netkiller password netkiller
+ cwmp cpe inform interval enable
+ cwmp cpe inform interval 43200
+ cwmp cpe username neo password neo
+#
+l2tp-group 1
+ mandatory-lcp
+ allow l2tp virtual-template 0
+ tunnel name LNS
+#
+interface Aux0
+ async mode flow
+ link-protocol ppp
+#
+interface Ethernet0/0
+ port link-mode route
+ nat outbound   
+ ip address dhcp-alloc
+#
+interface Ethernet0/0.1
+ nat outbound
+ ip address 192.168.2.2 255.255.255.0
+#
+interface Virtual-Template0
+ ppp authentication-mode chap domain system
+ remote address pool 1
+ ip address 172.16.2.254 255.255.255.0
+#
+interface NULL0
+#
+interface Vlan-interface1
+ ip address 172.16.0.254 255.255.255.0
+ dhcp server apply ip-pool vlan1
+#
+interface Ethernet0/1
+ port link-mode bridge
+#
+interface Ethernet0/2
+ port link-mode bridge
+#               
+interface Ethernet0/3
+ port link-mode bridge
+#
+interface Ethernet0/4
+ port link-mode bridge
+#
+interface WLAN-Ethernet0
+ ip address dhcp-alloc
+#
+interface WLAN-BSS0
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase 13113668890
+#
+interface WLAN-BSS1
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase 13113668890
+#
+interface WLAN-BSS2
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase 13113668890
+#
+interface WLAN-BSS3
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase 13113668890
+#
+interface WLAN-Radio2/0
+ service-template 2 interface wlan-bss 2
+ service-template 1 interface wlan-bss 1
+ service-template 3 interface wlan-bss 3
+#
+ospf 1
+#
+policy-based-route Ethernet0/0 permit node 0
+   if-match acl 2000
+   apply output-interface Ethernet0/0
+#
+policy-based-route Ethernet0/1 permit node 0
+   if-match acl 2000
+#
+policy-based-route Ethernet0/0.1 permit node 0
+   if-match acl 2000
+   apply output-interface Ethernet0/0.1
+#
+policy-based-route Ethernet0/0.2 permit node 0
+   if-match acl 2000
+#
+policy-based-route Ethernet0/1.1 permit node 0
+   if-match acl 2000
+#
+ dhcp enable
+#
+ ntp-service unicast-server 202.118.1.130
+ ntp-service unicast-server 114.118.7.161
+#
+ ssh server enable
+#
+ ip https ssl-server-policy chinanet
+ ip https enable
+#
+ nms primary monitor-interface Ethernet0/0
+#
+ load xml-configuration
+#
+user-interface aux 0
+user-interface vty 0 4
+ authentication-mode scheme
+#
+return		
+		
+		</pre></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="vpn.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="index.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="../../dell/index.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">VPN 配置 </td><td width="20%" align="center"><a accesskey="h" href="../../index.html">起始页</a></td><td width="40%" align="right" valign="top"> 部分 V. Dell</td></tr></table></div> user.footer.navigation </body></html>

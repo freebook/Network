@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../../index.html" title="Netkiller Network 手札" /><link rel="up" href="index.html" title="第 21 章 H3C WA2220E-AG" /><link rel="prev" href="ap.ssid.html" title="SSID" /><link rel="next" href="ap.wlan.html" title="WLAN" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">用户验证</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ap.ssid.html">上一页</a> </td><th width="60%" align="center">第 21 章 H3C WA2220E-AG</th><td width="20%" align="right"> <a accesskey="n" href="ap.wlan.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="ap.login"></a>用户验证</h3></div></div></div><p></p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id906"></a>Telnet</h4></div></div></div><pre class="screen">
+local-user neo
+ password simple chen
+ service-type telnet
+
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id907"></a>WEP</h4></div></div></div><p>WEP 加密</p><pre class="screen">
+			
+&lt;WA2220E-AG&gt;system-view
+System View: return to User View with Ctrl+Z.
+[WA2220E-AG]interface WLAN-BSS2
+[WA2220E-AG-WLAN-BSS2]wlan service-template 2 crypto
+[WA2220E-AG-wlan-st-2]ssid www.example.com
+[WA2220E-AG-wlan-st-2]authentication-method open-system
+[WA2220E-AG-wlan-st-2]cipher-suite wep40
+[WA2220E-AG-wlan-st-2]wep default-key 1 wep40 pass-phrase 123456
+[WA2220E-AG-wlan-st-2]service-template enable
+
+[WA2220E-AG]interface WLAN-Radio 1/0/2
+[WA2220E-AG-WLAN-Radio1/0/2]service-template 2 interface WLAN-BSS 2
+[WA2220E-AG-WLAN-Radio1/0/2]quit
+			
+			</pre><div class="literallayout"><p><br />
+interface WLAN-BSS2<br />
+wlan service-template 2 crypto<br />
+ssid www.example.com<br />
+authentication-method open-system<br />
+cipher-suite wep40<br />
+wep default-key 1 wep40 pass-phrase 12345<br />
+service-template enable<br />
+<br />
+interface WLAN-Radio 1/0/2<br />
+service-template 2 interface WLAN-BSS 2<br />
+			</p></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id908"></a>WAP2</h4></div></div></div><pre class="screen">
+wlan service-template 2 crypto
+ ssid www.example.com
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+
+
+interface WLAN-BSS2
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase simple your_password
+
+ interface WLAN-Radio1/0/2
+ service-template 2 interface wlan-bss 2
+#
+
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id909"></a>WAP2 cipher</h4></div></div></div><pre class="screen">
+ wlan service-template 3 crypto
+ ssid www.example.com
+ cipher-suite ccmp
+ security-ie rsn
+ service-template enable
+
+interface WLAN-BSS3
+ port link-type hybrid
+ port hybrid vlan 1 untagged
+ port-security port-mode psk
+ port-security tx-key-type 11key
+ port-security preshared-key pass-phrase cipher wrWR2LZofLw4qvbcs+daVw==
+#
+interface WLAN-Radio1/0/2
+ service-template 3 interface wlan-bss 3
+#
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id910"></a>Mac</h4></div></div></div><pre class="screen">
+配置radius scheme：
+radius scheme mac-radius
+primary authentication 192.168.30.3
+primary accounting 192.168.30.3
+secondary authentication 192.168.30.4
+secondary accounting 192.168.30.4
+key authentication 123456
+key accounting 123456
+user-name-format without-domain
+
+2、配置MAC认证的域：
+domain mac-dom
+authentication default radius-scheme mac-radius
+authorization default radius-scheme mac-radius
+accounting default radius-scheme mac-radius
+access-limit disable
+state active
+idle-cut disable
+self-service-url disable
+
+3、配置全局MAC认证：
+port-security enable
+mac-authentication domain mac-dom
+
+4、开启无线端口的MAC认证
+[AP01]  int WLAN-BSS 1
+[AP01-WLAN-BSS1]   port-security port-mode mac-authentication
+[AP01]  int WLAN-BSS 2
+[AP01-WLAN-BSS2]   port-security port-mode mac-authentication
+			</pre></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ap.ssid.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="index.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="ap.wlan.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">SSID </td><td width="20%" align="center"><a accesskey="h" href="../../index.html">起始页</a></td><td width="40%" align="right" valign="top"> WLAN</td></tr></table></div> user.footer.navigation </body></html>

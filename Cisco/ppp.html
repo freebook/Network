@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="route.html" title="第 10 章 Route" /><link rel="prev" href="route.rate-limit.html" title="限制流量" /><link rel="next" href="route.snmp.html" title="SNMP" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">PPPoE</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="route.rate-limit.html">上一页</a> </td><th width="60%" align="center">第 10 章 Route</th><td width="20%" align="right"> <a accesskey="n" href="route.snmp.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="ppp"></a>PPPoE</h2></div></div></div><pre class="screen">
+假设E0接内网，E1接ADSL上外网
+第一步:配置vpdn
+vpdn enable(启用路由器的虚拟专用拨号网络---vpnd)
+vpdn-group office(建立一个vpdn组,)
+request-dialin(初始化一个vpnd tunnel,建立一个请求拨入的vpdn子组,)
+protocol pppoe(vpdn子组使用pppoe建立会话隧道)
+
+第二步: 配置路由器连接adsl modem的接口
+interface Ethernet1
+no ip address
+pppoe enable允许以太接口运行pppoe
+pppoe-client dial-pool-number 1将以太接口的pppoe拨号客户端加入拨号池1
+
+第三步:配置逻辑拨号接口:
+interface Dialer1
+ip address negotiated从adsl服务商动态协商得到ip地址
+ip nat outside为该接口启用NAT
+encapsulation ppp为该接口封装ppp协议
+dialer pool 1该接口使用1号拨号池进行拨号
+dialer-group 1该命令对于pppoe是意义不大的
+ppp authentication pap callin启用ppp pap验证
+ppp pap sent-username bnnXXXXX password  XXXXX使用已经申请的用户名和口令
+
+第四步:配置内部网络接口
+interface Ethernet0(内部网络接口)
+ip address 10.1.1.1 255.255.255.0
+ip nat inside为该接口启用NAT
+
+第五步:配置路由器为内部网络主机提供dhcp服务
+ip dhcp excluded-address 10.1.1.1
+ip dhcp pool ABC
+import all(导入dns和wins server)
+network 10.1.1.0 255.255.255.0
+default-router 10.1.1.1
+
+第六步:配置NAT:
+access-list 1 permit 10.1.1.0 0.0.0.255
+ip nat inside source list 1 interface Dialer1 overload
+
+第七步:配置缺省路由
+ip route 0.0.0.0 0.0.0.0 Dialer1
+		</pre></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="route.rate-limit.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="route.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="route.snmp.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">限制流量 </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> SNMP</td></tr></table></div> user.footer.navigation </body></html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="switch.html" title="第 11 章 Switch" /><link rel="prev" href="switch.monitor.html" title="交换机端口镜像配置" /><link rel="next" href="switch.vlan.html" title="VLAN" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Ethernet Port Groups</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="switch.monitor.html">上一页</a> </td><th width="60%" align="center">第 11 章 Switch</th><td width="20%" align="right"> <a accesskey="n" href="switch.vlan.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="switch.channel-group"></a>Ethernet Port Groups</h2></div></div></div><p>SwitchA</p><pre class="screen">
+		
+SwitchA# configure terminal
+SwitchA (config)# interface range GigabitEthernet1/1-2
+SwitchA (config-if-range)# switchport mode access
+SwitchA (config-if-range)# switchport access vlan 10
+SwitchA (config-if-range)# channel-group 5 mode on
+Switch(config-if-range)# end
+		
+		</pre><p>SwitchB</p><pre class="screen">
+		
+SwitchB# configure terminal
+SwitchB(config)#interface range GigabitEthernet1/0/1-2
+SwitchB(config-if-range)#switchport mode access
+SwitchB(config-if-range)#switchport access vlan 10
+SwitchB(config-if-range)#channel-group 1 mode on
+Creating a port-channel interface Port-channel 1
+
+SwitchB(config-if-range)#int port-channel 1
+SwitchB(config-if)#exit
+SwitchB(config)#do show etherchannel summary
+Flags:  D - down        P - in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      f - failed to allocate aggregator
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)          -        Gi1/0/1(P) Gi1/0/2(P)
+		
+		</pre><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id823"></a>LACP</h3></div></div></div><p>channel-group 4 mode active 这个命令控制是否用LACP的。</p><pre class="screen">
+c4506(config)#inter g6/5
+c4506(config-if)#channel-group 4 mode ?
+  active     Enable LACP unconditionally
+  auto       Enable PAgP only if a PAgP device is detected
+  desirable  Enable PAgP unconditionally
+  on         Enable Etherchannel only
+  passive    Enable LACP only if a LACP device is detected
+
+c4506(config-if)#channel-group 4 mode active
+			</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id824"></a>desirable</h3></div></div></div><div class="example"><a id="id1065"></a><p class="title"><strong>例 11.1. desirable</strong></p><div class="example-contents"><p>switch A</p><pre class="screen">
+Switch(config)#interface range fa0/1-4 						#range配置二个以上的接口
+Switch(config-if-range)#channel-group 1 mode desirable 		#封装为自动协商模式
+Switch(config-if-range)#switchport mode trunk
+Switch(config-if-range)#switchport trunk encapsulation dot1q
+Switch(config-if-range)#switchport trunk allowed vlan all	#允许所以vlan通过
+				</pre><p>switch B</p><pre class="screen">
+Switch(config)#interface range fa0/1-4
+Switch(config-if-range)#channel-group 1 mode desirable
+Switch(config-if-range)#switchport mode trunk
+Switch(config-if-range)#switchport trunk encapsulation dot1q
+Switch(config-if-range)#switchport trunk allowed vlan all
+				</pre></div></div><br class="example-break" /></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="switch.monitor.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="switch.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="switch.vlan.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">交换机端口镜像配置 </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> VLAN</td></tr></table></div> user.footer.navigation </body></html>

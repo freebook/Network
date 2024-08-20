@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="index.html" title="Netkiller Network 手札" /><link rel="up" href="index.html" title="Netkiller Network 手札" /><link rel="prev" href="banggoo/banggoo.script.html" title="第 39 章 TrafficScript" /><link rel="next" href="FortiGate/index.html" title="第 41 章 FortiGate 防火墙" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">第 40 章 Ruckus</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="banggoo/banggoo.script.html">上一页</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="FortiGate/index.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="ruckus"></a>第 40 章 Ruckus</h1></div></div></div><div class="toc"><p><strong>目录</strong></p><dl class="toc"><dt><span class="section"><a href="ruckus.html#id1052">SSH</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id1052"></a>SSH</h2></div></div></div><pre class="screen">
+$ ssh super@192.168.0.1
+
+
+Connecting to 192.168.0.1:22...
+Connection established.
+To escape to local shell, press 'Ctrl+Alt+]'.
+
+
+Please login: super
+password : 
+Copyright(C) 2005-2008 Ruckus Wireless, Inc. All Rights Reserved.
+rkscli: 
+    </pre><pre class="screen">
+rkscli: get vlan all
+---------------------------------------
+Network  0: (Management) VID 1
+	Services: DHCP Client
+	Eth Port (no tag): 0,1 
+	Wireless (no tag):
+		 - wlan2 (Wireless 3)
+		 - wlan3 (Wireless 4)
+		 - wlan4 (Wireless 5)
+		 - wlan5 (Wireless 6)
+		 - wlan6 (Wireless 7)
+		 - wlan7 (Home)
+---------------------------------------
+Network  4: (Vlan A) VID 2
+	Services: 
+	Eth Port (tagged): 0,1 
+	Wireless (no tag):
+		 - wlan0 (Company)
+---------------------------------------
+Network  5: (Vlan B) VID 3
+	Services: 
+	Eth Port (tagged): 0,1 
+	Wireless (no tag):
+		 - wlan1 (Visitor)
+---------------------------------------
+
+OK
+rkscli:
+
+
+rkscli: get wlanlist
+name         status   type   wlanID   radioID  bssid            
+-----------------------------------------------------------
+svcp         up       AP     wlan0    0        c4:10:8a:1c:cf:b8
+home         up       AP     wlan1    0        c4:10:8a:5c:cf:b8
+rcks         down     AP     wlan2    0        00:00:00:00:00:00
+mdfx         down     AP     wlan3    0        00:00:00:00:00:00
+wlan4        down     AP     wlan4    0        00:00:00:00:00:00
+wlan5        down     AP     wlan5    0        00:00:00:00:00:00
+wlan6        down     AP     wlan6    0        00:00:00:00:00:00
+wlan7        up       AP     wlan7    0        c4:10:8a:dc:cf:b9
+OK
+rkscli: 
+
+rkscli: get eth 
+
+Interface   Logical Link Status
+--------------------------------
+     eth0            Down
+     eth1            Up
+
+     Port   Physical Link Status
+--------------------------------
+        0            N
+        1            Y
+OK
+rkscli: get eth 0
+Ethernet state of Port 0: Disabled
+OK
+rkscli: get eth 1
+Ethernet state of Port 1: Enabled
+OK
+rkscli: 
+
+
+
+rkscli: get mq
+Missing WIFI name
+rkscli: get ntp
+Device GMT time   : Sat May 10 15:24:52 2014
+Active NTP Server : ntp.ruckuswireless.com
+Backup NTP Server : ntp.ruckuswireless.com
+OK
+rkscli:
+
+
+rkscli: get ssh
+SSH service is enabled
+OK
+
+
+rkscli: get passphrase Home
+Home WPA PassPhrase (16): ChenJingFeng2013
+OK
+
+
+
+    </pre></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="banggoo/banggoo.script.html">上一页</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="FortiGate/index.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">第 39 章 TrafficScript </td><td width="20%" align="center"><a accesskey="h" href="index.html">起始页</a></td><td width="40%" align="right" valign="top"> 第 41 章 FortiGate 防火墙</td></tr></table></div> user.footer.navigation </body></html>

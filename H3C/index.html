@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="../index.html" title="Netkiller Network 手札" /><link rel="prev" href="../juniper/ch18.html" title="第 18 章 Juniper Flow" /><link rel="next" href="command.html" title="第 19 章 H3C Command" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">部分 IV. H3C</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../juniper/ch18.html">上一页</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="command.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="part"><div class="titlepage"><div><div><h1 class="title"><a id="index"></a>部分 IV. H3C</h1></div></div></div><div class="toc"><p><strong>目录</strong></p><dl class="toc"><dt><span class="chapter"><a href="command.html">19. H3C Command</a></span></dt><dd><dl><dt><span class="section"><a href="command.html#config">config</a></span></dt><dd><dl><dt><span class="section"><a href="command.html#id877">current-configuration</a></span></dt><dt><span class="section"><a href="command.html#saved-configuration">saved-configuration</a></span></dt><dt><span class="section"><a href="command.html#save">保存配置</a></span></dt></dl></dd><dt><span class="section"><a href="boot-loader.html">boot-loader</a></span></dt><dt><span class="section"><a href="display.html">display</a></span></dt><dd><dl><dt><span class="section"><a href="display.html#id878">显示设备工作状态</a></span></dt><dt><span class="section"><a href="display.html#id879">接口相关信息</a></span></dt></dl></dd><dt><span class="section"><a href="h3c.route.snmp.html">SNMP</a></span></dt></dl></dd><dt><span class="chapter"><a href="switch/index.html">20. H3C Switch</a></span></dt><dd><dl><dt><span class="section"><a href="switch/index.html#config">配置文件</a></span></dt><dt><span class="section"><a href="switch/h3c.switch.interface.html">接口管理</a></span></dt><dt><span class="section"><a href="switch/dhcp.html">DHCP</a></span></dt><dd><dl><dt><span class="section"><a href="switch/dhcp.html#dhcp.server">DHCP Server</a></span></dt><dd><dl><dt><span class="section"><a href="switch/dhcp.html#id880">排除IP地址</a></span></dt></dl></dd><dt><span class="section"><a href="switch/dhcp.html#dhcp.relay">DHCP中继配置</a></span></dt><dt><span class="section"><a href="switch/dhcp.html#dhcp.snooping">DHCP Snooping</a></span></dt><dt><span class="section"><a href="switch/dhcp.html#id881">IP地址过期时间</a></span></dt><dt><span class="section"><a href="switch/dhcp.html#id882"></a></span></dt><dt><span class="section"><a href="switch/dhcp.html#id883">静态IP地址为不可分配地址</a></span></dt><dt><span class="section"><a href="switch/dhcp.html#id889">查看地址池配置</a></span></dt><dd><dl><dt><span class="section"><a href="switch/dhcp.html#id884">查看地址池配置</a></span></dt><dt><span class="section"><a href="switch/dhcp.html#id885">查看地址租约</a></span></dt><dt><span class="section"><a href="switch/dhcp.html#id886">查看可分配的地址</a></span></dt><dt><span class="section"><a href="switch/dhcp.html#id887">查看租约过期地址</a></span></dt><dt><span class="section"><a href="switch/dhcp.html#id888">查看冲突IP地址</a></span></dt></dl></dd></dl></dd><dt><span class="section"><a href="switch/vlan.html">VLAN</a></span></dt><dd><dl><dt><span class="section"><a href="switch/vlan.html#id890">查看vlan接口对应ip地址</a></span></dt><dt><span class="section"><a href="switch/vlan.html#id891">查看vlan接口</a></span></dt><dt><span class="section"><a href="switch/vlan.html#id892">GVRP</a></span></dt></dl></dd><dt><span class="section"><a href="switch/arp.html">ARP</a></span></dt><dd><dl><dt><span class="section"><a href="switch/arp.html#id893">查看接口下的 ARP</a></span></dt><dt><span class="section"><a href="switch/arp.html#id894">查找指定 mac 地址</a></span></dt><dt><span class="section"><a href="switch/arp.html#id895">查找指定IP地址</a></span></dt><dt><span class="section"><a href="switch/arp.html#id896">添加静态映射</a></span></dt></dl></dd><dt><span class="section"><a href="switch/ch20s06.html">Mac 地址</a></span></dt><dt><span class="section"><a href="switch/limit.html">流量控制</a></span></dt><dd><dl><dt><span class="section"><a href="switch/limit.html#id897">基于接口</a></span></dt><dt><span class="section"><a href="switch/limit.html#id898">基于 ACL</a></span></dt></dl></dd><dt><span class="section"><a href="switch/routing.html">Routing</a></span></dt><dd><dl><dt><span class="section"><a href="switch/routing.html#id899">RIP</a></span></dt><dt><span class="section"><a href="switch/routing.html#id900">OSPF</a></span></dt><dt><span class="section"><a href="switch/routing.html#id901">Static</a></span></dt><dt><span class="section"><a href="switch/routing.html#id902">策略路由</a></span></dt><dt><span class="section"><a href="switch/routing.html#id903">Debug</a></span></dt><dd><dl><dt><span class="section"><a href="switch/routing.html#routing-table">routing-table</a></span></dt></dl></dd></dl></dd><dt><span class="section"><a href="switch/h3c.switch.snmp.html">SNMP</a></span></dt><dd><dl><dt><span class="section"><a href="switch/h3c.switch.snmp.html#S5024PV2-EI">S5024PV2-EI</a></span></dt></dl></dd><dt><span class="section"><a href="switch/login.html">Login</a></span></dt><dd><dl><dt><span class="section"><a href="switch/login.html#telnet">Telnet</a></span></dt><dt><span class="section"><a href="switch/login.html#ssh">SSH</a></span></dt></dl></dd><dt><span class="section"><a href="switch/h3c.switch.ntp.html">NTP 时间同步</a></span></dt><dt><span class="section"><a href="switch/example.html">Example</a></span></dt></dl></dd><dt><span class="chapter"><a href="ap/index.html">21. H3C WA2220E-AG</a></span></dt><dd><dl><dt><span class="section"><a href="ap/index.html#user-interface">用户界面</a></span></dt><dd><dl><dt><span class="section"><a href="ap/index.html#ap.console">Console</a></span></dt><dt><span class="section"><a href="ap/index.html#ap.webui">启用HTTP</a></span></dt><dt><span class="section"><a href="ap/index.html#id904">Telnet</a></span></dt></dl></dd><dt><span class="section"><a href="ap/ap.local-user.html">用户认证</a></span></dt><dt><span class="section"><a href="ap/ap.mode.html">FAT/FIT AP </a></span></dt><dd><dl><dt><span class="section"><a href="ap/ap.mode.html#id905">异常处理</a></span></dt></dl></dd><dt><span class="section"><a href="ap/ap.ipaddress.html">IP Address</a></span></dt><dt><span class="section"><a href="ap/ap.ssid.html">SSID</a></span></dt><dt><span class="section"><a href="ap/ap.login.html">用户验证</a></span></dt><dd><dl><dt><span class="section"><a href="ap/ap.login.html#id906">Telnet</a></span></dt><dt><span class="section"><a href="ap/ap.login.html#id907">WEP</a></span></dt><dt><span class="section"><a href="ap/ap.login.html#id908">WAP2</a></span></dt><dt><span class="section"><a href="ap/ap.login.html#id909">WAP2 cipher</a></span></dt><dt><span class="section"><a href="ap/ap.login.html#id910">Mac</a></span></dt></dl></dd><dt><span class="section"><a href="ap/ap.wlan.html">WLAN</a></span></dt><dd><dl><dt><span class="section"><a href="ap/ap.wlan.html#id911">用户互通与隔离</a></span></dt></dl></dd><dt><span class="section"><a href="ap/ap.dhcp.html">DHCP</a></span></dt></dl></dd><dt><span class="chapter"><a href="icg/index.html">22. H3C ICG（Information Communication Gateway）</a></span></dt><dd><dl><dt><span class="section"><a href="icg/index.html#version">version</a></span></dt><dt><span class="section"><a href="icg/login.html">基础操作</a></span></dt><dd><dl><dt><span class="section"><a href="icg/login.html#id912">登陆</a></span></dt><dt><span class="section"><a href="icg/login.html#id913">创建用户</a></span></dt><dt><span class="section"><a href="icg/login.html#id914">开启SSH服务</a></span></dt><dt><span class="section"><a href="icg/login.html#id915">开启FTP服务</a></span></dt><dt><span class="section"><a href="icg/login.html#id916">保存配置</a></span></dt></dl></dd><dt><span class="section"><a href="icg/wan.html">Ethernet0/0 - Wan口配置</a></span></dt><dd><dl><dt><span class="section"><a href="icg/wan.html#id917">DHCP 动态IP地址</a></span></dt><dt><span class="section"><a href="icg/wan.html#id918">固定IP地址</a></span></dt></dl></dd><dt><span class="section"><a href="icg/wlan.html">WLAN - 无线局域网配置</a></span></dt><dd><dl><dt><span class="section"><a href="icg/wlan.html#id919">修改配置</a></span></dt><dt><span class="section"><a href="icg/wlan.html#id920">WLAN 状态查看</a></span></dt><dt><span class="section"><a href="icg/wlan.html#id921">IDS（Intrusion detection system） 状态</a></span></dt><dt><span class="section"><a href="icg/wlan.html#id922">Radio resource management</a></span></dt><dt><span class="section"><a href="icg/wlan.html#id923">Service Template Parameters</a></span></dt><dt><span class="section"><a href="icg/wlan.html#id924">Client Statistics</a></span></dt><dt><span class="section"><a href="icg/wlan.html#id925">Wi-Fi multimedia</a></span></dt></dl></dd><dt><span class="section"><a href="icg/lan.html">LAN 配置</a></span></dt><dd><dl><dt><span class="section"><a href="icg/lan.html#dhcp.server">DHCP Server</a></span></dt><dt><span class="section"><a href="icg/lan.html#vlan">VLAN</a></span></dt></dl></dd><dt><span class="section"><a href="icg/route.html">路由配置</a></span></dt><dd><dl><dt><span class="section"><a href="icg/route.html#id926">默认路由</a></span></dt></dl></dd><dt><span class="section"><a href="icg/vpn.html">VPN 配置</a></span></dt><dd><dl><dt><span class="section"><a href="icg/vpn.html#id927">l2tp vpn</a></span></dt><dt><span class="section"><a href="icg/vpn.html#id928">ipsec</a></span></dt></dl></dd><dt><span class="section"><a href="icg/ch22s08.html">Example 案例参考</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id1136"></a>案例</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id1137"></a>交换机</h3></div></div></div><pre class="screen">
+		
+[S5024PV2-EI-1-GigabitEthernet1/0/24]di cu
+#
+ version 5.20.99, Release 1111
+#
+ sysname S5024PV2-EI-1
+#
+ clock timezone Beijing add 08:00:00
+#
+ domain default enable system
+#
+ ipv6
+#
+ telnet server enable
+#
+ port-group-vlan 1
+#
+ password-recovery enable
+#
+vlan 1
+#
+vlan 2 to 10
+#
+domain system
+ access-limit disable
+ state active   
+ idle-cut disable
+ self-service-url disable
+#
+user-group system
+ group-attribute allow-guest
+#
+local-user admin
+ password cipher $c$3$EkhzOhFEh59+WPOOlD32QaWsr0DwDZyU
+ authorization-attribute level 3
+ service-type ssh telnet
+ service-type web
+#
+interface NULL0
+#
+interface Vlan-interface1
+ ip address 192.168.0.233 255.255.255.0
+#
+interface Vlan-interface10
+ ip address 172.16.254.253 255.255.255.0
+#
+interface GigabitEthernet1/0/1
+ port access vlan 3
+#               
+interface GigabitEthernet1/0/2
+#
+interface GigabitEthernet1/0/3
+#
+interface GigabitEthernet1/0/4
+ port access vlan 3
+#
+interface GigabitEthernet1/0/5
+ port access vlan 3
+#
+interface GigabitEthernet1/0/6
+ port access vlan 3
+#
+interface GigabitEthernet1/0/7
+ port access vlan 3
+#
+interface GigabitEthernet1/0/8
+ port access vlan 3
+#
+interface GigabitEthernet1/0/9
+ port access vlan 3
+#
+interface GigabitEthernet1/0/10
+ port access vlan 3
+#
+interface GigabitEthernet1/0/11
+ port access vlan 3
+#
+interface GigabitEthernet1/0/12
+ port access vlan 3
+#
+interface GigabitEthernet1/0/13
+ port access vlan 3
+#
+interface GigabitEthernet1/0/14
+ port access vlan 3
+#
+interface GigabitEthernet1/0/15
+ port access vlan 3
+#
+interface GigabitEthernet1/0/16
+ port access vlan 3
+#
+interface GigabitEthernet1/0/17
+ port access vlan 3
+#               
+interface GigabitEthernet1/0/18
+ port access vlan 3
+#
+interface GigabitEthernet1/0/19
+ port access vlan 3
+#
+interface GigabitEthernet1/0/20
+ port access vlan 3
+#
+interface GigabitEthernet1/0/21
+ port access vlan 3
+#
+interface GigabitEthernet1/0/22
+ port access vlan 8
+#
+interface GigabitEthernet1/0/23
+ description Wi-Fi Network
+ port access vlan 3
+#
+interface GigabitEthernet1/0/24
+ port link-type trunk
+ port trunk permit vlan all
+ dhcp-snooping trust
+#
+interface GigabitEthernet1/0/25
+#
+interface GigabitEthernet1/0/26
+#
+interface GigabitEthernet1/0/27
+#
+interface GigabitEthernet1/0/28
+#
+ dhcp-snooping
+#
+ ip route-static 0.0.0.0 0.0.0.0 172.16.254.254
+#
+ undo info-center logfile enable
+#
+ snmp-agent
+ snmp-agent local-engineid 383030303633413236353133343842443344383434323630
+ snmp-agent community read public
+ snmp-agent sys-info version all
+ snmp-agent target-host trap address udp-domain 192.168.30.11 params securityname public
+ snmp-agent mib-view included internet internet
+ snmp-agent trap enable default-route
+#               
+ ntp-service source-interface Vlan-interface10
+ ntp-service unicast-server 223.65.211.46
+ ntp-service unicast-server 162.159.200.1
+#
+ ssh server enable
+ sftp server enable
+#
+ load xml-configuration
+#
+user-interface aux 0
+user-interface vty 0 4
+ authentication-mode scheme
+ user privilege level 3
+user-interface vty 5 15
+ authentication-mode scheme
+#
+return		
+		
+		</pre></div></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="../juniper/ch18.html">上一页</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="command.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">第 18 章 Juniper Flow </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> 第 19 章 H3C Command</td></tr></table></div> user.footer.navigation </body></html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="dell.switch.html" title="第 23 章 Dell Switch" /><link rel="prev" href="dell.switch.html" title="第 23 章 Dell Switch" /><link rel="next" href="switch.interface.html" title="Interface" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">login/authentication</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="dell.switch.html">上一页</a> </td><th width="60%" align="center">第 23 章 Dell Switch</th><td width="20%" align="right"> <a accesskey="n" href="switch.interface.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="switch.aaa"></a>login/authentication</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id943"></a>console</h3></div></div></div><pre class="screen">
+console(config)# aaa authentication login default line
+
+console(config)# aaa authentication enable default line
+
+console(config)# line console
+
+console(config-line)# login authentication default
+
+console(config-line)# enable authentication default
+
+console(config-line)# password chen
+
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id944"></a>telnet</h3></div></div></div><pre class="screen">
+console# configure
+console(config)# aaa authentication login default line
+console(config)# aaa authentication enable default line
+console(config)# line telnet
+console(config-line)# login authentication default
+console(config-line)# enable authentication default
+console(config-line)# password chen
+console(config-line)# end
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id945"></a>SSH</h3></div></div></div><pre class="screen">
+console(config)# aaa authentication login default line
+
+console(config)# aaa authentication enable default line
+
+console(config)# line ssh
+
+console(config-line)# login authentication default
+
+console(config-line)# enable authentication default
+
+console(config-line)# password jones.
+
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id946"></a>HTTP/HTTPS</h3></div></div></div><p>HTTP</p><pre class="screen">
+console(config)# ip http authentication local
+
+console(config)# username admin password user1 level 15
+		</pre><p>HTTPS</p><pre class="screen">
+console(config)# ip https authentication local
+
+console(config)# username admin password user1 level 15
+		</pre><p>SSL 2.0</p><pre class="screen">
+console(config)# crypto certificate generate key_generate
+
+console(config)# ip https server
+		</pre></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="dell.switch.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="dell.switch.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="switch.interface.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">第 23 章 Dell Switch </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> Interface</td></tr></table></div> user.footer.navigation </body></html>

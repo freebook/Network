@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="route.html" title="第 10 章 Route" /><link rel="prev" href="route.snmp.html" title="SNMP" /><link rel="next" href="route.reload.html" title="reload" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">ACLs</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="route.snmp.html">上一页</a> </td><th width="60%" align="center">第 10 章 Route</th><td width="20%" align="right"> <a accesskey="n" href="route.reload.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="route.acl"></a>ACLs</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id806"></a>基本配置</h3></div></div></div><p>show access-list</p><pre class="screen">
+Extended IP access list 101
+    10 permit tcp any any eq www (534 matches)
+    20 deny tcp any any (111 matches)
+		</pre><p>Removing ACLs</p><pre class="screen">
+		
+no access-list &lt;list number&gt;
+		
+		</pre><p>Here is an example:</p><p>permit all</p><pre class="screen">
+access-list 101 permit tcp any any
+access-list 101 permit udp any any
+access-list 101 permit icmp any any
+		</pre><p>deny all</p><pre class="screen">
+access-list 101 deny tcp any any
+access-list 101 deny udp any any
+access-list 101 deny icmp any any
+		</pre><p>Applying Access Lists</p><pre class="screen">
+conf t
+int f0/0
+ip access-group 101 out
+ip access-group 102 in
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="acl.extended"></a>extended</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id807"></a>port numbers</h4></div></div></div><pre class="screen">
+Use an operator to match port numbers used by the source or destination. The permitted operators are as follows:
+
+•lt—less than
+•gt—greater than
+•eq—equal to
+•neq—not equal to
+•range—an inclusive range of values. When you use this operator, specify two port numbers, for example:
+range 100 200
+
+			</pre><pre class="screen">
+access-list 111 extended permit tcp any any range 8080 8080
+			</pre></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="acl.object-group"></a>object-group</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id808"></a>network-object</h4></div></div></div><pre class="screen">
+object-group network www
+ description www
+ network-object 172.16.4.0 255.255.255.0
+ network-object 172.16.5.0 255.255.255.0
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id809"></a>port-object</h4></div></div></div><pre class="screen">
+object-group network dbhost
+ description database
+ network-object 172.16.4.0 255.255.255.0
+ network-object 172.16.5.0 255.255.255.0
+object-group service dbport tcp
+ description database
+ port-object eq 3306
+ port-object eq 2521
+ port-object eq 5432
+ port-object eq 1433
+
+object-group service webport tcp
+ description web
+ port-object eq 80
+ port-object range 81 88
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id810"></a>access-list</h4></div></div></div><pre class="screen">
+access-list outside extend permit tcp object-group dbhost host 172.16.4.10 object-group dbport
+access-list outside extend permit tcp any object-group webport any
+			</pre></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="acl.example"></a>www</h3></div></div></div><pre class="screen">
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#access-list 101 deny tcp any any
+Router(config)#access-list 101 deny udp any any
+Router(config)#access-list 101 deny icmp any any
+Router(config)#int f0/1
+Router(config-if)#ip access-group 101 in
+Router(config-if)#end
+		</pre><p>www</p><pre class="screen">
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#access-list 101 permit tcp any any eq www
+Router(config)#access-list 101 deny tcp any any
+Router(config)#end
+Router#
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id811"></a>show access-list</h3></div></div></div><pre class="screen">
+# sh access-list | include udp
+		</pre></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="route.snmp.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="route.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="route.reload.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">SNMP </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> reload</td></tr></table></div> user.footer.navigation </body></html>

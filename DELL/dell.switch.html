@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="index.html" title="部分 V. Dell" /><link rel="prev" href="index.html" title="部分 V. Dell" /><link rel="next" href="switch.aaa.html" title="login/authentication" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">第 23 章 Dell Switch</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="index.html">上一页</a> </td><th width="60%" align="center">部分 V. Dell</th><td width="20%" align="right"> <a accesskey="n" href="switch.aaa.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="dell.switch"></a>第 23 章 Dell Switch</h2></div></div></div><div class="toc"><p><strong>目录</strong></p><dl class="toc"><dt><span class="section"><a href="dell.switch.html#switch.show">show</a></span></dt><dd><dl><dt><span class="section"><a href="dell.switch.html#id929">bootvar</a></span></dt><dt><span class="section"><a href="dell.switch.html#id930">qos</a></span></dt><dt><span class="section"><a href="dell.switch.html#id931">line</a></span></dt><dt><span class="section"><a href="dell.switch.html#id932">privilege</a></span></dt><dt><span class="section"><a href="dell.switch.html#switch.radius-servers">radius-servers</a></span></dt><dt><span class="section"><a href="dell.switch.html#id933">sessions</a></span></dt><dt><span class="section"><a href="dell.switch.html#id934">system</a></span></dt><dt><span class="section"><a href="dell.switch.html#id935">users</a></span></dt><dt><span class="section"><a href="dell.switch.html#id936">version</a></span></dt><dt><span class="section"><a href="dell.switch.html#id937">vlan</a></span></dt><dt><span class="section"><a href="dell.switch.html#id942">config</a></span></dt><dd><dl><dt><span class="section"><a href="dell.switch.html#id938">startup-config</a></span></dt><dt><span class="section"><a href="dell.switch.html#id939">running-config</a></span></dt><dt><span class="section"><a href="dell.switch.html#id940">copy</a></span></dt><dt><span class="section"><a href="dell.switch.html#id941">delete</a></span></dt></dl></dd></dl></dd><dt><span class="section"><a href="switch.aaa.html">login/authentication</a></span></dt><dd><dl><dt><span class="section"><a href="switch.aaa.html#id943">console</a></span></dt><dt><span class="section"><a href="switch.aaa.html#id944">telnet</a></span></dt><dt><span class="section"><a href="switch.aaa.html#id945">SSH</a></span></dt><dt><span class="section"><a href="switch.aaa.html#id946">HTTP/HTTPS</a></span></dt></dl></dd><dt><span class="section"><a href="switch.interface.html">Interface</a></span></dt><dd><dl><dt><span class="section"><a href="switch.interface.html#id947">status</a></span></dt><dt><span class="section"><a href="switch.interface.html#id948">ip address</a></span></dt><dt><span class="section"><a href="switch.interface.html#id949">speed</a></span></dt><dt><span class="section"><a href="switch.interface.html#id950">QOS</a></span></dt></dl></dd><dt><span class="section"><a href="switch.vlan.html">VLAN</a></span></dt><dd><dl><dt><span class="section"><a href="switch.vlan.html#id951">define vlan id</a></span></dt><dt><span class="section"><a href="switch.vlan.html#id952">show vlan</a></span></dt><dt><span class="section"><a href="switch.vlan.html#id953">interface vlan</a></span></dt><dt><span class="section"><a href="switch.vlan.html#id954">interface ethernet</a></span></dt><dt><span class="section"><a href="switch.vlan.html#id955">Virtual LAN Routing Commands</a></span></dt></dl></dd><dt><span class="section"><a href="switch.routing.html">Routing Information Protocol (RIP) Commands</a></span></dt><dd><dl><dt><span class="section"><a href="switch.routing.html#id956">show line</a></span></dt><dt><span class="section"><a href="switch.routing.html#id957">show interfaces</a></span></dt></dl></dd></dl></div><p>最垃圾的交换机，DELL 客服不提供技术支持，网上配置资料非常少。你会看到网上很多人提问，但很少人回复问题，因为没有人知道怎么解决。</p><p>Dell 全系交换机产品均没有DHCP Server功能，买的时候一定要注意，退货流程及其复杂。</p><pre class="screen">
+	
+BOOT Software Version 2.0.0.00 Built  03-Sep-2008  17:31:01
+
+                          ##
+ ###########            #####        ######        ######
+ ##############       #########      ######        ######
+ ###############     #########       ######        ######
+ ################  ########## ####   ######        ######
+ ################ #########  ######  ######        ######
+ ########################  ######### ######        ######
+ ######   ##############  ########  #######        ######
+ ######    ###################### #########        ######
+ ######    ####################  ##########        ######
+ ######    ###################  ###########        ######
+ ######    ################## #############        ######
+ ######   #################################        ######
+ ################################################# ############
+ ################  ################  ############# ############
+ ################   ##############   ############# ############
+ ###############      ##########     ############# ############
+ ##############        ########      ############# ############
+ ###########             ####        ############# ############
+                          ##
+ PowerConnect 3548 board based on Orion 88F5181 ARM926EJ processor
+ 64 MByte SDRAM. I-Cache 8 KB. D-Cache 8 KB. Cache Enabled.
+
+
+MAC Address   :  a4:ba:db:70:6f:63.
+
+Autoboot in 2 seconds - press RETURN or Esc. to abort and enter prom.
+Preparing to decompress...
+ 100%
+Decompressing SW from image-1
+ 100%
+
+OK
+Running from RAM...
+
+*********************************************************************
+*** Running  SW  Ver. 2.0.0.29  Date  13-Jan-2009  Time  17:42:37 ***
+*********************************************************************
+
+HW version is 00.00.02
+Base Mac address is: a4:ba:db:70:6f:63
+Dram size is  : 128M bytes
+Dram first block size is  : 102400K bytes
+Dram first PTR is  : 0x1800000
+Dram second block size is  : 4096K bytes
+Dram second PTR is  : 0x7C00000
+Flash size is: 16M
+01-Jan-2000 00:00:06 %CDB-I-LOADCONFIG: Loading running configuration.
+01-Jan-2000 00:00:06 %CDB-I-LOADCONFIG: Loading startup configuration.
+Device configuration:
+Slot 1 - PowerConnect 3548
+CPLD revision:  4.01
+
+------------------------------------
+-- Unit Standalone                --
+------------------------------------
+
+Tapi Version: v1.3.3.1
+Core Version: v1.3.3.1
+01-Jan-2000 00:00:19 %INIT-I-InitCompleted: Initialization task is completed
+
+
+01-Jan-2000 00:00:19 %Environment-I-FAN-STAT-CHNG: FAN# 1 status changed - operational.
+01-Jan-2000 00:00:19 %Environment-I-FAN-STAT-CHNG: FAN# 2 status changed - operational.
+01-Jan-2000 00:00:19 %Environment-I-PS-STAT-CHNG: PS# 1 status changed - operational.
+01-Jan-2000 00:00:19 %Environment-W-PS-STAT-CHNG: PS# 2 status changed - not present.
+01-Jan-2000 00:00:19 %Entity-I-SEND-ENT-CONF-CHANGE-TRAP: entity configuration change trap.
+01-Jan-2000 00:00:19 %SNMP-I-CDBITEMSNUM: Number of running configuration items loaded: 0
+
+01-Jan-2000 00:00:19 %SNMP-I-CDBITEMSNUM: Number of startup configuration items loaded: 0
+
+
+
+
+
+Welcome to Dell Easy Setup Wizard.
+
+The Setup Wizard guides you through the initial switch configuration, and gets
+you up and running as quickly as possible.  You can skip the setup wizard, and
+enter CLI mode to manually configure the switch.
+The system will prompt you with a default answer; by pressing enter, you accept
+the default.
+You must respond to the next question to run the setup wizard within
+60 seconds, otherwise the system will continue with normal operation using
+the default system configuration.
+
+Would you like to enter the setup wizard (you must answer this question within
+60 seconds)? (Y/N)[Y]
+Setup Wizard Timeout.....
+	
+	</pre><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="switch.show"></a>show</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id929"></a>bootvar</h3></div></div></div><pre class="screen">
+		
+console&gt; show bootvar
+Image  Filename   Version     Date                    Status
+-----  ---------  ---------   ---------------------   -----------
+1      image-1    2.0.0.29    13-Jan-2009  17:42:37   Active*
+2      image-2    2.0.0.29    13-Jan-2009  17:42:37   Not active
+
+"*" designates that the image was selected for the next boot
+		
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id930"></a>qos</h3></div></div></div><pre class="screen">
+		
+console&gt; show qos
+Qos: basic
+Basic trust: vpt
+		
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id931"></a>line</h3></div></div></div><pre class="screen">
+		
+console&gt; show line
+Console configuration:
+Interactive timeout:  10 minute(s)
+History:  10
+Baudrate:  9600
+Databits: 8
+Parity: none
+Stopbits: 1
+
+Telnet configuration:
+Telnet is enabled.
+Interactive timeout:  10 minute(s)
+History:  10
+
+SSH configuration:
+Interactive timeout:  10 minute(s)
+History:  10
+		
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id932"></a>privilege</h3></div></div></div><pre class="screen">
+		
+console&gt; show privilege
+Current privilege level is 1
+		
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="switch.radius-servers"></a>radius-servers</h3></div></div></div>
+		
+console&gt; show radius-servers
+
+  IP address    Port  port  Time-   Ret-  Dead-     source IP    Prio. Usage
+                Auth  Acct  Out     rans  Time
+--------------- ----- ----- ------ ------ ------ --------------- ----- -----
+
+
+Global values
+--------------
+
+TimeOut : 3
+Retransmit : 3
+Deadtime : 0
+Source IP : 0.0.0.0
+Source IPv6 : ::
+
+		
+	</div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id933"></a>sessions</h3></div></div></div>
+		
+console&gt; show sessions
+
+Connection   Host                            Address             Port    Byte
+
+-----------  ----------------------------    ------------------- ------  ------
+		
+	</div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id934"></a>system</h3></div></div></div><pre class="screen">
+		
+console&gt; show  system
+System Description:                       Ethernet Switch
+System Up Time (days,hour:min:sec):       00,00:09:52
+System Contact:
+System Name:
+System Location:
+System MAC Address:                       a4:ba:db:70:6f:63
+System Object ID:                         1.3.6.1.4.1.674.10895.3017
+Type:                                     PowerConnect 3548
+Asset tag:
+
+Main Power Supply Status:                 OK
+Fan 1 Status:                             OK
+Fan 2 Status:                             OK
+
+
+          Unit            Temperature (Celsius)            Status
+------------------------ ------------------------ ------------------------
+           1                        35                       OK
+
+
+console&gt;
+		
+		</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id935"></a>users</h3></div></div></div>
+		
+console&gt; show users
+
+   Username       Protocol          Location
+--------------- ------------ -----------------------
+                   Serial            0.0.0.0
+		
+	</div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id936"></a>version</h3></div></div></div>
+		
+console&gt; show version
+SW version    2.0.0.29 ( date  13-Jan-2009 time  17:42:37 )
+Boot version    2.0.0.00 ( date  03-Sep-2008 time  17:31:01 )
+HW version    00.00.02
+		
+	</div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id937"></a>vlan</h3></div></div></div>
+		
+console&gt; show vlan
+
+Vlan       Name                   Ports                Type     Authorization
+---- ----------------- --------------------------- ------------ -------------
+ 1           1           e(1-48),g(1-4),ch(1-15)      other       Required
+
+		
+	</div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="id942"></a>config</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id938"></a>startup-config</h4></div></div></div><pre class="screen">
+			
+console# show startup-config
+Empty configuration
+
+
+
+
+
+
+Default settings:
+Service tag:
+
+SW version
+
+Fast Ethernet Ports
+==========================
+no shutdown
+speed 100
+duplex full
+negotiation
+flow-control off
+mdix auto
+no back-pressure
+
+Gigabit Ethernet Ports
+=============================
+no shutdown
+speed 1000
+duplex full
+negotiation
+flow-control off
+mdix auto
+no back-pressure
+
+interface vlan 1
+interface port-channel 1 - 15
+
+spanning-tree
+spanning-tree mode STP
+
+qos basic
+qos trust cos
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id939"></a>running-config</h4></div></div></div><pre class="screen">
+			
+console# show running-config
+voice vlan oui-table add 0001e3 Siemens_AG_phone________
+voice vlan oui-table add 00036b Cisco_phone_____________
+voice vlan oui-table add 00096e Avaya___________________
+voice vlan oui-table add 000fe2 H3C_Aolynk______________
+voice vlan oui-table add 0060b9 Philips_and_NEC_AG_phone
+voice vlan oui-table add 00d01e Pingtel_phone___________
+voice vlan oui-table add 00e075 Polycom/Veritel_phone___
+voice vlan oui-table add 00e0bb 3Com_phone______________
+interface vlan 1
+ip address 172.16.0.252 255.255.255.0
+exit
+
+
+
+
+
+
+Default settings:
+Service tag:
+
+SW version
+
+Fast Ethernet Ports
+==========================
+no shutdown
+speed 100
+duplex full
+negotiation
+flow-control off
+mdix auto
+no back-pressure
+
+Gigabit Ethernet Ports
+=============================
+no shutdown
+speed 1000
+duplex full
+negotiation
+flow-control off
+mdix auto
+no back-pressure
+
+interface vlan 1
+interface port-channel 1 - 15
+
+spanning-tree
+spanning-tree mode STP
+
+qos basic
+qos trust cos
+console#
+			
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id940"></a>copy</h4></div></div></div><pre class="screen">
+console# copy running-config startup-config
+Overwrite file [startup-config] ?[Yes/press any key for no]....01-Jan-2000 00:13:41 %COPY-I-FILECPY: Files Copy - source URL running-config destination URL flash://startup-config
+01-Jan-2000 00:13:49 %COPY-N-TRAP: The copy operation was completed successfully
+Copy succeeded
+			</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="id941"></a>delete</h4></div></div></div><pre class="screen">
+			
+console&gt;
+
+console&gt;enable
+
+console#delete startup-config
+
+Startup file was deleted（启动文件已删除）
+
+console#reload
+
+Management switch has unsaved changes.（管理服务器仍未保存更改。）
+
+Are you sure you want to continue?（确实要继续吗？）(y/n)（是/否）y（是）
+
+
+Configuration Not Saved!（配置未保存！）
+
+Are you sure you want to reload the stack?（是否确定要重新载入堆栈？）(y/n)（是/否）y（是）
+
+
+Reloading all switches..（正在重新载入所有交换机..）
+
+			
+			</pre></div></div></div></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="index.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="switch.aaa.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">部分 V. Dell </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> login/authentication</td></tr></table></div> user.footer.navigation </body></html>

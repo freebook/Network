@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ user.preroot <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> user.head.title <link rel="stylesheet" type="text/css" href="../docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot" /><meta name="keywords" content="Cisco, H3C, Juniper, F5 BIG-IP, Array, Dell, IBM, HP, , " /><link rel="home" href="../index.html" title="Netkiller Network 手札" /><link rel="up" href="array.freebsd.html" title="第 34 章 FreeBSD" /><link rel="prev" href="freebsd.route.html" title="array route" /><link rel="next" href="freebsd.pkg_version.html" title="pkg_version" /> user.head.content </head><body> user.header.navigation <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">ssh 证书植入</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="freebsd.route.html">上一页</a> </td><th width="60%" align="center">第 34 章 FreeBSD</th><td width="20%" align="right"> <a accesskey="n" href="freebsd.pkg_version.html">下一页</a></td></tr></table><hr /></div> user.header.content <div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="freebsd.ssh"></a>ssh 证书植入</h2></div></div></div><pre class="screen">
+neo@neo-OptiPlex-780:~$ ssh-copy-id test@172.16.0.9
+test@172.16.0.9's password:
+Now try logging into the machine, with "ssh 'test@172.16.0.9'", and check in:
+
+  ~/.ssh/authorized_keys
+
+to make sure we haven't added extra keys that you weren't expecting.
+
+neo@neo-OptiPlex-780:~$ ssh test@172.16.0.9
+AN#
+		</pre><p>这样方便登录</p></div> user.footer.content <div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="freebsd.route.html">上一页</a> </td><td width="20%" align="center"><a accesskey="u" href="array.freebsd.html">上一级</a></td><td width="40%" align="right"> <a accesskey="n" href="freebsd.pkg_version.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">array route </td><td width="20%" align="center"><a accesskey="h" href="../index.html">起始页</a></td><td width="40%" align="right" valign="top"> pkg_version</td></tr></table></div> user.footer.navigation </body></html>
